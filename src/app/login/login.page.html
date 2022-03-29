@@ -1,0 +1,20 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Iniciar Sesión</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <img src="assets/quizzylogo.png" id="logo">
+  <ion-text> <h2>Usuario</h2> </ion-text>
+  <ion-item>
+    <ion-input type="text" [(ngModel)]="name" required></ion-input>
+    <ion-icon slot="start" name="person-outline"></ion-icon>
+  </ion-item>
+  <ion-text> <h2>Contraseña</h2></ion-text>
+  <ion-item>
+    <ion-input type="password" [(ngModel)]="password" required></ion-input>
+    <ion-icon slot="start" name="lock-closed-outline"></ion-icon>
+  </ion-item>
+  <ion-button block (click)="login()">Iniciar Sesión</ion-button>
+</ion-content>
