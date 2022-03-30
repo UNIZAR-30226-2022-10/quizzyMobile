@@ -1,3 +1,9 @@
+<!--
+ -- Author: Celia Mainar
+ -- Filename: login.page.html
+ -- Module: FrontEnd Mobile
+ -- Description: This is the html of the page login
+-->
 <ion-header>
   <ion-toolbar>
     <ion-title>Iniciar Sesión</ion-title>
@@ -6,15 +12,20 @@
 
 <ion-content>
   <img src="assets/quizzylogo.png" id="logo">
-  <ion-text> <h2>Usuario</h2> </ion-text>
-  <ion-item>
-    <ion-input type="text" [(ngModel)]="name" required></ion-input>
-    <ion-icon slot="start" name="person-outline"></ion-icon>
-  </ion-item>
-  <ion-text> <h2>Contraseña</h2></ion-text>
-  <ion-item>
-    <ion-input type="password" [(ngModel)]="password" required></ion-input>
-    <ion-icon slot="start" name="lock-closed-outline"></ion-icon>
-  </ion-item>
-  <ion-button block (click)="login()">Iniciar Sesión</ion-button>
+  <form [formGroup] ="formLogin" (ngSubmit)="login()">
+    <ion-text> <h2>Usuario</h2> </ion-text>
+    <ion-item>
+      <ion-input type="text" formControlName="name"></ion-input>
+      <ion-icon slot="start" name="person-outline"></ion-icon>
+    </ion-item>
+    <ion-label color="danger" *ngIf ="formLogin.controls.name.errors?.required"> * El Usuario es obligatorio</ion-label>
+  
+    <ion-text> <h2>Contraseña</h2></ion-text>
+    <ion-item>
+      <ion-input type="password" formControlName="password"></ion-input>
+      <ion-icon slot="start" name="lock-closed-outline"></ion-icon>
+    </ion-item>
+    <ion-label color="danger" *ngIf ="formLogin.controls.password.errors?.required"> * La contraseña es obligatoria</ion-label>
+    <ion-button type="submit" [disabled]="!formLogin.valid">Iniciar Sesión</ion-button>
+  </form>
 </ion-content>
