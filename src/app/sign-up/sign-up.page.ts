@@ -8,7 +8,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import * as bcrypt from 'bcryptjs';
 import { RemoteServiceSignUp } from './remote-service.service';
-
+import { ToastController } from '@ionic/angular';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-sign-up',
   templateUrl: './sign-up.page.html',
@@ -28,21 +29,49 @@ export class SignUpPage implements OnInit {
       confirmPassword: new FormControl('',[Validators.required,Validators.minLength(8)])
     });
 
-  constructor(public postService: RemoteServiceSignUp) { }
+  constructor(public postService: RemoteServiceSignUp, public toastController: ToastController, public router: Router) { }
   ngOnInit() {
   }
 
+  /**
+   * Create the user
+   */
   signUp(){
     if(this.passwordMatch(this.formSignUp.controls.password.value, this.formSignUp.controls.confirmPassword.value)){
       this.salt = bcrypt.genSaltSync(10);
       this.hash = bcrypt.hashSync(this.formSignUp.controls.password.value, this.salt);
-      this.arrayPost = [this.formSignUp.controls.name.value, this.formSignUp.controls.email.value, this.hash];
+      this.arrayPost = {
+        nickname: this.formSignUp.controls.name.value,
+        email: this.formSignUp.controls.email.value,
+        password: this.hash};
       this.promise = this.postService.addPost(this.arrayPost);
+    } else {
+      this.passwordFailMatchToast();
     }
   }
 
   onResetForm(){
     this.formSignUp.reset();
+  }
+
+  /**
+   * Create a Toast, notifying the user, that the values of the field Password and Confirm Password
+   * aren't the same
+   */
+  async passwordFailMatchToast(){
+    const toast = await this.toastController.create({
+      header: 'No coinciden las contraseñas',
+      message: 'Por favor revise los campos',
+      position: 'top',
+      buttons: [
+        {
+          text: 'Aceptar',
+          role: 'cancel'
+        }
+      ]
+    });
+    await toast.present();
+    await toast.onDidDismiss();
   }
 
   /**

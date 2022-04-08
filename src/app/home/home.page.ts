@@ -1,3 +1,9 @@
+/*
+ * Author: Celia Mainar
+ * Filename: home.page.ts
+ * Module: FrontEnd Mobile
+ * Description: This is the begining page
+ */
 import { Component } from '@angular/core';
 
 @Component({
