@@ -1,9 +1,45 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>chat</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="home"></ion-back-button>
+    </ion-buttons>
+    <ion-title> Chat </ion-title>
   </ion-toolbar>
 </ion-header>
-
+ 
 <ion-content>
-
+ 
+  <ion-grid>
+    <ion-row *ngFor="let message of messages">
+ 
+      <ion-col size="7" *ngIf="message.user !== currentUser" class="message other-message">
+        <b>{{ message.user }}</b><br>
+        <span>{{ message.msg }}</span>
+      </ion-col>
+ 
+      <ion-col offset="5"size="7" *ngIf="message.user === currentUser" class="message my-message">
+        <b>{{ message.user }}</b><br>
+        <span>{{ message.msg }}</span>
+      </ion-col>
+ 
+    </ion-row>
+  </ion-grid>
+ 
 </ion-content>
+ 
+<ion-footer>
+  <ion-toolbar>
+    <ion-row class="message_row">
+      <ion-col size="9">
+        <ion-item no-lines>
+          <ion-input type="text" placeholder="Message" [(ngModel)]="message"></ion-input>
+        </ion-item>
+      </ion-col>
+      <ion-col size="2">
+        <ion-fab-button color="tertiary" (click)="sendMessage()" [disabled]="message === ''" size="small">
+          <ion-icon name="send-outline"></ion-icon>
+      </ion-fab-button>
+    </ion-col>
+    </ion-row>
+  </ion-toolbar>
+</ion-footer>
