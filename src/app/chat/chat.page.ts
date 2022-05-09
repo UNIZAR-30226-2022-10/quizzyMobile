@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { ToastController } from '@ionic/angular';
+import { Socket } from 'ngx-socket-io';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-chat',
@@ -6,14 +9,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./chat.page.scss'],
 })
 export class ChatPage implements OnInit {
+  message = '';
+  messages = [];
+  currentUser = '';
 
-  constructor() { }
+  constructor(private socket: Socket, private toastCtrl: ToastController) { }
 
   ngOnInit() {
-<<<<<<< Updated upstream
-  }
-
-=======
     this.socket.connect();
 
     // Falta como conocer el nombre del usuario para ponerlo como usuario
@@ -73,5 +75,4 @@ export class ChatPage implements OnInit {
     });
     toast.present();
   }
->>>>>>> Stashed changes
 }
