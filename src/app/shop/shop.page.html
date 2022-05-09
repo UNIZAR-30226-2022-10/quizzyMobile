@@ -14,34 +14,77 @@
 </ion-header>
 
 <ion-content>
-  <ion-item-divider>
+
+  <ion-item-divider no-lines>
     <ion-icon name="cash-outline" id="money-icon"></ion-icon>
     <ion-label id="money-span"> MONEY </ion-label>
- </ion-item-divider>
+  </ion-item-divider>
 
-      <div id="cosmetics">
-        <ion-button  color="tertiary">
-          <ion-icon name="glasses-outline" slot="start"></ion-icon>
-          <span> Cosmetics </span>
-        </ion-button>
-      </div>
-     
-      <div id="comodines"> 
-        <ion-button  color="tertiary">
-          <ion-icon name="color-wand-outline" slot="start"></ion-icon>
-          <span slot="end"> Wildcards </span>
-        </ion-button>
-      </div>
+  <div id="comodines"> 
+    <ion-item color="tertiary">
+      <ion-icon name="color-wand-outline" slot="start"></ion-icon>
+      <ion-label item-end> WILDCARDS </ion-label>
+    </ion-item>
+    <ion-list>
+      <ion-card *ngFor="let i of itemWildcards">
+        <ion-card-header>
+          <ion-card-title>{{i.name}}</ion-card-title>
+        </ion-card-header>
+        <!--<img src="../../assets/quizzylogo.png"> -->
+        <ion-card-content>
+          <ion-row class="ion-align-items-center">
+            <ion-col size="8">
+              <ion-label>
+                <b> {{ i.price}} $ </b>
+              </ion-label>
+            </ion-col>
+            <ion-col size="4" class="ion-text-rigth">
+              <ion-button fill="clear" (click)="buyWildcards(i)">
+                <ion-icon name="add" color="tertiary"></ion-icon>
+              </ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-card-content>
+      </ion-card>
+    </ion-list>
+  </div>
 
+  <div id="cosmetics">
+    <ion-item color="tertiary">
+      <ion-icon name="glasses-outline" slot="start"></ion-icon>
+      <ion-label item-end> COSMETICS</ion-label>
+    </ion-item>
+    <ion-list>
+      <ion-card *ngFor="let i of itemCosmetics">
+        <ion-card-header>
+          <ion-card-title>{{i.name}}</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-row class="ion-align-items-center">
+            <ion-col size="8">
+              <ion-label>
+                <b> {{ i.price}} $ </b>
+              </ion-label>
+            </ion-col>
+            <ion-col size="4" class="ion-text-rigth">
+              <ion-button fill="clear" (click)="buyCosmetics(i)">
+                <ion-icon name="add" color="tertiary"></ion-icon>
+              </ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-card-content>
+      </ion-card>
+    </ion-list>
+  </div>
 
 </ion-content>
 
 <ion-footer>
-  <ion-toolbar>
-    <ion-icon name="cash" class="footer"></ion-icon>
-    <ion-icon name="archive" class="footer"></ion-icon>
-    <ion-icon name="home" class="footer"></ion-icon>
-    <ion-icon name="stats-chart" class="footer"></ion-icon>
+  <ion-toolbar color="fourth">
+    <a href="shop"><ion-icon name="cash" class="footer"></ion-icon></a>
+    <a href="#"><ion-icon name="archive" class="footer"></ion-icon></a>
+    <a href="board"><ion-icon name="home" class="footer"></ion-icon></a>
+    <a href="#"><ion-icon name="stats-chart" class="footer"></ion-icon></a>
   </ion-toolbar>
 </ion-footer>
 
