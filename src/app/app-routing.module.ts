@@ -20,6 +20,10 @@ const routes: Routes = [
     loadChildren: () => import('./login/login.module').then( m => m.LoginPageModule)
   },
   {
+    path: 'initial-menu',
+    loadChildren: () => import('./initial-menu/initial-menu.module').then( m => m.InitialMenuPageModule)
+  },
+  {
     path: 'shop',
     loadChildren: () => import('./shop/shop.module').then( m => m.ShopPageModule)
   },

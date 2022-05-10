@@ -1,0 +1,34 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Menú Inicio Cambio</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+
+
+<ion-content>
+  <div id="arriba">
+    <ion-item id="perfil" color="primary">
+      <ion-avatar slot="start" id="photo">
+          <ion-img [src]="photo"></ion-img>
+      </ion-avatar>
+      <p id="info">
+        <ion-label id="label" [textContent]="username"></ion-label>
+        <br>
+        <ion-label id="label" [textContent]="coins"></ion-label>
+      </p>
+      <ion-avatar slot="end">
+          <ion-img src="../../assets/icon/settings.png"></ion-img>
+      </ion-avatar>
+    </ion-item>
+    <button id="newGame" (click)="chooseOptions()">
+      <a>+ Nueva Partida</a>
+    </button>
+  </div>
+  <div id="partidas"><app-lista-partidas id="games"></app-lista-partidas></div>
+ </ion-content>
+<!--  <ion-content>
+    <div id="game">
+  <app-lista-partidas id="partidas"></app-lista-partidas></div>
+</ion-content> -->
+<app-footer></app-footer>
