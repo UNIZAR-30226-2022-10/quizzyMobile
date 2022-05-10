@@ -1,0 +1,36 @@
+<a>Opciones de Entrenamiento</a>
+<br>
+<a>Categorías</a>
+<ion-label>{{myGroupItems[0].checked}}</ion-label>
+<ion-label>{{myGroupItems[1].checked}}</ion-label>
+<ion-label>{{myGroupItems[2].checked}}</ion-label>
+<ion-label>{{myGroupItems[3].checked}}</ion-label>
+<ion-label>{{myGroupItems[4].checked}}</ion-label>
+<ion-label>{{myGroupItems[5].checked}}</ion-label>
+<!--<mbsc-segmented-group select="multiple" name="multi">
+  <mbsc-segmented [(value)]="myGroupItems[0].value" [(checked)]="myGroupItems[0].checked"><ion-card id="category"><ion-img src={{myGroupItems[0].img}}></ion-img>{{myGroupItems[0].text}}</ion-card></mbsc-segmented>
+  <mbsc-segmented [(value)]="myGroupItems[1].value" [(checked)]="myGroupItems[1].checked"><ion-card id="category"><ion-img src={{myGroupItems[1].img}}></ion-img>{{myGroupItems[1].text}}</ion-card></mbsc-segmented>
+  <mbsc-segmented [(value)]="myGroupItems[2].value" [(checked)]="myGroupItems[2].checked"><ion-card id="category"><ion-img src={{myGroupItems[2].img}}></ion-img>{{myGroupItems[2].text}}</ion-card></mbsc-segmented>
+</mbsc-segmented-group>
+<mbsc-segmented-group select="multiple" name="multi">  
+  <mbsc-segmented [(value)]="myGroupItems[3].value" [(checked)]="myGroupItems[3].checked"><ion-card id="category"><ion-img src={{myGroupItems[3].img}}></ion-img>{{myGroupItems[3].text}}</ion-card></mbsc-segmented>
+  <mbsc-segmented [(value)]="myGroupItems[4].value" [(checked)]="myGroupItems[4].checked"><ion-card id="category"><ion-img src={{myGroupItems[4].img}}></ion-img>{{myGroupItems[4].text}}</ion-card></mbsc-segmented>
+  <mbsc-segmented [(value)]="myGroupItems[5].value" [(checked)]="myGroupItems[5].checked"><ion-card id="category"><ion-img src={{myGroupItems[5].img}}></ion-img>{{myGroupItems[5].text}}</ion-card></mbsc-segmented>
+</mbsc-segmented-group> -->
+ <mbsc-segmented-group select="multiple" name="multi">
+  <mbsc-segmented *ngFor="let item of myGroupItems" [(value)]="item.value" [(checked)]="item.checked"><a><ion-img src={{item.img}}></ion-img>{{item.text}}</a></mbsc-segmented>
+</mbsc-segmented-group>
+<br>
+<a>Dificultades</a>
+<ion-segment (ionChange)="segmentChanged($event)" value="1">
+  <ion-segment-button value="0">
+    <ion-label>Easy</ion-label>
+  </ion-segment-button>
+  <ion-segment-button value="1">
+    <ion-label>Normal</ion-label>
+  </ion-segment-button>
+  <ion-segment-button value="2">
+    <ion-label>Hard</ion-label>
+  </ion-segment-button>
+</ion-segment>
+<ion-button id="start" href="question">Empezar</ion-button>
