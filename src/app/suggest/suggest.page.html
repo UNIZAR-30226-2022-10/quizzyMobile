@@ -1,0 +1,32 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="profile"></ion-back-button>
+    </ion-buttons>
+    <ion-title>suggest</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form #formulario="ngForm" (ngSubmit)="onSubmit()">
+    <ion-list>
+      
+        <ion-label id="label" position="floating">Suggest a Question</ion-label>
+        <ion-textarea type="text" name="question" required="true" placeholder="Question" [(ngModel)]="suggestion.question" id="question"></ion-textarea>
+        <br>
+        <ion-label id="label">Correct Answer</ion-label>
+        <ion-input type="text" name="answer1" required="true" placeholder="Enter A1" [(ngModel)]="suggestion.correctAnswer" id="answer"></ion-input>
+        <br>
+        <ion-label id="label">Wrong Answer 1</ion-label>
+        <ion-input type="text" name="answer2" required="true" placeholder="Enter A2" [(ngModel)]="suggestion.wrongAnswer1" id="answer"></ion-input>
+        <br>
+        <ion-label id="label">Wrong Answer 2</ion-label>
+        <ion-input type="text" name="answer3" required="true" placeholder="Enter A3" [(ngModel)]="suggestion.wrongAnswer2" id="answer"></ion-input>
+        <br>
+        <ion-label id="label">Wrong Answer 3</ion-label>
+        <ion-input type="text" name="answer4" required="true" placeholder="Enter A4" [(ngModel)]="suggestion.wrongAnswer3" id="answer"></ion-input>
+        <br>
+        <ion-button id="submit" type="submit" [disabled]="formulario.invalid" href="profile">Send</ion-button>
+    </ion-list>
+  </form>
+</ion-content>

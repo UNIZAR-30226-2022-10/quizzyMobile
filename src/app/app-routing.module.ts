@@ -35,6 +35,10 @@ const routes: Routes = [
     path: 'board',
     loadChildren: () => import('./board/board.module').then( m => m.BoardPageModule)
   },
+  {
+    path: 'suggest',
+    loadChildren: () => import('./suggest/suggest.module').then( m => m.SuggestPageModule)
+  },
 
 ];
 
