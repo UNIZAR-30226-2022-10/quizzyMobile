@@ -4,7 +4,7 @@
  -- Module: FrontEnd Mobile
  -- Description: This is the html of the page sign-up
 -->
-<ion-header>
+<ion-header color="light">
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-back-button defaultHref="home"></ion-back-button>
@@ -14,22 +14,22 @@
 </ion-header>
 <ion-content>
   <form [formGroup] ="formSignUp" (ngSubmit)="signUp()">
-    <ion-text> <h2> Nickname </h2> </ion-text>
+    <!--<ion-text> <h2> Nickname </h2> </ion-text>-->
     <ion-item>
-      <ion-input type="text" formControlName="name"> </ion-input>
+      <ion-input type="text" formControlName="name" placeholder="Nickname"> </ion-input>
       <ion-icon slot="start" name="person-outline"></ion-icon>
     </ion-item>
     <ion-label color="danger" *ngIf = "formSignUp.controls.name.errors?.required && (formSignUp.controls.name.touched || formSignUp.controls.name.dirty)">* Username is required</ion-label>
     <ion-label color="danger" *ngIf = "formSignUp.controls.name.errors?.maxlength && (formSignUp.controls.name.touched || formSignUp.controls.name.dirty)">* The Username must be less than 20 characters</ion-label>
-      <ion-text> <h2> Email </h2> </ion-text>
+      <!--<ion-text> <h2> Email </h2> </ion-text>-->
     <ion-item>    
-      <ion-input type="email" formControlName="email"> </ion-input>
+      <ion-input type="email" formControlName="email" placeholder="Email"> </ion-input>
       <ion-icon slot="start" name="at-outline"></ion-icon>
     </ion-item>
     <ion-label color="danger" *ngIf = "formSignUp.controls.email.errors?.email && (formSignUp.controls.email.touched || formSignUp.controls.email.dirty)">* The email isn't valid</ion-label>    
-    <ion-text> <h2> Password </h2> </ion-text>
+    <!--<ion-text> <h2> Password </h2> </ion-text>-->
     <ion-item>
-      <ion-input type="password" formControlName="password"> </ion-input>
+      <ion-input type="password" formControlName="password" placeholder="Password"> </ion-input>
       <ion-icon slot="start" name="lock-closed-outline" *ngIf ="validatePassword(formSignUp.controls.password.value)===0"></ion-icon>
       <ion-icon slot="start" name="lock-closed-outline" color ="danger" *ngIf ="validatePassword(formSignUp.controls.password.value) === 1"></ion-icon>
       <ion-icon slot="start" name="lock-closed-outline" color = "warning" *ngIf ="validatePassword(formSignUp.controls.password.value) === 2"></ion-icon>
@@ -40,9 +40,9 @@
     </ion-item>
     <ion-label color="danger" *ngIf = "formSignUp.controls.password.errors?.required && (formSignUp.controls.password.touched || formSignUp.controls.password.dirty)">* Password is required</ion-label>
     <ion-label color="danger" *ngIf = "formSignUp.controls.password.errors?.minlength && (formSignUp.controls.password.touched || formSignUp.controls.password.dirty)">* Password must have a minimum of 8 characters</ion-label>
-    <ion-text> <h2> Confirm Password</h2> </ion-text>
+    <!--<ion-text> <h2> Confirm Password</h2> </ion-text>-->
     <ion-item>
-      <ion-input type="password" formControlName="confirmPassword"> </ion-input>
+      <ion-input type="password" formControlName="confirmPassword"  placeholder="Confirm Password"> </ion-input>
       <ion-icon slot="start" name="lock-closed-outline"></ion-icon>
     </ion-item>
     <ion-label color="danger" *ngIf = "formSignUp.controls.confirmPassword.errors?.required && (formSignUp.controls.confirmPassword.touched || formSignUp.controls.confirmPassword.dirty)">* Confirmation is required</ion-label>
