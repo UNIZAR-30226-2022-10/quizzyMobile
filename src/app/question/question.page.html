@@ -1,0 +1,22 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>question</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+<ion-item>
+  <ion-label [textContent]="quest"></ion-label>
+</ion-item>
+<mat-progress-bar  [value]="progress"></mat-progress-bar>
+<ion-grid id="grid">
+  <ion-row>
+    <ion-button [disabled]="respuesta" class="ans" [textContent]="answers[0].text" (click)="onClick(0)"><a></a></ion-button>  
+    <ion-button [disabled]="respuesta" class="ans" [textContent]="answers[1].text" (click)="onClick(1)"></ion-button>
+  </ion-row> 
+  <ion-row> 
+    <ion-button [disabled]="respuesta" class="ans" [textContent]="answers[2].text" (click)="onClick(2)"></ion-button>  
+    <ion-button [disabled]="respuesta" class="ans" [textContent]="answers[3].text" (click)="onClick(3)"></ion-button>
+  </ion-row>
+</ion-grid>
+</ion-content>
