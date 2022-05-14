@@ -39,6 +39,14 @@ const routes: Routes = [
     path: 'suggest',
     loadChildren: () => import('./suggest/suggest.module').then( m => m.SuggestPageModule)
   },
+  {
+    path: 'waiting-players',
+    loadChildren: () => import('./waiting-players/waiting-players.module').then( m => m.WaitingPlayersPageModule)
+  },  {
+    path: 'questions-list',
+    loadChildren: () => import('./questions-list/questions-list.module').then( m => m.QuestionsListPageModule)
+  },
+
 
 ];
 

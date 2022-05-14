@@ -11,6 +11,8 @@ import { IntroduceCodeComponent } from "./introduce-code/introduce-code.componen
 import { ProgressbarComponent } from './progressbar/progressbar.component';  
 import { CreateJoinComponent } from './create-join/create-join.component';  
 import { MbscModule } from '@mobiscroll/angular';
+import { OptionsComponent } from './options/options.component';
+import { OptionsAdminComponent } from './options-admin/options-admin.component';
 
 
 
@@ -23,7 +25,9 @@ import { MbscModule } from '@mobiscroll/angular';
     ProgressbarComponent,
     FooterComponent,
     CreateJoinComponent,
-    IntroduceCodeComponent
+    IntroduceCodeComponent,
+    OptionsAdminComponent,
+    OptionsComponent
   ],
   exports: [
     ListaPartidasComponent,
