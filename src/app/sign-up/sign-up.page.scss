@@ -1,17 +1,31 @@
 
+form{
+    margin-top: 20%;
+}
+
 ion-input{
     border-color: black;
+    color: black;
     border-radius: 5px;
     margin:auto 5%;
+
+    font-size: 1.125rem;
 }
-ion-content{
-    margin-top: 10%;
+
+ion-icon{
+    color: black;
 }
+
+
+ion-item{
+    margin-top: 8%;
+}
+
 ion-button{
-    position:relative;
-    margin:10% 30%;
-    
-}
-h2{
-    padding-left: 3%;
+    position:fixed;
+    bottom: 10%;
+    margin-top:10%;
+    margin-left:20%;
+    width: 60%;
+    text-align: center;
 }
