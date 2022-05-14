@@ -3,6 +3,10 @@ form{
     margin-top: 20%;
 }
 
+ion-label{
+    margin-left: 8%;
+}
+
 ion-input{
     border-color: black;
     color: black;
@@ -13,6 +17,8 @@ ion-input{
 }
 
 ion-icon{
+    margin-left: 4%;
+    margin-right: 0%;
     color: black;
 }
 
@@ -22,7 +28,7 @@ ion-item{
 }
 
 ion-button{
-    position:fixed;
+    position:absolute;
     bottom: 10%;
     margin-top:10%;
     margin-left:20%;
