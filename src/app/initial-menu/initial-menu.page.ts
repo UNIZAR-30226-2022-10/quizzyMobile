@@ -4,6 +4,7 @@ import { PopoverController } from '@ionic/angular';
 import { GameModesComponent } from '../components/game-modes/game-modes.component';
 import { ListaPartidasComponent } from '../components/lista-partidas/lista-partidas.component';
 import { OptionsComponent } from '../components/options/options.component';
+import { OptionsAdminComponent } from '../components/options-admin/options-admin.component';
 
 
 @Component({
@@ -38,11 +39,24 @@ export class InitialMenuPage implements OnInit {
     }
 
     async settings() {
-      const popover = await this.popoverCtrl.create({
-        component: OptionsComponent,
-      });
+      
+      if(this.admin){
+        const popover = await this.popoverCtrl.create({
+          component: OptionsAdminComponent,
+        });
 
-      await popover.present();
+        await popover.present(); 
+      }
+      else
+      {
+        const popover = await this.popoverCtrl.create({
+          component: OptionsComponent,
+        });
+        
+        await popover.present();
+      }
+
+      
     }
   
   }

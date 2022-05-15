@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { IonInfiniteScroll } from '@ionic/angular';
 
 @Component({
   selector: 'app-questions-list',
@@ -6,6 +7,16 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./questions-list.page.scss'],
 })
 export class QuestionsListPage implements OnInit {
+
+  @ViewChild(IonInfiniteScroll) infiniteScroll: IonInfiniteScroll
+
+  question: Array<{text: string}> = [
+    { text:'Prueba'},
+    { text:'Prueba'},
+    { text:'Prueba'},
+    { text:'Prueba'},
+    { text:'Prueba'}
+  ]
 
   constructor() { }
 

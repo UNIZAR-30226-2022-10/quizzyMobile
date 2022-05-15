@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { PopoverController } from '@ionic/angular';
 
 @Component({
   selector: 'app-options-admin',
@@ -7,8 +9,24 @@ import { Component, OnInit } from '@angular/core';
 })
 export class OptionsAdminComponent implements OnInit {
 
-  constructor() { }
+  constructor(public router: Router, public viewCtrl: PopoverController) { }
 
   ngOnInit() {}
+
+  closeSession() {
+    this.viewCtrl.dismiss();
+    this.router.navigate(['/home'])
+  }
+
+  suggestQuestion() {
+    this.viewCtrl.dismiss();
+    this.router.navigate(['/suggest'])
+  }
+
+  validateQuestion() {
+    this.viewCtrl.dismiss();
+    this.router.navigate(['/validate-question'])
+  }
+
 
 }

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-game-options',
@@ -7,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class GameOptionsComponent implements OnInit {
 
-  constructor() { }
+  constructor(public router: Router) { }
   birthday;
   difficulty=1;
 
@@ -31,6 +32,19 @@ export class GameOptionsComponent implements OnInit {
   {
     this.myGroupItems[event.detail.value].checked=event.detail.checked;
     console.log(event.detail.value);
+  }
+
+  cat():boolean {
+    console.log(this.myGroupItems[0].checked || this.myGroupItems[1].checked || 
+      this.myGroupItems[2].checked || this.myGroupItems[3].checked ||
+      this.myGroupItems[4].checked || this.myGroupItems[5].checked);
+    return !(this.myGroupItems[0].checked || this.myGroupItems[1].checked || 
+            this.myGroupItems[2].checked || this.myGroupItems[3].checked ||
+            this.myGroupItems[4].checked || this.myGroupItems[5].checked)  
+  }
+
+  onClick() {
+    this.router.navigate(['/question'])
   }
 
 }

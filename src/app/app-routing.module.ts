@@ -42,10 +42,19 @@ const routes: Routes = [
   {
     path: 'waiting-players',
     loadChildren: () => import('./waiting-players/waiting-players.module').then( m => m.WaitingPlayersPageModule)
-  },  {
+  },
+  {
     path: 'questions-list',
     loadChildren: () => import('./questions-list/questions-list.module').then( m => m.QuestionsListPageModule)
   },
+  {
+    path: 'question',
+    loadChildren: () => import('./question/question.module').then( m => m.QuestionPageModule)
+  },  {
+    path: 'validate-question',
+    loadChildren: () => import('./validate-question/validate-question.module').then( m => m.ValidateQuestionPageModule)
+  },
+
 
 
 ];

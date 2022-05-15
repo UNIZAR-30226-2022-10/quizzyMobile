@@ -18,4 +18,9 @@ export class OptionsComponent implements OnInit {
     this.router.navigate(['/home'])
   }
 
+  suggestQuestion() {
+    this.viewCtrl.dismiss();
+    this.router.navigate(['/suggest'])
+  }
+
 }

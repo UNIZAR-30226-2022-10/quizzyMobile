@@ -3,20 +3,18 @@
   <ion-grid id="grid">
     <ion-row>
       <ion-col class="categ">
-        <a (click)="closeSession()">
-          <ion-img class="img-grid" src="assets/icon/friendMatch.png"></ion-img>
-          <ion-label>Friends</ion-label>
-        </a>
+        <ion-button (click)="suggestQuestion()">
+          <ion-label>Suggest a question</ion-label>
+        </ion-button>
       </ion-col>
     </ion-row>
     <br>
     <ion-row>
       <ion-col></ion-col>
       <ion-col class="categ">
-        <a (click)="closeSession()">
-          <ion-img class="img-grid" src="assets/icon/training.webp"></ion-img>
-          <ion-label>Training</ion-label>
-        </a>
+        <ion-button (click)="closeSession()">
+          <ion-label>Close Session</ion-label>
+        </ion-button>
       </ion-col>
       <ion-col></ion-col>
     </ion-row>
