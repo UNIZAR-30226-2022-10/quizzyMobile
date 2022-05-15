@@ -8,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import * as bcrypt from 'bcryptjs';
 import { RemoteServiceSignUp } from './remote-service.service';
-import { ToastController } from '@ionic/angular';
+import { ToastController, Platform } from '@ionic/angular';
 import { Router } from '@angular/router';
 @Component({
   selector: 'app-sign-up',
@@ -29,7 +29,11 @@ export class SignUpPage implements OnInit {
       confirmPassword: new FormControl('',[Validators.required,Validators.minLength(8)])
     });
 
-  constructor(public postService: RemoteServiceSignUp, public toastController: ToastController, public router: Router) { }
+  constructor(public postService: RemoteServiceSignUp, public toastController: ToastController, public router: Router, public platform: Platform) { 
+    this.platform.backButton.subscribeWithPriority(100, () => {
+      this.router.navigate(['/home']);
+    });
+  }
   ngOnInit() {
   }
 
