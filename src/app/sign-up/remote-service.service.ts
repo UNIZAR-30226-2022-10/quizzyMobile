@@ -14,7 +14,7 @@ import { ToastController } from '@ionic/angular';
 })
 export class RemoteServiceSignUp {
 
-  url= 'http://localhost:5000/user';
+  url= 'http://quizzyappbackend.herokuapp.com/user';
 
   constructor(public http: HttpClient, public toastController: ToastController, public router: Router) { 
 
@@ -41,6 +41,7 @@ export class RemoteServiceSignUp {
         reject(error);
       });
     });
+    
   }
 
   /**

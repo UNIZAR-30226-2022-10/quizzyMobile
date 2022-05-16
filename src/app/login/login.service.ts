@@ -6,6 +6,7 @@
  */
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HTTP } from '@awesome-cordova-plugins/http/ngx';
 import { ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
 
@@ -18,17 +19,20 @@ export class LoginService {
   constructor(public http: HttpClient, public toastController: ToastController, public router: Router) { }
 
   userLogin(data){
-    let url= 'http://localhost:5000/user/login';
+    let url= 'http://quizzyappbackend.herokuapp.com/user/login';
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Accept': 'aplication/json'});
     let options = { headers : headers};
     return new Promise((resolve,reject) => {
-      this.http.post(url, JSON.stringify(data),options).subscribe(response => {
+      this.http.post(url, data, options ).subscribe(response => {
+        localStorage.removeItem("token");
+        let myToken = JSON.parse(JSON.stringify(response["token"]));
+        localStorage.setItem('token', myToken);
         resolve(response);
         this.router.navigate(['/home']);
       }, (error) => {
-        if(error.status === 409){
+        if(error.status != 200){
           this.userFailToast();
         }
         reject(error);
@@ -41,7 +45,7 @@ export class LoginService {
    */
    async userFailToast() {
     const toast = await this.toastController.create({
-      header: 'Usuario o Contraseña incorrecta',
+      header: 'Usuario o Contraseña incorrectos',
       position: 'top',
       buttons:[
         {
@@ -53,4 +57,6 @@ export class LoginService {
     await toast.present();
     await toast.onDidDismiss();
   }
+
+  
 }

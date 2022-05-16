@@ -5,11 +5,17 @@
  -- Description: This is the html of the page home
 -->
 <ion-content>
-    <img src="assets/icon/quizzylogo.png" id="logo">
+    <a href="shop">
+        <img src="assets/quizzylogo.png" id="logo">
 
-    <ion-button id="crear_cuenta" href="sign-up" color="tertiary">Sign Up</ion-button>
+    </a>
+
+    <div id="botones">
+        <ion-button id="inicio_sesion" href="login" >Sign In</ion-button>
+
+        <ion-button id="crear_cuenta" href="sign-up" expand="full" fill="clear">Sign Up</ion-button>
+    </div>
     
-    <ion-button id="inicio_sesion" href="login" color="tertiary">Sign In</ion-button>
 
-    <ion-button id="inicio_sesion" href="shop" color="tertiary">Prueba</ion-button>
+    <!-- <ion-button id="inicio_sesion" href="shop" color="primary">Prueba</ion-button> -->
 </ion-content>

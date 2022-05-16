@@ -5,6 +5,10 @@
  * Description: This is the begining page
  */
 import { Component } from '@angular/core';
+import { Platform } from '@ionic/angular';
+import { Plugins } from '@capacitor/core';
+import { Router } from '@angular/router';
+const { App } = Plugins;
 
 @Component({
   selector: 'app-home',
@@ -13,6 +17,10 @@ import { Component } from '@angular/core';
 })
 export class HomePage {
 
-  constructor() {}
+  constructor(public platform : Platform) {
+    this.platform.backButton.subscribeWithPriority(100, () => {
+      navigator['app'].exitApp();
+    });
+  }
 
 }

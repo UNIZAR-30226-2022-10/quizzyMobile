@@ -5,9 +5,11 @@
  * Description: This is the page about the login of the system on mobile
  */
 import { Component, OnInit } from '@angular/core';
+import { Platform } from '@ionic/angular'
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { LoginService } from './login.service';
 import * as bcrypt from 'bcryptjs';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -25,7 +27,11 @@ export class LoginPage implements OnInit {
     password: new FormControl('',[Validators.required])
   });
 
-  constructor(public serv: LoginService) { }
+  constructor(public serv: LoginService, public platform: Platform, public router: Router) { 
+    this.platform.backButton.subscribeWithPriority(100, () => {
+      this.router.navigate(['/home']);
+    });
+  }
 
   ngOnInit() {
   }
