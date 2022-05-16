@@ -26,6 +26,9 @@ export class LoginService {
     let options = { headers : headers};
     return new Promise((resolve,reject) => {
       this.http.post(url, data, options ).subscribe(response => {
+        localStorage.removeItem("token");
+        let myToken = JSON.parse(JSON.stringify(response["token"]));
+        localStorage.setItem('token', myToken);
         resolve(response);
         this.router.navigate(['/home']);
       }, (error) => {

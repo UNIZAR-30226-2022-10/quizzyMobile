@@ -1,6 +1,12 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
+var destiny = 'home';
+
+if ( localStorage.getItem("token") ){
+    destiny = 'shop';
+}
+
 const routes: Routes = [
   {
     path: 'home',
@@ -8,7 +14,7 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: 'home',
+    redirectTo: destiny,
     pathMatch: 'full'
   },
   {
