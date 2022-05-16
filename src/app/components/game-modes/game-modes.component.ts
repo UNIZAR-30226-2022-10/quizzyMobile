@@ -10,7 +10,7 @@ import { CreateJoinComponent } from '../create-join/create-join.component';
 })
 export class GameModesComponent implements OnInit {
 
-  constructor( private popoverCtrl: PopoverController) { }
+  constructor( private popoverCtrl: PopoverController, public viewCtrl: PopoverController) { }
 
   ngOnInit() {}
 
@@ -18,7 +18,7 @@ export class GameModesComponent implements OnInit {
     const popover = await this.popoverCtrl.create({
       component: GameOptionsComponent,
     });
-
+    this.viewCtrl.dismiss();
     await popover.present();
   }
 
@@ -27,6 +27,7 @@ export class GameModesComponent implements OnInit {
       component: CreateJoinComponent,
     });
 
+    this.viewCtrl.dismiss();
     await popover.present();
   }
 }

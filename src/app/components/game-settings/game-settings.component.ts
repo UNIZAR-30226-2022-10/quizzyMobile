@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { PopoverController } from '@ionic/angular';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-game-settings',
@@ -7,7 +9,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class GameSettingsComponent implements OnInit {
 
-  constructor() { }
+  constructor(public router: Router, public viewCtrl: PopoverController) { }
 
   wildcards;
 
@@ -18,4 +20,9 @@ export class GameSettingsComponent implements OnInit {
     this.wildcards=event.detail.value;
   }
 
+  onClick(){
+    this.viewCtrl.dismiss();
+    this.router.navigate['/waiting-players']
+  }
+  
 }

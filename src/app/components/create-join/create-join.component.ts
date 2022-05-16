@@ -10,7 +10,7 @@ import { IntroduceCodeComponent } from '../introduce-code/introduce-code.compone
 })
 export class CreateJoinComponent implements OnInit {
 
-  constructor( private popoverCtrl: PopoverController) { }
+  constructor( private popoverCtrl: PopoverController, public viewCtrl: PopoverController) { }
   
   ngOnInit() {}
 
@@ -18,7 +18,7 @@ export class CreateJoinComponent implements OnInit {
     const popover = await this.popoverCtrl.create({
       component: GameSettingsComponent,
     });
-
+    this.viewCtrl.dismiss();
     await popover.present();
   }
   async introduceCode() {
@@ -26,6 +26,7 @@ export class CreateJoinComponent implements OnInit {
       component: IntroduceCodeComponent,
     });
 
+    this.viewCtrl.dismiss();
     await popover.present();
   }
 

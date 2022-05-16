@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { PopoverController } from '@ionic/angular';
 
 @Component({
   selector: 'app-game-options',
@@ -8,7 +9,7 @@ import { Router } from '@angular/router';
 })
 export class GameOptionsComponent implements OnInit {
 
-  constructor(public router: Router) { }
+  constructor(public router: Router, public viewCtrl: PopoverController) { }
   birthday;
   difficulty=1;
 
@@ -66,7 +67,7 @@ export class GameOptionsComponent implements OnInit {
     });
 
     console.log(this.questionOptions);
-
+    this.viewCtrl.dismiss();
     this.router.navigate(['/question'], {state: this.questionOptions});
   }
 
