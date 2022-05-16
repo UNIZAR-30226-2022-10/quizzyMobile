@@ -1,7 +1,7 @@
 <a>Opciones de Entrenamiento</a>
 <br>
 <a>Categorías</a>
-<ion-label>{{myGroupItems[0].checked}}</ion-label>
+<!--<ion-label>{{myGroupItems[0].checked}}</ion-label>
 <ion-label>{{myGroupItems[1].checked}}</ion-label>
 <ion-label>{{myGroupItems[2].checked}}</ion-label>
 <ion-label>{{myGroupItems[3].checked}}</ion-label>
@@ -17,9 +17,16 @@
   <mbsc-segmented [(value)]="myGroupItems[4].value" [(checked)]="myGroupItems[4].checked"><ion-card id="category"><ion-img src={{myGroupItems[4].img}}></ion-img>{{myGroupItems[4].text}}</ion-card></mbsc-segmented>
   <mbsc-segmented [(value)]="myGroupItems[5].value" [(checked)]="myGroupItems[5].checked"><ion-card id="category"><ion-img src={{myGroupItems[5].img}}></ion-img>{{myGroupItems[5].text}}</ion-card></mbsc-segmented>
 </mbsc-segmented-group> -->
- <mbsc-segmented-group select="multiple" name="multi">
-  <mbsc-segmented *ngFor="let item of myGroupItems" [(value)]="item.value" [(checked)]="item.checked"><a><ion-img src={{item.img}}></ion-img>{{item.text}}</a></mbsc-segmented>
+
+ <mbsc-segmented-group select="multiple" class="multi" >
+  <mbsc-segmented *ngFor="let item of myGroupItems" [(value)]="item.value" [(checked)]="item.selected" >
+    <div class="category" (click)="categoryChanged(item.value)">
+      <ion-img src={{item.img}} id ="image"></ion-img>
+      <p id = "name">{{item.text}}</p>
+    </div>
+  </mbsc-segmented>
 </mbsc-segmented-group>
+
 <br>
 <a>Dificultades</a>
 <ion-segment (ionChange)="segmentChanged($event)" value="1">
@@ -33,4 +40,4 @@
     <ion-label>Hard</ion-label>
   </ion-segment-button>
 </ion-segment>
-<ion-button id="start" [disabled]="cat()" href="question">Empezar</ion-button>
+<ion-button id="start" [disabled]="cat()" (click)="setOptions()">Empezar</ion-button>

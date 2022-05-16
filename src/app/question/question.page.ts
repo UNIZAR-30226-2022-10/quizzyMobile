@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Location } from '@angular/common'
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-question',
@@ -7,8 +9,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class QuestionPage implements OnInit {
 
+  questionOptions:any;
   respuesta:boolean=false;
-  constructor() { }
+  constructor(public location: Location) { }
   quest="Tú como le dise rotten o rotten???"
   answers: Array<{correct: boolean, text:string}> = [
     { correct: true, text: 'Answer 1'},
@@ -20,8 +23,12 @@ export class QuestionPage implements OnInit {
   time = this.partida;
   timeleft = this.partida; 
   ngOnInit() {
+
+    this.questionOptions.categories = this.location.getState();
+    console.log(this.questionOptions);
     this.Showprogress();
   } 
+
   progress = 100;  
  Showprogress()  
  {  

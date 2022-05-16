@@ -50,7 +50,8 @@ const routes: Routes = [
   {
     path: 'question',
     loadChildren: () => import('./question/question.module').then( m => m.QuestionPageModule)
-  },  {
+  },
+  {
     path: 'validate-question',
     loadChildren: () => import('./validate-question/validate-question.module').then( m => m.ValidateQuestionPageModule)
   },

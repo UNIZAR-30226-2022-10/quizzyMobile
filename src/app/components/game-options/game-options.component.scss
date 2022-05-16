@@ -3,8 +3,23 @@
     height: 50px;
 }
 
-#category {
-    border: solid 1px #000;
+
+
+
+#image {
+    height: 3rem;
+}
+
+.multi{
+    display: grid;
+    grid-template-columns: repeat(
+        auto-fit, 
+        minmax(
+            31.33%,
+            1fr
+        )
+    );
+    gap: 3%;
 }
 
 
