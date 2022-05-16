@@ -24,7 +24,7 @@ export class QuestionPage implements OnInit {
   timeleft = this.partida; 
   ngOnInit() {
 
-    this.questionOptions.categories = this.location.getState();
+    this.questionOptions = this.location.getState();
     console.log(this.questionOptions);
     this.Showprogress();
   } 
