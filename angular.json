@@ -31,7 +31,11 @@
                 "output": "./svg"
               }
             ],
-            "styles": ["src/theme/variables.scss", "src/global.scss"],
+            "styles": [
+              "src/theme/variables.scss",
+              "src/global.scss",
+              "./node_modules/@mobiscroll/angular/dist/css/mobiscroll.min.css"
+            ],
             "scripts": [],
             "aot": false,
             "vendorChunk": true,

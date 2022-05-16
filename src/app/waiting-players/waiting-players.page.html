@@ -1,0 +1,19 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>waiting-players</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <p>GAME CODE: {{code}}</p>
+  <p>Game Settings</p>
+  <ion-item>Number of Players</ion-item>
+  <ion-item>Time to Answer</ion-item>
+  <ion-item>Wildcards</ion-item>
+  <ion-list>
+    <ion-label>List of Players</ion-label>
+    <ion-item *ngFor="let item of data; let i = index">
+      <ion-label>* Player {{ i + 1 }} </ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>

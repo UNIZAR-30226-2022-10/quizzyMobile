@@ -1,0 +1,33 @@
+.img-grid {
+    width: auto;
+    height: 50px;
+}
+
+
+
+
+#image {
+    height: 3rem;
+}
+
+.multi{
+    display: grid;
+    grid-template-columns: repeat(
+        auto-fit, 
+        minmax(
+            31.33%,
+            1fr
+        )
+    );
+    gap: 3%;
+}
+
+
+#grid {
+    text-align: center;
+}
+
+#start {
+    display: flex;
+    align-items: center;
+}

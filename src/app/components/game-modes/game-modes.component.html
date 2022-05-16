@@ -1,0 +1,31 @@
+<div id="modes">
+  <a id="title">Choose a game mode</a>
+  <ion-grid id="grid">
+    <ion-row>
+      <ion-col class="categ">
+        <a (click)="chooseOptions()">
+          <ion-img class="img-grid" src="assets/icon/friendMatch.png"></ion-img>
+          <ion-label>Friends</ion-label>
+        </a>
+      </ion-col>
+      <ion-col></ion-col>
+      <ion-col class="categ">
+        <a href="queue">
+          <ion-img class="img-grid" src="assets/icon/random.webp"></ion-img>
+          <ion-label>Random</ion-label>
+        </a>
+      </ion-col>
+    </ion-row>
+    <br>
+    <ion-row>
+      <ion-col></ion-col>
+      <ion-col class="categ">
+        <a (click)="chooseTraining()">
+          <ion-img class="img-grid" src="assets/icon/training.webp"></ion-img>
+          <ion-label>Training</ion-label>
+        </a>
+      </ion-col>
+      <ion-col></ion-col>
+    </ion-row>
+  </ion-grid>
+</div>
