@@ -25,7 +25,7 @@ export class OptionsAdminComponent implements OnInit {
 
   validateQuestion() {
     this.viewCtrl.dismiss();
-    this.router.navigate(['/validate-question'])
+    this.router.navigate(['/questions-list'])
   }
 
 

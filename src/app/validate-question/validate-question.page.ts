@@ -21,4 +21,12 @@ export class ValidateQuestionPage implements OnInit {
   ngOnInit() {
   }
 
+  accept() {
+    this.router.navigate(['/questions-list'])
+  }
+
+  decline() {
+    this.router.navigate(['/questions-list'])
+  }
+
 }
