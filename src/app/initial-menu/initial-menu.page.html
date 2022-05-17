@@ -1,30 +1,35 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>Menú Inicio Cambio</ion-title>
-  </ion-toolbar>
-</ion-header>
-
-
-
 <ion-content>
   <div id="arriba">
-    <ion-item id="perfil" color="primary">
-      <ion-avatar slot="start" id="photo">
-          <ion-img [src]="photo"></ion-img>
-      </ion-avatar>
-      <p id="info">
-        <ion-label id="label" [textContent]="username"></ion-label>
-        <br>
-        <ion-label id="label" [textContent]="coins"></ion-label>
-      </p>
-      <ion-avatar slot="end">
-          <ion-img src="../../assets/icon/settings.png" (click)="settings()"></ion-img>
-      </ion-avatar>
-    </ion-item>
-    <button id="newGame" (click)="chooseOptions()">
-      <a>+ Nueva Partida</a>
-    </button>
+    <div>
+      <ion-item id="perfil" color="primary" style="--background: transparent;" lines="none">
+        <ion-avatar slot="start" id="photo">
+            <ion-img [src]="photo"></ion-img>
+        </ion-avatar>
+        <p id="info">
+          <ion-label id="label" [textContent]="username"></ion-label>
+          
+          <ion-label id="label" [textContent]="coins"></ion-label>
+        </p>
+        <ion-avatar slot="end">
+            <ion-img id="settings" src="../../assets/icon/gear.png" (click)="settings()"></ion-img>
+        </ion-avatar>
+      </ion-item>
+    </div>
+    <div>
+      <ion-button id="newGame" (click)="chooseOptions()" color="secondary">
+        <p>+ Nueva Partida</p>
+      </ion-button>
+    </div>
+    
+    
   </div>
-  <div id="partidas"><app-lista-partidas id="games"></app-lista-partidas></div>
- </ion-content>>
-<app-footer></app-footer>
+  <!--<div id="partidas"><app-lista-partidas id="games"></app-lista-partidas></div>-->
+ </ion-content>
+ 
+ <ion-footer color="primary">
+  <ion-toolbar color="primary" id="pie">
+    <ion-icon name="archive" class="footer" color="light"></ion-icon>
+    <ion-icon name="cash" class="footer" color="light" (click)="moveToShop()"></ion-icon>
+    <ion-icon name="stats-chart" class="footer" color="light"></ion-icon>
+  </ion-toolbar>
+</ion-footer>

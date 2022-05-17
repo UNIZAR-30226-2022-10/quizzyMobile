@@ -1,11 +1,25 @@
 .img-grid {
-    margin-left: 5%;
-    width: auto;
-    height: 80px;
+    margin-left: 40%;
+    width: 20%;
 }
 
-.categ {
-    border: solid 1px #000;
+ion-row{
+    display: grid;
+    grid-template-columns: repeat(
+        auto-fit, 
+        minmax(
+            90%,
+            1fr
+        )
+    );
+    gap: 3%;
+}
+
+.option{
+    background-color: #cadefc;
+    border-radius: 1rem;
+    padding: 2%;
+    margin-bottom: 5%;
 }
 
 #modes {

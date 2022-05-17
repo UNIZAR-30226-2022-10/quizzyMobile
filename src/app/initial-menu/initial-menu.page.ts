@@ -5,6 +5,7 @@ import { GameModesComponent } from '../components/game-modes/game-modes.componen
 import { ListaPartidasComponent } from '../components/lista-partidas/lista-partidas.component';
 import { OptionsComponent } from '../components/options/options.component';
 import { OptionsAdminComponent } from '../components/options-admin/options-admin.component';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -21,7 +22,7 @@ export class InitialMenuPage implements OnInit {
     admin=true;
     data: any[] = Array(3);
     component: ListaPartidasComponent; 
-    constructor( private popoverCtrl: PopoverController) { }
+    constructor( private popoverCtrl: PopoverController, public router: Router) { }
     getData() {
       this.coins=1000; //Leer de la bbdd a partir del username
       this.photo="../../assets/icon/a.jpg";
@@ -58,5 +59,8 @@ export class InitialMenuPage implements OnInit {
 
       
     }
-  
+    
+    moveToShop(){
+      this.router.navigate(['shop']);
+    }
   }
