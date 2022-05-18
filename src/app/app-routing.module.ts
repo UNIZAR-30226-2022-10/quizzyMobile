@@ -38,7 +38,7 @@ const routes: Routes = [
     loadChildren: () => import('./chat/chat.module').then( m => m.ChatPageModule)
   },
   {
-    path: 'board',
+    path: 'board/:numJugadores',
     loadChildren: () => import('./board/board.module').then( m => m.BoardPageModule)
   },
   {

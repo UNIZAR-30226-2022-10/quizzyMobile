@@ -6,7 +6,6 @@
  */
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { HTTP } from '@awesome-cordova-plugins/http/ngx';
 import { ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
 

@@ -81,10 +81,10 @@
 
 <ion-footer>
   <ion-toolbar color="fourth">
-    <a href="shop"><ion-icon name="cash" class="footer"></ion-icon></a>
-    <a href="#"><ion-icon name="archive" class="footer"></ion-icon></a>
-    <a href="board"><ion-icon name="home" class="footer"></ion-icon></a>
-    <a href="#"><ion-icon name="stats-chart" class="footer"></ion-icon></a>
+    <a [routerLink]="['/shop']"><ion-icon name="cash" class="footer"></ion-icon></a>
+    <a [routerLink]="['/home']"><ion-icon name="archive" class="footer"></ion-icon></a>
+    <a [routerLink]="['/board',6]"><ion-icon name="home" class="footer"></ion-icon></a>
+    <a [routerLink]="['']"><ion-icon name="stats-chart" class="footer"></ion-icon></a>
   </ion-toolbar>
 </ion-footer>
 

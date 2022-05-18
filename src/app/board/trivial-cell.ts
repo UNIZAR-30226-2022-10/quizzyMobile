@@ -1,6 +1,11 @@
 import { Actor } from "./actor";
 import * as PIXI from 'pixi.js';
 
+export interface Coor {
+    x: number;
+    y: number;
+  }
+
 export class TrivialCell extends Actor{
     public numX: number;
     public numY: number;
@@ -12,7 +17,7 @@ export class TrivialCell extends Actor{
 
     private next: TrivialCell | undefined = void 0;
 
-    constructor(x: number, y: number, prev: TrivialCell, container: PIXI.Container){
+    constructor(x: number, y: number, prev: TrivialCell, container: PIXI.Sprite){
         super();
 
         this.numX = x;
@@ -40,14 +45,6 @@ export class TrivialCell extends Actor{
     }
 
     override update() {
-        if(!this.next){
-            this.numX += this.directionX;
-            this.numY += this.directionY;
-        } else {
-            this.numX = this.next.numX;
-            this.numY = this.next.numY;
-        }
-
         var position = this.getWorldPosition();
         this.container.x = position.x;
         this.container.y = position.y;

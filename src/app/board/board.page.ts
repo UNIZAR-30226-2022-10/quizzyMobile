@@ -4,6 +4,7 @@ import { fromEvent, tap } from 'rxjs';
 import { Actor } from './actor';
 import { ScreenOrientation } from '@awesome-cordova-plugins/screen-orientation/ngx';
 import { Player } from './player';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-board',
@@ -12,29 +13,39 @@ import { Player } from './player';
 })
 export class BoardPage implements OnInit {
 
+  numPlayers: any;
+
   private app: PIXI.Application = new PIXI.Application({
     width: window.innerHeight,
-    height: window.innerWidth - 20,
+    height: window.innerWidth - 30,
     backgroundColor: 0xffffff
   });
 
-
   private actors: Actor[] = [];
 
-  constructor(private screenOrientation: ScreenOrientation) {
+  constructor(private screenOrientation: ScreenOrientation, private activatedRoute: ActivatedRoute) {
     this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.LANDSCAPE);
    }
 
   ngOnInit() {
+    this.numPlayers = this.activatedRoute.snapshot.paramMap.get('numJugadores');
     const background = PIXI.Sprite.from('../../assets/tableroFinalCentroCompleto.png');
     background.width = this.app.screen.width;
     background.height = this.app.screen.height;
+    console.log('BACK W: ', background.width, 'APP: ', this.app.screen.width);
+    console.log('BACK H: ', background.height, 'APP: ', this.app.screen.height);
     this.app.stage.addChild(background);
     const stitch = PIXI.Texture.from('../../assets/stitch.png');
+    const cube = PIXI.Texture.from('../../assets/cube.png');
     document.body.appendChild(this.app.view);
-    let container = new PIXI.Container();
-    this.app.stage.addChild(container);
-    this.actors.push(new Player(stitch,container));
+    for(let i = 0; i < this.numPlayers; i++){
+      if(i%2 === 0){
+        this.actors.push(new Player(stitch,this.app));
+      }
+      else {
+        //this.actors.push(new Player(cube, this.app));
+      }
+    }
     this.initActors();
   }
 
