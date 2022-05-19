@@ -15,6 +15,7 @@ export class OptionsComponent implements OnInit {
 
   closeSession() {
     this.viewCtrl.dismiss();
+    localStorage.clear();
     this.router.navigate(['/home'])
   }
 

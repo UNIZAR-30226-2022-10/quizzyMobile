@@ -3,26 +3,29 @@
   <ion-grid id="grid">
     <ion-row>
       <ion-col class="categ">
-        <div (click)="chooseOptions()" class="option">
-          <div>
-            <!--<ion-img class="img-grid" src="assets/icon/friendMatch.png"></ion-img>-->
-          </div>
-          
-          <p>Private Game</p>
-        </div>
+        
+        <ion-button class="img-grid" color="tertiary" (click)="chooseOptions()">
+            <ion-icon slot="start" name="people"></ion-icon>
+            Private Game
+        </ion-button>
           
       </ion-col>
       <ion-col class="categ">
-        <div class="option">
-          <!--<ion-img class="img-grid" src="assets/icon/random.webp" ></ion-img>-->
-          <p>Random Game</p>
-        </div>
+
+        <ion-button class="img-grid" color="tertiary" (click)="enqueue()">
+          <ion-icon slot="start" name="shuffle-outline"></ion-icon>
+          Random Game
+        </ion-button>
+
       </ion-col>
+
       <ion-col class="categ">
-        <div (click)="chooseTraining()" class="option">
-          <!--<ion-img class="img-grid" src="assets/icon/training.webp" ></ion-img>-->
-          <p>Training Mode</p>
-        </div>
+        
+        <ion-button class="img-grid" color="tertiary" (click)="chooseTraining()">
+          <ion-icon slot="start" name="barbell-outline"></ion-icon>
+          Training Mode
+        </ion-button>
+
       </ion-col>
     </ion-row>
   </ion-grid>

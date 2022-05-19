@@ -1,6 +1,10 @@
+ion-button{
+    --border-radius: 0.5rem;
+}
+
 .img-grid {
-    margin-left: 40%;
-    width: 20%;
+    width: 90%;
+    height: 3rem;
 }
 
 ion-row{
@@ -15,16 +19,6 @@ ion-row{
     gap: 3%;
 }
 
-.option{
-    background-color: #cadefc;
-    border-radius: 1rem;
-    padding: 2%;
-    margin-bottom: 5%;
-}
-
-#modes {
-    text-align: center;
-}
 
 #title {
     text-align: center;
@@ -34,9 +28,5 @@ ion-row{
 
 #grid {
     text-align: center;
-}
-
-#start {
-    display: flex;
-    align-items: center;
+    --border-radius:1rem;
 }

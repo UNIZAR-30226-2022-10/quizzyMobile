@@ -1,25 +1,42 @@
-.img-grid {
-    width: auto;
-    height: 50px;
+ion-content{
+    padding: 1rem;
 }
 
+a{
+    margin-top: 0px;
+    margin-bottom: 0px;
+    margin-left: 0.5rem;
+    margin-right: 0px;
+}
 
+p{
+    text-align: center;
+    margin-top: 0.5rem;
+    margin-bottom: 0px;
+    margin-left: 0px;
+    margin-right: 0px;
 
+}
 
 #image {
-    height: 3rem;
+    height: 2.5rem;
+}
+.mbsc-windows.mbsc-button {
+    margin: 0.125rem;
 }
 
 .multi{
+
+    border: 0px solid black;
     display: grid;
     grid-template-columns: repeat(
         auto-fit, 
         minmax(
-            31.33%,
+            30%,
             1fr
         )
     );
-    gap: 3%;
+    justify-content: space-evenly;
 }
 
 
@@ -29,5 +46,6 @@
 
 #start {
     display: flex;
-    align-items: center;
+    margin: 5%;
+    width: 90%;
 }

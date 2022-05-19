@@ -4,7 +4,7 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 var destiny = 'home';
 
 if ( localStorage.getItem("token") ){
-    destiny = 'shop';
+    destiny = 'initial-menu';
 }
 
 const routes: Routes = [

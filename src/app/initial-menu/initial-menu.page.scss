@@ -4,6 +4,7 @@
   z-index: 1;
   background-color: #e8f0fc;
   --border-radius: 1rem;
+  height: fit-content;
 }
 
 ion-item{
@@ -11,7 +12,6 @@ ion-item{
 }
 
 #perfil {
-    border: 0.125rem solid rgb(0, 0, 0);
     border-radius: 1rem;
     width: 90%;
     margin: 5%;
@@ -55,13 +55,19 @@ ion-button{
   
 #newGame p {
   font-size: 1.125rem;
-  color: #fff;
 }
 #partidas {
-  margin-top: 65%;
-  border: 1px solid #000;
-  margin-left: 7.5%;
-  width: 85%;    
+  padding-top: 2.5%;
+  margin-top: 50%;
+  width: 100%;    
+  border-radius: 10px;
+  z-index: -1;
+}
+
+#partidasNt {
+  padding-top: 2.5%;
+  margin-top: 10%;
+  width: 100%;    
   border-radius: 10px;
   z-index: -1;
 }
@@ -72,7 +78,7 @@ ion-button{
 
 
 .footer{
-  margin-left: 17.5%;
+  margin-left: 12%;
   width: 10%;
   height: 1.5rem;
 }
