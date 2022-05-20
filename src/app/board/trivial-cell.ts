@@ -1,4 +1,4 @@
-import { Actor } from "./actor";
+import { Actor } from './actor';
 import * as PIXI from 'pixi.js';
 
 export interface Coor {
@@ -17,36 +17,23 @@ export class TrivialCell extends Actor{
 
     private next: TrivialCell | undefined = void 0;
 
-    constructor(x: number, y: number, prev: TrivialCell, container: PIXI.Sprite){
+    constructor(id: number, x: number, y: number){
         super();
 
         this.numX = x;
         this.numY = y;
-
-        this.container = container;
-
-        if (prev) {
-            prev.next = this;
-        }
-
+        
         //this.beginFill(0xccefef);
         //this.drawCircle(0, 0, 10);
         //this.endFill();
 
-        var worldPosition = this.getWorldPosition();
-        this.position.x = worldPosition.x;
-        this.position.y = worldPosition.y;
-        this.container.x = worldPosition.x;
-        this.container.y = worldPosition.y;
-    }
-    getWorldPosition() {
-        var tileSize = 20;
-        return { x: (this.numX * tileSize) + 10, y: (this.numY * tileSize) + 10 };
     }
 
-    override update() {
-        var position = this.getWorldPosition();
-        this.container.x = position.x;
-        this.container.y = position.y;
+    getx(): number {
+        return this.numX;
+    }
+
+    gety(): number{
+        return this.numY;
     }
 }
