@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="initial-menu"></ion-back-button>
+      <ion-back-button defaultHref="questions-list"></ion-back-button>
     </ion-buttons>
     <ion-title>suggest</ion-title>
   </ion-toolbar>
@@ -10,8 +10,30 @@
 <ion-content>
     <ion-list>
       
-        <ion-label id="label" position="floating">Suggest a Question</ion-label>
+        <ion-label id="label" position="floating">Suggested Question</ion-label>
         <ion-textarea disabled="true" type="text" name="question" required="true" placeholder="Question" [(ngModel)]="suggestion.question" id="question"></ion-textarea>
+        <br>
+        <ion-item class="opciones">
+          <ion-label>Category</ion-label>
+          <br>
+          <ion-select interface="popover" disabled="true" value="{{suggestion.category}}">
+            <ion-select-option value="History">History</ion-select-option>
+            <ion-select-option value="Art">Art</ion-select-option>
+            <ion-select-option value="Geography">Geography</ion-select-option>
+            <ion-select-option value="Science">Science</ion-select-option>
+            <ion-select-option value="Entertainment">Entertainment</ion-select-option>
+            <ion-select-option value="Sports">Sports</ion-select-option>
+          </ion-select>
+        </ion-item>
+        <br>
+        <ion-item class="opciones">
+          <ion-label>Difficulty</ion-label>
+          <ion-select interface="popover" disabled="true" value="{{suggestion.difficulty}}">
+            <ion-select-option value="easy">Easy</ion-select-option>
+            <ion-select-option value="medium">Medium</ion-select-option>
+            <ion-select-option value="hard">Hard</ion-select-option>
+          </ion-select>
+        </ion-item>
         <br>
         <ion-label id="label">Correct Answer</ion-label>
         <ion-textarea disabled="true" type="text" name="answer1" placeholder="Enter A1" [(ngModel)]="suggestion.correctAnswer" id="answer"></ion-textarea>
@@ -25,7 +47,9 @@
         <ion-label id="label">Wrong Answer 3</ion-label>
         <ion-textarea disabled="true" type="text" name="answer4" placeholder="Enter A4" [(ngModel)]="suggestion.wrongAnswer3" id="answer"></ion-textarea>
         <br>
-        <ion-button id="accept" href="questions-list">Accept</ion-button>
-        <ion-button id="decline" href="questions-list">Decline</ion-button>
+        <div class="botones">
+          <ion-button id="accept" (click)="accept()">Accept</ion-button>
+          <ion-button id="decline" (click)="decline()">Decline</ion-button>
+        </div>
     </ion-list>
 </ion-content>

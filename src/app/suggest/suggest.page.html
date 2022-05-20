@@ -14,6 +14,27 @@
         <ion-label id="label" position="floating">Suggest a Question</ion-label>
         <ion-textarea type="text" name="question" required="true" placeholder="Question" [(ngModel)]="suggestion.question" id="question"></ion-textarea>
         <br>
+        <ion-item class="opciones">
+          <ion-label>Category</ion-label>
+          <ion-select interface="popover" (ionChange)="category($event)">
+            <ion-select-option value="History">History</ion-select-option>
+            <ion-select-option value="Art">Art</ion-select-option>
+            <ion-select-option value="Geography">Geography</ion-select-option>
+            <ion-select-option value="Science">Science</ion-select-option>
+            <ion-select-option value="Entertainment">Entertainment</ion-select-option>
+            <ion-select-option value="Sports">Sports</ion-select-option>
+          </ion-select>
+        </ion-item>
+        <br>
+        <ion-item class="opciones">
+          <ion-label>Difficulty</ion-label>
+            <ion-select interface="popover" (ionChange)="difficulty($event)">
+              <ion-select-option value="easy">Easy</ion-select-option>
+              <ion-select-option value="medium">Medium</ion-select-option>
+              <ion-select-option value="hard">Hard</ion-select-option>
+            </ion-select>
+        </ion-item>
+        <br>
         <ion-label id="label">Correct Answer</ion-label>
         <ion-input type="text" name="answer1" required="true" placeholder="Enter A1" [(ngModel)]="suggestion.correctAnswer" id="answer"></ion-input>
         <br>
@@ -26,7 +47,7 @@
         <ion-label id="label">Wrong Answer 3</ion-label>
         <ion-input type="text" name="answer4" required="true" placeholder="Enter A4" [(ngModel)]="suggestion.wrongAnswer3" id="answer"></ion-input>
         <br>
-        <ion-button id="submit" type="submit" [disabled]="formulario.invalid" href="profile">Send</ion-button>
+        <ion-button id="submit" type="submit" [disabled]="formulario.invalid || opc()" href="profile">Send</ion-button>
     </ion-list>
   </form>
 </ion-content>
