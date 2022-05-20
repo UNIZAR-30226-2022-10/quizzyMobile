@@ -1,10 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { IonInfiniteScroll } from '@ionic/angular';
+import { IonInfiniteScroll, Platform, ToastController } from '@ionic/angular';
 import { PopoverController } from '@ionic/angular';
 import { GameModesComponent } from '../components/game-modes/game-modes.component';
-import { ListaPartidasComponent } from '../components/lista-partidas/lista-partidas.component';
 import { OptionsComponent } from '../components/options/options.component';
 import { OptionsAdminComponent } from '../components/options-admin/options-admin.component';
+import { Router } from '@angular/router';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+
 
 
 @Component({
@@ -16,15 +18,40 @@ export class InitialMenuPage implements OnInit {
 
     @ViewChild(IonInfiniteScroll) infiniteScroll: IonInfiniteScroll
     photo;
-    username = "Juan"; //Leer de la sesión
+    username = localStorage.getItem('nickname'); //Leer de la sesión
     coins;
-    admin=true;
+    cosmetic;
+    admin = true;
+    
+
     data: any[] = Array(3);
-    component: ListaPartidasComponent; 
-    constructor( private popoverCtrl: PopoverController) { }
+    constructor(public http: HttpClient, public toastController: ToastController, private popoverCtrl: PopoverController, public router: Router, public platform: Platform) {
+      this.platform.backButton.subscribeWithPriority(100, () => {
+        navigator['app'].exitApp();
+      });
+     }
     getData() {
-      this.coins=1000; //Leer de la bbdd a partir del username
-      this.photo="../../assets/icon/a.jpg";
+
+      let url= 'http://quizzyappbackend.herokuapp.com/user';
+      let headers = new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Accept': 'aplication/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`});
+
+      let options = { headers : headers};
+      return new Promise((resolve,reject) => {
+        this.http.get(url, options).subscribe(response => {
+          resolve(response);
+          this.coins = JSON.parse(JSON.stringify(response["wallet"]));
+          this.cosmetic = JSON.parse(JSON.stringify(response["actual_cosmetic"]));
+          this.photo="../../assets/icon/a.jpg";
+        }, (error) => {
+          if(error.status != 200){
+            this.FailToast();
+          }
+          reject(error);
+        });
+      });
     };
     ngOnInit() {
       this.getData();
@@ -58,5 +85,23 @@ export class InitialMenuPage implements OnInit {
 
       
     }
-  
+    
+    /**
+     * @summary function that shows a toast when the user or the password aren't on the base data
+     */
+    async FailToast() {
+      const toast = await this.toastController.create({
+        header: 'Connection failed',
+        position: 'top',
+        buttons:[
+          {
+            text: 'Aceptar',
+            role: 'cancel'
+          }
+        ]
+      });
+      await toast.present();
+      await toast.onDidDismiss();
+    } 
+
   }

@@ -1,30 +1,31 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>Menú Inicio Cambio</ion-title>
-  </ion-toolbar>
-</ion-header>
-
-
-
 <ion-content>
   <div id="arriba">
-    <ion-item id="perfil" color="primary">
-      <ion-avatar slot="start" id="photo">
-          <ion-img [src]="photo"></ion-img>
-      </ion-avatar>
-      <p id="info">
-        <ion-label id="label" [textContent]="username"></ion-label>
-        <br>
-        <ion-label id="label" [textContent]="coins"></ion-label>
-      </p>
-      <ion-avatar slot="end">
-          <ion-img src="../../assets/icon/settings.png" (click)="settings()"></ion-img>
-      </ion-avatar>
-    </ion-item>
-    <button id="newGame" (click)="chooseOptions()">
-      <a>+ Nueva Partida</a>
-    </button>
+    <div>
+      <ion-item id="perfil" color="primary" style="--background: transparent;" lines="none">
+        <ion-avatar slot="start" id="photo">
+            <ion-img [src]="photo"></ion-img>
+        </ion-avatar>
+        <p id="info">
+          <ion-label id="label" [textContent]="username"></ion-label>
+          
+          <ion-label id="label" [textContent]="coins"></ion-label>
+        </p>
+        <ion-avatar slot="end">
+            <ion-img id="settings" src="../../assets/icon/gear.png" (click)="settings()"></ion-img>
+        </ion-avatar>
+      </ion-item>
+    </div>
+    <div>
+      <ion-button id="newGame" (click)="chooseOptions()" color="secondary">
+        <p>+ New Game</p>
+      </ion-button>
+    </div>
+    
+    
   </div>
   <div id="partidas"><app-lista-partidas id="games"></app-lista-partidas></div>
- </ion-content>>
-<app-footer></app-footer>
+  <div id="partidasNt"><app-lista-partidas-nt id="games"></app-lista-partidas-nt></div>
+ </ion-content>
+ 
+
+ <app-footer id="games"></app-footer>

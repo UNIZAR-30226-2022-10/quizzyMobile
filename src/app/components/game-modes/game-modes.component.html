@@ -1,31 +1,32 @@
 <div id="modes">
-  <a id="title">Choose a game mode</a>
+  <p id="title">Choose a game mode</p>
   <ion-grid id="grid">
     <ion-row>
       <ion-col class="categ">
-        <a (click)="chooseOptions()">
-          <ion-img class="img-grid" src="assets/icon/friendMatch.png"></ion-img>
-          <ion-label>Friends</ion-label>
-        </a>
+        
+        <ion-button class="img-grid" color="tertiary" (click)="chooseOptions()">
+            <ion-icon slot="start" name="people"></ion-icon>
+            Private Game
+        </ion-button>
+          
       </ion-col>
-      <ion-col></ion-col>
       <ion-col class="categ">
-        <a href="queue">
-          <ion-img class="img-grid" src="assets/icon/random.webp"></ion-img>
-          <ion-label>Random</ion-label>
-        </a>
+
+        <ion-button class="img-grid" color="tertiary" (click)="enqueue()">
+          <ion-icon slot="start" name="shuffle-outline"></ion-icon>
+          Random Game
+        </ion-button>
+
       </ion-col>
-    </ion-row>
-    <br>
-    <ion-row>
-      <ion-col></ion-col>
+
       <ion-col class="categ">
-        <a (click)="chooseTraining()">
-          <ion-img class="img-grid" src="assets/icon/training.webp"></ion-img>
-          <ion-label>Training</ion-label>
-        </a>
+        
+        <ion-button class="img-grid" color="tertiary" (click)="chooseTraining()">
+          <ion-icon slot="start" name="barbell-outline"></ion-icon>
+          Training Mode
+        </ion-button>
+
       </ion-col>
-      <ion-col></ion-col>
     </ion-row>
   </ion-grid>
 </div>

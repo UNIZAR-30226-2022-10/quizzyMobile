@@ -1,3 +1,13 @@
+#title {
+    text-align: center;
+    position: relative;
+    width: 100%;
+}
+
+ion-label{
+    margin-left: 0.5rem;
+}
+
 .img-grid {
     width: auto;
     height: 50px;
@@ -13,6 +23,8 @@
 }
 
 #start {
+    margin: 5%;
+    width: 90%;
     display: flex;
     align-items: center;
 }

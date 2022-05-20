@@ -2,52 +2,84 @@
   position: fixed;
   width: 100%;
   z-index: 1;
-  background-color: #fff;
+  background-color: #e8f0fc;
+  --border-radius: 1rem;
+  height: fit-content;
 }
 
-
+ion-item{
+  border:rgb(0, 0, 0) solid 0rem;
+}
 
 #perfil {
-    border: 1px solid #000;
-    border-radius: 10px;
-    margin: 2.5%;
-    font-size: 12px;
+    border-radius: 1rem;
+    width: 90%;
+    margin: 5%;
+    margin-top: 10%;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+#settings{
+  height: 65%;
+  width: fit-content;
+  border-radius: 0%;
+  margin-top: 17.5%;
+  border: 0 solid rgb(0, 0, 0);
 }
 
 #info {
-    margin-left: 10px;
+    box-shadow: none;
+    margin-left: 10%;
+    height: 75%;
+    margin-top: 12.5%;
+
 }
 
 #label {
-    border: 1px solid #000;
-    background-color: rgb(3, 82, 0);
+  margin-top: 25%;
+  color: #fff;
 }
 
 #newGame {
     margin-left: 10%;
-    border: #000 1px solid;
-    background-color: blue;
     width: 80%;
-    height: 75px;
-    border-radius: 10px;
+    height: 3rem;
     align-items: center;
     justify-content: center;
     display: flex;
   }
+
+ion-button{
+  --border-radius: 1rem;
+}
   
-#newGame a {
-  font-size: 24px;
-  color: #fff;
+#newGame p {
+  font-size: 1.125rem;
 }
 #partidas {
-  margin-top: 65%;
-  border: 1px solid #000;
-  margin-left: 7.5%;
-  width: 85%;    
+  padding-top: 2.5%;
+  margin-top: 50%;
+  width: 100%;    
+  border-radius: 10px;
+  z-index: -1;
+}
+
+#partidasNt {
+  padding-top: 2.5%;
+  margin-top: 10%;
+  width: 100%;    
   border-radius: 10px;
   z-index: -1;
 }
 
 #games {
   z-index: -1;
+}
+
+
+.footer{
+  margin-left: 12%;
+  width: 10%;
+  height: 1.5rem;
 }
