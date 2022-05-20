@@ -12,13 +12,28 @@ export class SuggestPage implements OnInit {
 
   suggestion = {
     question: 'Pregunta',
+    category: '',
+    difficulty: '',
     correctAnswer: '',
     wrongAnswer1: '',
     wrongAnswer2: '',
-    wrongAnswer3: ''
+    wrongAnswer3: '',
+    nickname: ''
   };
 
   ngOnInit() {
+  }
+
+  category(event) {
+    this.suggestion.category=event.detail.value;
+  }
+
+  difficulty(event) {
+    this.suggestion.difficulty=event.detail.value;
+  }
+
+  opc():boolean {
+    return (this.suggestion.difficulty=='') || (this.suggestion.category=='')
   }
 
   onSubmit() {
