@@ -62,7 +62,7 @@ export class ShopPage implements OnInit {
       JSON.parse(JSON.stringify(data["cosmetics"])).forEach(e => {
           
         if(!this.actualCosmetics.includes(e.cosmetic_id)){
-          this.itemCosmetics.push(e);
+          this.itemCosmetics.push({items: e, src:"../../assets/cosmetics/cosmetic_" + e.cosmetic_id + ".jpg"});
         }  
       }); 
       console.log(this.itemCosmetics);

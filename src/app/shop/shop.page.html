@@ -60,18 +60,21 @@
     
     <ion-list id="lista">
       <ion-card *ngFor="let i of itemCosmetics" color="tertiary">
-        <ion-card-header *ngIf="i.cosmetic_id != actualCosmetic">
-          <ion-card-title>{{i.cname}}</ion-card-title>
+        <ion-card-header>
+          <ion-card-title>{{i.items.cname}}</ion-card-title>
         </ion-card-header>
-        <ion-card-content *ngIf="i.cosmetic_id != actualCosmetic">
+        <ion-card-content>
+
+          <img src={{i.src}} id="cosmetico"/>
+
           <ion-row class="ion-align-items-center">
             <ion-col size="8">
               <ion-label>
-                <b> {{ i.price}} $ </b>
+                <b> {{ i.items.price}} $ </b>
               </ion-label>
             </ion-col>
             <ion-col size="4" class="ion-text-rigth">
-              <ion-button fill="clear" (click)="buyCosmetics(i)">
+              <ion-button fill="clear" (click)="buyCosmetics(i.items)">
                 <ion-icon name="add" color="dark"></ion-icon>
               </ion-button>
             </ion-col>
