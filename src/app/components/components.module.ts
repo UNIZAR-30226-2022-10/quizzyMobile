@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { DescriptionComponent } from './description/description.component';
 import { GameOptionsComponent } from './game-options/game-options.component';
 import { GameModesComponent } from './game-modes/game-modes.component';
 import { GameSettingsComponent } from './game-settings/game-settings.component';
@@ -29,7 +30,8 @@ import { OptionsAdminComponent } from './options-admin/options-admin.component';
     CreateJoinComponent,
     IntroduceCodeComponent,
     OptionsAdminComponent,
-    OptionsComponent
+    OptionsComponent,
+    DescriptionComponent
   ],
   exports: [
     ListaPartidasComponent,

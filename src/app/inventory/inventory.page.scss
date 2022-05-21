@@ -1,0 +1,40 @@
+ion-header{
+    position: initial;
+    
+}
+
+#cosmetico {
+    border-radius: 1rem;
+    width: 90%;
+    margin-left: 5%;
+}
+
+#categ{
+    border-radius: 1rem;
+}
+
+#lista{
+    background-color: #e8f0fc;
+}
+
+
+#menu{
+    font-weight: bold;
+}
+
+#cosmetics{
+   display: block;
+}
+
+#comodines {
+   display:block;
+}
+
+ion-content{
+    z-index: -1;
+}
+
+.img-grid{
+    width: 90%;
+    margin: 5%;
+}

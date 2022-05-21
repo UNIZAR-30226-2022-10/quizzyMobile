@@ -16,6 +16,10 @@ export class FooterComponent implements OnInit {
     this.router.navigate(['shop']);
   }
 
+  moveToInventory(){
+    this.router.navigate(['inventory']);
+  }
+
   moveToMenu(){
     this.router.navigate(['initial-menu']);
   }
