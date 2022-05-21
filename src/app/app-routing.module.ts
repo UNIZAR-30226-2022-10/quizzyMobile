@@ -60,7 +60,11 @@ const routes: Routes = [
   {
     path: 'validate-question',
     loadChildren: () => import('./validate-question/validate-question.module').then( m => m.ValidateQuestionPageModule)
+  },  {
+    path: 'inventory',
+    loadChildren: () => import('./inventory/inventory.module').then( m => m.InventoryPageModule)
   },
+
 
 
 

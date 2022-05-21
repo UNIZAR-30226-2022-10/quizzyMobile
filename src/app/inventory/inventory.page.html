@@ -1,0 +1,81 @@
+<!--
+ -- Author: Jaime Martín
+ -- Filename: inventory.page.html
+ -- Module: FrontEnd Mobile
+ -- Description: This is the html of the page inventory
+-->
+<ion-header>
+  <div>
+    <ion-toolbar color="light">
+      <ion-buttons slot="start">
+        <ion-back-button defaultHref="initial-menu"></ion-back-button>
+      </ion-buttons>
+      <ion-title id="menu">Inventory</ion-title>
+    </ion-toolbar>
+  </div>
+</ion-header>
+
+<ion-content>
+
+  <div id="comodines"> 
+    <ion-item color="secondary" lines="none" id="categ">
+      <ion-icon name="color-wand" slot="start"></ion-icon>
+      <ion-label item-end> WILDCARDS </ion-label>
+    </ion-item>
+
+    <ion-list id="lista">
+
+      <ion-card *ngFor="let i of Wildcards" color="tertiary" (click)="viewDescription(i)">
+        <ion-card-header>
+          <ion-card-title>{{i.wname}}</ion-card-title>
+        </ion-card-header>
+
+        <ion-card-content>
+          <ion-row class="ion-align-items-center">
+            <ion-col size="5">
+              <ion-label>
+                <h2> Cantidad:  </h2>
+              </ion-label>
+            </ion-col>
+            <ion-col size="5" class="ion-text-rigth">
+              <ion-label>
+                <b> {{ i.cuantity}} </b>
+              </ion-label>
+            </ion-col>
+          </ion-row>
+        </ion-card-content>
+      </ion-card>
+    </ion-list>
+  </div>
+
+  <div id="cosmetics">
+    <ion-item color="secondary" lines="none" id="categ">
+      <ion-icon name="glasses-outline" slot="start"></ion-icon>
+      <ion-label item-end> COSMETICS</ion-label>
+    </ion-item>
+    
+    <ion-list id="lista">
+      <ion-card *ngFor="let i of Cosmetics" color="tertiary">
+        
+        <ion-card-header *ngIf="i.items.cosmetic_id == actualCosmetic">
+          <ion-card-title color="primary">{{i.items.cname}}</ion-card-title>
+        </ion-card-header>
+        
+        <ion-card-header *ngIf="i.items.cosmetic_id != actualCosmetic">
+          <ion-card-title color="primary">{{i.items.cname}}</ion-card-title>
+        </ion-card-header>
+        
+        <ion-card-content>
+          <img src={{i.src}} id="cosmetico"/>
+        </ion-card-content>
+
+        <ion-button *ngIf="i.items.cosmetic_id != actualCosmetic" class="img-grid" color="primary" (click)="chooseCosmetic(i.items.cosmetic_id)">
+            EQUIP
+        </ion-button>
+      </ion-card>
+    </ion-list>
+  </div>
+
+</ion-content>
+
+<app-footer id="games"></app-footer>
