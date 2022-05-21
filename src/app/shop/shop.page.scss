@@ -1,16 +1,35 @@
+ion-header{
+    position: initial;
+    
+}
+
+#categ{
+    border-radius: 1rem;
+}
+
+#lista{
+    background-color: #e8f0fc;
+}
+
+
+#menu{
+    font-weight: bold;
+}
+
 #money{
     padding-left: 5%;
 }
+
 #money-icon{
-    padding-top: 2%;
-    width:25px;
-    height: 25px;
-    color: #000;
+    font-weight: bold;
+    width:2rem;
 }
+
 #money-span{
-    padding-left: 2%;
-    font-size:18px;
-    color: #000;
+    font-weight: bold;
+    padding-left: 5%;
+    font-size:1.125rem;
+    
 }
 
 #cosmetics{
@@ -21,9 +40,7 @@
    display:block;
 }
 
-.footer{
-    padding-left: 13%;
-    width: 25px;
-    height: 25px;
+ion-content{
+    z-index: -1;
 }
 

@@ -4,14 +4,16 @@
  * Module: FrontEnd Mobile
  * Description: This is the Shop's page of the aplication
  */
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { AlertController } from '@ionic/angular';
+import { Router } from '@angular/router';
+import { AlertController, Platform } from '@ionic/angular';
 
 import { ShopService } from './shop.service';
 
 export interface SendShop{
   id: number;
-  amout: number;
+  amount: number;
 }
 
 @Component({
@@ -21,17 +23,56 @@ export interface SendShop{
 })
 
 export class ShopPage implements OnInit {
+  coins: any;
+  actualCosmetic: any;
   itemWildcards: any;
   itemCosmetics: any;
 
-  constructor(private shopService: ShopService, public alert: AlertController) { }
+  constructor( public http:HttpClient, private shopService: ShopService, public alert: AlertController, public platform:Platform, public router:Router) {
+    this.platform.backButton.subscribeWithPriority(100, () => {
+      this.router.navigate(['initial-menu']);
+    });
+   }
 
   ngOnInit() {
-    this.itemWildcards = this.shopService.getItemsPrueba();
+    this.getUserData();
+    //this.itemWildcards = this.shopService.getItemsWildcards();
+
     this.itemCosmetics = this.shopService.getItemsPrueba();
-    //this.shopService.getItemsWildcards().then(data => { this.itemWildcards = data; });
-    //this.shopService.getItemsCosmetics().then(data => { this.itemCosmetics = data; });
+    this.shopService.getItemsWildcards().then(data => { 
+      this.itemWildcards = JSON.parse(JSON.stringify(data["wildcards"])); 
+      console.log(this.itemWildcards);
+    });
+    
+    this.shopService.getItemsCosmetics().then(data => {
+      this.itemCosmetics = JSON.parse(JSON.stringify(data["cosmetics"])); 
+      console.log(this.itemCosmetics);
+    });
   }
+
+
+  getUserData() {
+
+    let url= 'http://quizzyappbackend.herokuapp.com/user';
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Accept': 'aplication/json',
+      'Authorization': `Bearer ${localStorage.getItem('token')}`});
+
+    let options = { headers : headers};
+    return new Promise((resolve,reject) => {
+      this.http.get(url, options).subscribe(response => {
+        resolve(response);
+        this.coins = JSON.parse(JSON.stringify(response["wallet"]));
+        this.actualCosmetic = JSON.parse(JSON.stringify(response["actual_cosmetic"]));
+      }, (error) => {
+        if(error.status != 200){
+          this.shopService.FailToast();
+        }
+        reject(error);
+      });
+    });
+  };
 
   /**
    * Function that shows a pop Up to buy the cosmetic
@@ -52,9 +93,9 @@ export class ShopPage implements OnInit {
           text: 'Buy',
           handler: () => {
             item.amount = 1;
-            const send: SendShop[] = [
-              {id: item.id, amout: item.amount}
-            ];
+            const send: SendShop =
+              {id: item.cosmetic_id, amount: item.amount}
+            ;
             this.shopService.postItemCosmetic(send);
             console.log(item);
           }
@@ -90,9 +131,9 @@ export class ShopPage implements OnInit {
           text: 'Buy',
           handler: data => {
             item.amount = data.amount;
-            const send: SendShop[] = [
-              {id: item.id, amout: item.amount}
-            ];
+            const send: SendShop =
+              {id: item.wildcard_id, amount: item.amount}
+            ;
             this.shopService.postItemWildcards(send);
             console.log(item);
           }

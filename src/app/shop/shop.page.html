@@ -5,30 +5,33 @@
  -- Description: This is the html of the page shop
 -->
 <ion-header>
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-back-button defaultHref="home"></ion-back-button>
-    </ion-buttons>
-    <ion-title>Shop</ion-title>
-  </ion-toolbar>
+  <div>
+    <ion-toolbar color="light">
+      <ion-buttons slot="start">
+        <ion-back-button defaultHref="initial-menu"></ion-back-button>
+      </ion-buttons>
+      <ion-title id="menu">Shop</ion-title>
+    </ion-toolbar>
+  </div>
+  <ion-item color="light" lines="none">
+    <ion-icon name="cash-outline" id="money-icon"></ion-icon>
+    <ion-label id="money-span" [textContent]="coins"></ion-label>
+  </ion-item>
 </ion-header>
 
 <ion-content>
 
-  <ion-item-divider no-lines>
-    <ion-icon name="cash-outline" id="money-icon"></ion-icon>
-    <ion-label id="money-span"> MONEY </ion-label>
-  </ion-item-divider>
-
   <div id="comodines"> 
-    <ion-item color="tertiary">
-      <ion-icon name="color-wand-outline" slot="start"></ion-icon>
+    <ion-item color="secondary" lines="none" id="categ">
+      <ion-icon name="color-wand" slot="start"></ion-icon>
       <ion-label item-end> WILDCARDS </ion-label>
     </ion-item>
-    <ion-list>
-      <ion-card *ngFor="let i of itemWildcards">
+
+    <ion-list id="lista">
+
+      <ion-card *ngFor="let i of itemWildcards" color="tertiary">
         <ion-card-header>
-          <ion-card-title>{{i.name}}</ion-card-title>
+          <ion-card-title>{{i.wname}}</ion-card-title>
         </ion-card-header>
         <!--<img src="../../assets/quizzylogo.png"> -->
         <ion-card-content>
@@ -40,7 +43,7 @@
             </ion-col>
             <ion-col size="4" class="ion-text-rigth">
               <ion-button fill="clear" (click)="buyWildcards(i)">
-                <ion-icon name="add" color="tertiary"></ion-icon>
+                <ion-icon name="add" color="dark"></ion-icon>
               </ion-button>
             </ion-col>
           </ion-row>
@@ -50,16 +53,17 @@
   </div>
 
   <div id="cosmetics">
-    <ion-item color="tertiary">
+    <ion-item color="secondary" lines="none" id="categ">
       <ion-icon name="glasses-outline" slot="start"></ion-icon>
       <ion-label item-end> COSMETICS</ion-label>
     </ion-item>
-    <ion-list>
-      <ion-card *ngFor="let i of itemCosmetics">
-        <ion-card-header>
-          <ion-card-title>{{i.name}}</ion-card-title>
+    
+    <ion-list id="lista">
+      <ion-card *ngFor="let i of itemCosmetics" color="tertiary">
+        <ion-card-header *ngIf="i.cosmetic_id != actualCosmetic">
+          <ion-card-title>{{i.cname}}</ion-card-title>
         </ion-card-header>
-        <ion-card-content>
+        <ion-card-content *ngIf="i.cosmetic_id != actualCosmetic">
           <ion-row class="ion-align-items-center">
             <ion-col size="8">
               <ion-label>
@@ -68,7 +72,7 @@
             </ion-col>
             <ion-col size="4" class="ion-text-rigth">
               <ion-button fill="clear" (click)="buyCosmetics(i)">
-                <ion-icon name="add" color="tertiary"></ion-icon>
+                <ion-icon name="add" color="dark"></ion-icon>
               </ion-button>
             </ion-col>
           </ion-row>
@@ -79,12 +83,4 @@
 
 </ion-content>
 
-<ion-footer>
-  <ion-toolbar color="fourth">
-    <a href="shop"><ion-icon name="cash" class="footer"></ion-icon></a>
-    <a href="#"><ion-icon name="archive" class="footer"></ion-icon></a>
-    <a href="board"><ion-icon name="home" class="footer"></ion-icon></a>
-    <a href="#"><ion-icon name="stats-chart" class="footer"></ion-icon></a>
-  </ion-toolbar>
-</ion-footer>
-
+<app-footer id="games"></app-footer>
