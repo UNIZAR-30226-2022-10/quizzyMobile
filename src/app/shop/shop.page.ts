@@ -8,6 +8,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertController, Platform } from '@ionic/angular';
+import { ComponentsModule } from '../components/components.module';
 
 import { ShopService } from './shop.service';
 
@@ -24,7 +25,8 @@ export interface SendShop{
 
 export class ShopPage implements OnInit {
   coins: any;
-  actualCosmetic: any;
+  actualCosmetics: Array<number>;
+  
   itemWildcards: any;
   itemCosmetics: any;
 
@@ -35,23 +37,44 @@ export class ShopPage implements OnInit {
    }
 
   ngOnInit() {
-    this.getUserData();
-    //this.itemWildcards = this.shopService.getItemsWildcards();
 
-    this.itemCosmetics = this.shopService.getItemsPrueba();
+    this.itemCosmetics = [];
+    this.actualCosmetics = [];
+    this.getUserCoins();
+    
+    this.getUserCosmetics().then(data => {
+      JSON.parse(JSON.stringify(data["cosmetics"])).forEach(e => {
+        this.actualCosmetics.push(e.cosmetic_id);
+      });
+    });
+
+    console.log(this.actualCosmetics);
+    
+
     this.shopService.getItemsWildcards().then(data => { 
       this.itemWildcards = JSON.parse(JSON.stringify(data["wildcards"])); 
       console.log(this.itemWildcards);
     });
+
+
     
     this.shopService.getItemsCosmetics().then(data => {
-      this.itemCosmetics = JSON.parse(JSON.stringify(data["cosmetics"])); 
+      JSON.parse(JSON.stringify(data["cosmetics"])).forEach(e => {
+          
+        if(!this.actualCosmetics.includes(e.cosmetic_id)){
+          this.itemCosmetics.push(e);
+        }  
+      }); 
       console.log(this.itemCosmetics);
     });
+
+    
+
+
   }
 
 
-  getUserData() {
+  getUserCoins() {
 
     let url= 'http://quizzyappbackend.herokuapp.com/user';
     let headers = new HttpHeaders({
@@ -64,7 +87,27 @@ export class ShopPage implements OnInit {
       this.http.get(url, options).subscribe(response => {
         resolve(response);
         this.coins = JSON.parse(JSON.stringify(response["wallet"]));
-        this.actualCosmetic = JSON.parse(JSON.stringify(response["actual_cosmetic"]));
+      }, (error) => {
+        if(error.status != 200){
+          this.shopService.FailToast();
+        }
+        reject(error);
+      });
+    });
+  };
+
+  getUserCosmetics() {
+
+    let url= 'http://quizzyappbackend.herokuapp.com/user/cosmetics';
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Accept': 'aplication/json',
+      'Authorization': `Bearer ${localStorage.getItem('token')}`});
+
+    let options = { headers : headers};
+    return new Promise((resolve,reject) => {
+      this.http.get(url, options).subscribe(response => {
+        resolve(response);
       }, (error) => {
         if(error.status != 200){
           this.shopService.FailToast();
@@ -112,7 +155,8 @@ export class ShopPage implements OnInit {
    */
   async buyWildcards(item){
     const confirm = await this.alert.create({
-      header: 'Do you want to buy the Item?',
+      header: 'Description:',
+      message: `${item.description}`,
       inputs: [
         {
           name: 'amount',
