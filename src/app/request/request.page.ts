@@ -10,7 +10,7 @@ export class RequestPage implements OnInit {
 
   constructor(private friendsService: FriendsService) { }
 
-  requets : any;/*Array<{username: string, img: string}> = [
+  requests : any;/*Array<{username: string, img: string}> = [
     { username: 'Darío', img: "../../assets/icon/a.jpg"},
     { username: 'Jaime', img: "../../assets/icon/a.jpg"},
     { username: 'Celia', img: "../../assets/icon/a.jpg"},
@@ -18,16 +18,24 @@ export class RequestPage implements OnInit {
     { username: 'Mathis', img: "../../assets/icon/a.jpg"}
   ]*/
 
-  accept(event) {
-    this.friendsService.acceptFriend(event.detail.username);
+  accept(nickname) {
+
+    this.friendsService.acceptFriend(nickname);
   }
 
-  reject(event) {
-    this.friendsService.deleteFriend(event.detail.username);
+  reject(nickname) {
+    this.friendsService.deleteFriend(nickname);
   }
 
   ngOnInit() {
-    this.requets = this.friendsService.getRequests();
+    this.requests = [];
+
+    this.friendsService.getRequests().then(e => {
+      JSON.parse(JSON.stringify(e["friends"])).forEach(data => {
+        this.requests.push(data);
+      });
+      console.log(this.requests);
+    });
   }
 
 }

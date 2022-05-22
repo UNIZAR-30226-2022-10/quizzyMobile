@@ -1,11 +1,26 @@
 <ion-content>
-  <ion-list>
-    <ion-item *ngFor="let item of friends" id="friend">
-        <ion-avatar slot="start"><ion-img src={{item.img}} id ="image"></ion-img></ion-avatar>
-        <p id = "name">{{item.username}}</p>
-        <ion-avatar (click)="accept($event)" slot="end" id="icons"><ion-icon name="checkmark-outline"></ion-icon></ion-avatar>
-        <ion-avatar (click)="reject($event)" slot="end" id="icons"><ion-icon name="close-outline"></ion-icon></ion-avatar>
-    </ion-item>
+  <ion-list id="lista">
+    <ion-card *ngFor="let item of requests" id="friend" color="tertiary">
+      <ion-card-content>
+        <div class="name">
+          <ion-label>
+            <b>{{item.nickname_2}}</b>
+          </ion-label>
+        </div>
+        <br>
+        <div class="row">
+            <ion-button class="img-grid" slot="start" color="danger" (click)="reject(item.nickname_2)">
+              <ion-icon name="close" ></ion-icon>
+              Reject
+            </ion-button>
+            
+            <ion-button class="img-grid" slot="end" color="success" (click)="accept(item.nickname_2)">
+              <ion-icon name="checkmark" ></ion-icon>
+              Accept
+            </ion-button>
+        </div>   
+      </ion-card-content>
+    </ion-card>
   </ion-list>
 
 </ion-content>

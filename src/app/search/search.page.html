@@ -1,10 +1,28 @@
-<ion-content>
+<ion-header>
   <ion-searchbar #autofocus showCancelButton="never" mode="ios" showClearButton="focus" (search)="getUsername($event)"></ion-searchbar>
-  <ion-list>
-    <ion-item *ngFor="let item of friends" id="friend">
-        <ion-avatar slot="start"><ion-img src={{item.img}} id ="image"></ion-img></ion-avatar>
-        <p id = "name">{{item.username}}</p>
-        <ion-avatar (click)="request(item.username)" slot="end" id="icons"><ion-icon name="add-outline"></ion-icon></ion-avatar>+
-    </ion-item>
+</ion-header>
+<ion-content>
+  
+  <ion-list id="lista">
+    <ion-card *ngFor="let item of friends" id="friend" color="tertiary">
+      <ion-card-content *ngIf="item.nickname != nickname">
+        <div id="container">
+            <img src="../../assets/cosmetics/cosmetic_{{item.actual_cosmetic}}.jpg" id="cosmetico"/>
+          <div id="container-inner">
+            <ion-label>
+              <b>{{item.nickname}}</b>
+            </ion-label>
+          </div>
+        </div>
+        
+        <div class="row">
+            <ion-button class="img-grid" slot="end" color="success" [disabled]="disableButton(item.nickname)" (click)="request(item.nickname)">
+              <ion-icon name="add" ></ion-icon>
+              Send petition
+            </ion-button>
+        </div>   
+      </ion-card-content>
+    </ion-card>
   </ion-list>
+
 </ion-content>

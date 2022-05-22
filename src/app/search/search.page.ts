@@ -11,6 +11,8 @@ export class SearchPage implements OnInit {
   constructor(private friendsService: FriendsService) { }
 
   friends: any;
+  nickname = localStorage.getItem('nickname');
+  beforeFriends: any;
 
 
   ngOnInit() {
@@ -18,13 +20,39 @@ export class SearchPage implements OnInit {
 
   getUsername(event)
   {
+    this.friends = [];
+    this.beforeFriends = [];
+
+    this.friendsService.getFriends().then(e => {
+      JSON.parse(JSON.stringify(e["friends"])).forEach(data => {
+        this.beforeFriends.push(data);
+      });
+    });
+
     //console.log(event.target.value)
-    this.friends = this.friendsService.searchFriend(event.target.value);
+    this.friendsService.searchFriend(event.target.value).then(e => {
+      JSON.parse(JSON.stringify(e["results"])).forEach(data => {
+        this.friends.push(data);
+      });
+      console.log(this.friends);
+    });
   }
 
-  request(event)
+  request(nickname)
   {
-    this.friendsService.addFriends(event.detail.value);
+    this.friendsService.addFriends(nickname);
+  }
+
+  disableButton(nickname){
+    let inFriends = false;
+
+    this.beforeFriends.forEach(e => {
+      if(e.nickname == nickname){
+        inFriends = true;
+      }
+    });
+
+    return inFriends;
   }
 
 }

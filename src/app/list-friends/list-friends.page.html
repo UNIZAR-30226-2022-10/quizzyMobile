@@ -1,9 +1,18 @@
 <ion-content>
-  <ion-list>
-    <ion-item *ngFor="let item of friends" id="friend">
-        <ion-avatar slot="start"><ion-img src=cosm(item.actual_cosmetic) id ="image"></ion-img></ion-avatar>
-        <p id = "name">{{item.username}}</p>
-    </ion-item>
+  <ion-list id="lista">
+    <ion-card *ngFor="let item of friends" id="friend" color="tertiary">
+      <ion-card-content>
+        <ion-row class="ion-align-items-center">
+          <div id="container">
+            <img src="../../assets/cosmetics/cosmetic_{{item.actual_cosmetic}}.jpg" id="cosmetico"/>
+          <div id="container-inner">
+            <ion-label>
+              <b>{{item.nickname}}</b>
+            </ion-label>
+          </div>
+        </div>
+        </ion-row>
+      </ion-card-content>
+    </ion-card>
   </ion-list>
-
 </ion-content>

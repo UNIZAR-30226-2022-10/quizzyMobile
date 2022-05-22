@@ -24,7 +24,15 @@ export class ListFriendsPage implements OnInit {
   ]*/
 
   ngOnInit() {
-    this.friends=this.friendsService.getFriends();
+
+    this.friends = [];
+
+    this.friendsService.getFriends().then(e => {
+      JSON.parse(JSON.stringify(e["friends"])).forEach(data => {
+        this.friends.push(data);
+      });
+      console.log(this.friends);
+    });
   }
 
 }
