@@ -1,0 +1,11 @@
+<ion-content>
+  <ion-list>
+    <ion-item *ngFor="let item of friends" id="friend">
+        <ion-avatar slot="start"><ion-img src={{item.img}} id ="image"></ion-img></ion-avatar>
+        <p id = "name">{{item.username}}</p>
+        <ion-avatar (click)="accept($event)" slot="end" id="icons"><ion-icon name="checkmark-outline"></ion-icon></ion-avatar>
+        <ion-avatar (click)="reject($event)" slot="end" id="icons"><ion-icon name="close-outline"></ion-icon></ion-avatar>
+    </ion-item>
+  </ion-list>
+
+</ion-content>
