@@ -20,7 +20,8 @@ export class InitialMenuPage implements OnInit {
     photo;
     username = localStorage.getItem('nickname'); //Leer de la sesión
     coins;
-    cosmetic;
+    cosmetic = localStorage.getItem('cosmetic');
+    cosmetic_src = "../../assets/cosmetics/cosmetic_" + this.cosmetic.toString() + ".jpg";
     admin = true;
     
 
@@ -43,8 +44,7 @@ export class InitialMenuPage implements OnInit {
         this.http.get(url, options).subscribe(response => {
           resolve(response);
           this.coins = JSON.parse(JSON.stringify(response["wallet"]));
-          this.cosmetic = JSON.parse(JSON.stringify(response["actual_cosmetic"]));
-          this.photo="../../assets/icon/a.jpg";
+          localStorage.setItem('cosmetic', JSON.parse(JSON.stringify(response["actual_cosmetic"])));
         }, (error) => {
           if(error.status != 200){
             this.FailToast();
@@ -53,8 +53,9 @@ export class InitialMenuPage implements OnInit {
         });
       });
     };
-    ngOnInit() {
+    ngOnInit() { 
       this.getData();
+      console.log("../../assets/cosmetics/cosmetic_" + this.cosmetic.toString() + ".jpg")
     }
 
     async chooseOptions() {

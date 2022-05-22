@@ -2,7 +2,7 @@
   <div id="arriba">
     <div>
       <ion-item id="perfil" color="primary" style="--background: transparent;" lines="none">
-        <img src="../../assets/cosmetics/cosmetic_{{cosmetic}}.jpg" id="cosmetico"/>
+        <img [src]="cosmetic_src" id="cosmetico"/>
         
           <p id="info">
             <ion-label id="label" [textContent]="username"></ion-label>

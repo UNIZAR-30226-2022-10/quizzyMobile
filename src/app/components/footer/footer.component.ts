@@ -23,4 +23,8 @@ export class FooterComponent implements OnInit {
   moveToMenu(){
     this.router.navigate(['initial-menu']);
   }
+
+  moveToFriends(){
+    this.router.navigate(['friends']);
+  }
 }

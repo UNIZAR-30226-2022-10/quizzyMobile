@@ -13,7 +13,7 @@ export class InventoryPage implements OnInit {
   itemCosmetics: any;
   Cosmetics: Array<{ items: any, src: string}>;
   Wildcards: any;
-  actualCosmetic: any;
+  actualCosmetic = localStorage.getItem('cosmetic');;
 
   constructor(public http:HttpClient, private popoverCtrl: PopoverController, public platform:Platform, public router:Router, public toastController:ToastController) { 
     this.platform.backButton.subscribeWithPriority(100, () => {
@@ -24,8 +24,6 @@ export class InventoryPage implements OnInit {
   ngOnInit() {
     this.Cosmetics = [];
     this.Wildcards = [];
-
-    this.getUserData();
 
     this.getItemsCosmetics().then(data => {
       JSON.parse(JSON.stringify(data["cosmetics"])).forEach( e => {
@@ -43,28 +41,6 @@ export class InventoryPage implements OnInit {
 
     console.log(this.Wildcards);
   }
-
-  getUserData() {
-
-    let url= 'http://quizzyappbackend.herokuapp.com/user';
-    let headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Accept': 'aplication/json',
-      'Authorization': `Bearer ${localStorage.getItem('token')}`});
-
-    let options = { headers : headers};
-    return new Promise((resolve,reject) => {
-      this.http.get(url, options).subscribe(response => {
-        resolve(response);
-        this.actualCosmetic = JSON.parse(JSON.stringify(response["actual_cosmetic"]));
-      }, (error) => {
-        if(error.status != 200){
-          this.FailToast();
-        }
-        reject(error);
-      });
-    });
-  };
 
   /**
    * Function that returns all the cosmetics on the API
@@ -132,6 +108,7 @@ export class InventoryPage implements OnInit {
     let options = { headers : headers};
     return new Promise(resolve => {
       this.http.put(url, {id: cosmetic}, options).subscribe(data => {
+        localStorage.setItem('cosmetic', cosmetic);
         console.log(cosmetic);
         resolve(data);
       }, error => {
