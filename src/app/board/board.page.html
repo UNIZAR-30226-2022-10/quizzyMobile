@@ -1,4 +1,28 @@
+<ion-buttons color="dark" slot="start">
+  <ion-back-button defaultHref="home" (click)="unlockOrientation()"></ion-back-button>
+  <ion-button>
+    <ion-icon slot="icon-only" name="menu"></ion-icon>
+  </ion-button>
+</ion-buttons>
 
-     <ion-buttons color="dark" slot="start" (click)="unlockOrientation()">
-       <ion-back-button defaultHref="home"></ion-back-button>
-     </ion-buttons>
+<!--<ion-split-pane when="sm">
+  <ion-menu>
+    <ion-header> 
+      <ion-toolbar color="tertiary">
+        <ion-title> Players </ion-title>
+      </ion-toolbar>
+    </ion-header>
+
+    <ion-content>
+      <ion-list>
+        <ion-menu-toggle >
+          <ion-item button *ngFor="let i of actors">
+            <ion-icon slot="start" name="people"> </ion-icon>
+            <ion-label> Player </ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+      </ion-list>
+    </ion-content>
+  </ion-menu>
+</ion-split-pane> -->
+

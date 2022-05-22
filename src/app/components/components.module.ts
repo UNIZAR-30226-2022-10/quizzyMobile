@@ -13,6 +13,7 @@ import { CreateJoinComponent } from './create-join/create-join.component';
 import { MbscModule } from '@mobiscroll/angular';
 import { OptionsComponent } from './options/options.component';
 import { OptionsAdminComponent } from './options-admin/options-admin.component';
+import { DiceComponent } from './dice/dice.component';
 
 
 
@@ -27,14 +28,16 @@ import { OptionsAdminComponent } from './options-admin/options-admin.component';
     CreateJoinComponent,
     IntroduceCodeComponent,
     OptionsAdminComponent,
-    OptionsComponent
+    OptionsComponent,
+    DiceComponent
   ],
   exports: [
     ListaPartidasComponent,
     FooterComponent,
     ProgressbarComponent,
     GameOptionsComponent,
-    GameModesComponent
+    GameModesComponent,
+    DiceComponent
   ],
   imports: [
     CommonModule,

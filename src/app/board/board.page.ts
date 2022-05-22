@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import * as PIXI from 'pixi.js';
-import { fromEvent, tap, Observable, Subscription } from 'rxjs';
+import { fromEvent, tap, Observable, Subscription, of } from 'rxjs';
 import { TrivialCell } from './trivial-cell';
 import { ScreenOrientation } from '@awesome-cordova-plugins/screen-orientation/ngx';
 import { Player } from './player';
@@ -18,9 +18,9 @@ class Game {
 export class BoardPage implements OnInit {
   numPlayers: any;
 
-  private app: PIXI.Application;
+  actors: Player[] = [];
 
-  private actors: Player[] = [];
+  private app: PIXI.Application;
 
   private cells = [];
 
@@ -55,6 +55,7 @@ export class BoardPage implements OnInit {
     console.log(this.cells[0].getx());
     const stitch = PIXI.Texture.from('../../assets/stitch.png');
     const cube = PIXI.Texture.from('../../assets/cube.png');
+
     for (let i = 0; i < this.numPlayers; i++) {
       if (i % 2 === 0) {
         this.actors.push(new Player(stitch, this.app));
@@ -63,6 +64,7 @@ export class BoardPage implements OnInit {
       }
       this.actors[i].movePlayer(this.cells[0].getx(), this.cells[0].gety());
     }
+
 
     this.initActors();
 
@@ -74,6 +76,7 @@ export class BoardPage implements OnInit {
     });
 
     document.body.appendChild(this.app.view);
+    this.showPossiblesMovement([2,3,4]);
   }
 
   initActors() {
@@ -95,6 +98,39 @@ export class BoardPage implements OnInit {
 
   ngOnDestroy(): void {
     this.destroy();
+  }
+
+  showPossiblesMovement(arrayPos: Array<number>): number{
+    let possibilities = [];
+    let numberReturn: number;
+    let pushed = false;
+    for(let i = 0; i < arrayPos.length ; i++){
+        possibilities[i] = PIXI.Sprite.from(
+          '../../assets/stitch.png'
+        );
+        possibilities[i].width = this.app.screen.width * (8/100);
+        possibilities[i].height = this.app.screen.height * (8/100);
+        possibilities[i].interactive = true;
+        possibilities[i].buttonMode = true;
+
+        possibilities[i].on('click', () => {
+            console.log("Pushed");
+            pushed = true;
+            numberReturn = arrayPos[i];
+        });
+        this.app.stage.addChild(possibilities[i]);
+        possibilities[i].x = this.cells[arrayPos[i]].getx();
+        possibilities[i].y = this.cells[arrayPos[i]].gety();
+    }
+
+    if(pushed){
+      for (const dude of possibilities) {
+        this.app.stage.removeChild(dude);
+      }
+      return numberReturn;
+    }
+
+
   }
 
   createArrayCells(){
