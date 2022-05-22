@@ -60,7 +60,20 @@ const routes: Routes = [
   {
     path: 'validate-question',
     loadChildren: () => import('./validate-question/validate-question.module').then( m => m.ValidateQuestionPageModule)
-  },  {
+  },
+  {
+    path: 'friends',
+    loadChildren: () => import('./friends/friends.module').then( m => m.FriendsPageModule)
+  },
+  {
+    path: 'list-friends',
+    loadChildren: () => import('./list-friends/list-friends.module').then( m => m.ListFriendsPageModule)
+  },
+  {
+    path: 'request',
+    loadChildren: () => import('./request/request.module').then( m => m.RequestPageModule)
+  },
+  {
     path: 'inventory',
     loadChildren: () => import('./inventory/inventory.module').then( m => m.InventoryPageModule)
   },
