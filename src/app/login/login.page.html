@@ -9,7 +9,7 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="home"></ion-back-button>
     </ion-buttons>
-    <ion-title>Sign In</ion-title>
+    <ion-title>Log In</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -32,6 +32,6 @@
     </ion-item>
     <ion-label color="danger" *ngIf ="formLogin.controls.password.errors?.required && (formLogin.controls.password.touched || formLogin.controls.password.dirty)"> * Password is required </ion-label>
     </div>
-    <ion-button type="submit" [disabled]="!formLogin.valid" color="primary">Sign In</ion-button>
+    <ion-button type="submit" [disabled]="!formLogin.valid" color="primary">Log In</ion-button>
   </form>
 </ion-content>

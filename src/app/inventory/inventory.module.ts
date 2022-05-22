@@ -4,9 +4,9 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { ShopPageRoutingModule } from './shop-routing.module';
+import { InventoryPageRoutingModule } from './inventory-routing.module';
 
-import { ShopPage } from './shop.page';
+import { InventoryPage } from './inventory.page';
 import { ComponentsModule } from '../components/components.module';
 
 @NgModule({
@@ -14,9 +14,9 @@ import { ComponentsModule } from '../components/components.module';
     CommonModule,
     FormsModule,
     IonicModule,
-    ShopPageRoutingModule,
+    InventoryPageRoutingModule,
     ComponentsModule
   ],
-  declarations: [ShopPage]
+  declarations: [InventoryPage]
 })
-export class ShopPageModule {}
+export class InventoryPageModule {}

@@ -3,6 +3,12 @@ ion-header{
     
 }
 
+#cosmetico {
+    border-radius: 1rem;
+    width: 90%;
+    margin-left: 5%;
+}
+
 #categ{
     border-radius: 1rem;
 }
@@ -14,22 +20,6 @@ ion-header{
 
 #menu{
     font-weight: bold;
-}
-
-#money{
-    padding-left: 5%;
-}
-
-#money-icon{
-    font-weight: bold;
-    width:2rem;
-}
-
-#money-span{
-    font-weight: bold;
-    padding-left: 5%;
-    font-size:1.125rem;
-    
 }
 
 #cosmetics{
@@ -44,9 +34,7 @@ ion-content{
     z-index: -1;
 }
 
-#cosmetico {
-    border-radius: 1rem;
+.img-grid{
     width: 90%;
-    margin-left: 5%;
+    margin: 5%;
 }
-

@@ -1,18 +1,21 @@
-<a id="title">Choose a game mode</a>
-<ion-grid id="grid">
+<p id="title">Choose a game mode</p>
+<ion-grid id="grid"> 
   <ion-row>
     <ion-col class="categ">
-      <a (click)="chooseOptions()">
-        <ion-img class="img-grid" src="assets/icon/friendMatch.png"></ion-img>
-        <ion-label>Create</ion-label>
-      </a>
+
+      <ion-button class="img-grid" color="tertiary" (click)="chooseOptions()">
+        <ion-icon slot="start" name="create-outline"></ion-icon>
+        Create
+      </ion-button>
+
     </ion-col>
-    <ion-col></ion-col>
+
     <ion-col class="categ">
-      <a (click)="introduceCode()">
-        <ion-img class="img-grid" src="assets/icon/random.webp"></ion-img>
-        <ion-label>Join</ion-label>
-      </a>
+
+      <ion-button class="img-grid" color="tertiary" (click)="introduceCode()">
+        <ion-icon slot="start" name="add-outline"></ion-icon>
+        Join
+      </ion-button>
     </ion-col>
   </ion-row>
 </ion-grid>

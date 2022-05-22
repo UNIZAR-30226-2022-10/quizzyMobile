@@ -28,8 +28,9 @@ export class LoginService {
         localStorage.removeItem("token");
         let myToken = JSON.parse(JSON.stringify(response["token"]));
         localStorage.setItem('token', myToken);
+        localStorage.setItem('nickname', data.nickname);
         resolve(response);
-        this.router.navigate(['/home']);
+        this.router.navigate(['/initial-menu']);
       }, (error) => {
         if(error.status != 200){
           this.userFailToast();
