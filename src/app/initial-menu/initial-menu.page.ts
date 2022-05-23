@@ -22,7 +22,7 @@ export class InitialMenuPage implements OnInit {
     coins;
     cosmetic : any;
     cosmetic_src :any; 
-    admin = true;
+    admin : boolean;
     
 
     data: any[] = Array(3);
@@ -43,6 +43,7 @@ export class InitialMenuPage implements OnInit {
       return new Promise((resolve,reject) => {
         this.http.get(url, options).subscribe(response => {
           resolve(response);
+          console.log(response);
         }, (error) => {
           if(error.status != 200){
             this.FailToast();
@@ -54,6 +55,7 @@ export class InitialMenuPage implements OnInit {
     ngOnInit() { 
       this.getData().then( e => {
         console.log("ENTRO");
+        this.admin = JSON.parse(JSON.stringify(e["is_admin"]));
         this.coins = JSON.parse(JSON.stringify(e["wallet"]));
         this.cosmetic = JSON.parse(JSON.stringify(e["actual_cosmetic"]));
         localStorage.setItem('cosmetic', this.cosmetic);
