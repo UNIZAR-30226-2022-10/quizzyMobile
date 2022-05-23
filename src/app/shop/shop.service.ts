@@ -116,7 +116,7 @@ export class ShopService {
       this.http.post(url, {id: item.id},options).subscribe(response => {
         resolve(response);
       }, (error) => {
-        console.log(error);
+        this.buyFailToast();
         reject(error);
       });
     });
@@ -128,6 +128,24 @@ export class ShopService {
    async FailToast() {
     const toast = await this.toastController.create({
       header: 'Connection failed',
+      position: 'top',
+      buttons:[
+        {
+          text: 'Aceptar',
+          role: 'cancel'
+        }
+      ]
+    });
+    await toast.present();
+    await toast.onDidDismiss();
+  }
+
+  /**
+     * @summary function that shows a toast when the user or the password aren't on the base data
+     */
+   async buyFailToast() {
+    const toast = await this.toastController.create({
+      header: 'No se ha podido procesar la petición',
       position: 'top',
       buttons:[
         {

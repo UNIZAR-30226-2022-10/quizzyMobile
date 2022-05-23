@@ -4,15 +4,13 @@
       <ion-item id="perfil" color="primary" style="--background: transparent;" lines="none">
         <img [src]="cosmetic_src" id="cosmetico"/>
         
-          <p id="info">
-            <ion-label id="label" [textContent]="username"></ion-label>
-            
-            <ion-label id="label" [textContent]="coins"></ion-label>
-          </p>
+        <p id="info">
+          <ion-label id="label" [textContent]="username"></ion-label>
+          
+          <ion-label id="label" [textContent]="coins"></ion-label>
+        </p>
 
-          <ion-avatar slot="end">
-            <ion-img id="settings" src="../../assets/icon/gear.png" (click)="settings()"></ion-img>
-          </ion-avatar>
+        <ion-icon id="settings" slot="end" name="settings-outline" size="large"></ion-icon>
         
       </ion-item>
     </div>

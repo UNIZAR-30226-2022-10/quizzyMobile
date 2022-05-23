@@ -60,17 +60,10 @@ export class ShopPage implements OnInit {
     
     this.shopService.getItemsCosmetics().then(data => {
       JSON.parse(JSON.stringify(data["cosmetics"])).forEach(e => {
-          
-        if(!this.actualCosmetics.includes(e.cosmetic_id)){
+
           this.itemCosmetics.push({items: e, src:"../../assets/cosmetics/cosmetic_" + e.cosmetic_id + ".jpg"});
-        }  
       }); 
-      console.log(this.itemCosmetics);
     });
-
-    
-
-
   }
 
 
@@ -187,4 +180,16 @@ export class ShopPage implements OnInit {
     await confirm.present();
   }
 
+
+  disableButton(cosmetic_id){
+    let cosmeticInProperty = false;
+
+    this.actualCosmetics.forEach(e => {
+      if(e == cosmetic_id){
+        cosmeticInProperty = true;
+      }
+    });
+
+    return cosmeticInProperty;
+  }
 }

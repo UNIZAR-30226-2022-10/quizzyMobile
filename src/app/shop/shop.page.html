@@ -29,24 +29,18 @@
 
     <ion-list id="lista">
 
-      <ion-card *ngFor="let i of itemWildcards" color="tertiary">
+      <ion-card *ngFor="let i of itemWildcards" color="tertiary" >
         <ion-card-header>
           <ion-card-title>{{i.wname}}</ion-card-title>
         </ion-card-header>
         <!--<img src="../../assets/quizzylogo.png"> -->
         <ion-card-content>
-          <ion-row class="ion-align-items-center">
-            <ion-col size="8">
-              <ion-label>
-                <b> {{ i.price}} $ </b>
-              </ion-label>
-            </ion-col>
-            <ion-col size="4" class="ion-text-rigth">
-              <ion-button fill="clear" (click)="buyWildcards(i)">
-                <ion-icon name="add" color="dark"></ion-icon>
+              <ion-button color="primary" (click)="buyWildcards(i)" id="but">
+                <ion-icon name="add" slot="start"></ion-icon>
+                <ion-label>
+                  <b> {{ i.price}} $ </b>
+                </ion-label>
               </ion-button>
-            </ion-col>
-          </ion-row>
         </ion-card-content>
       </ion-card>
     </ion-list>
@@ -67,18 +61,12 @@
 
           <img src={{i.src}} id="cosmetico"/>
 
-          <ion-row class="ion-align-items-center">
-            <ion-col size="8">
-              <ion-label>
-                <b> {{ i.items.price}} $ </b>
-              </ion-label>
-            </ion-col>
-            <ion-col size="4" class="ion-text-rigth">
-              <ion-button fill="clear" (click)="buyCosmetics(i.items)">
-                <ion-icon name="add" color="dark"></ion-icon>
-              </ion-button>
-            </ion-col>
-          </ion-row>
+          <ion-button color="primary" (click)="buyWildcards(i)" id="but" [disabled]="disableButton(i.items.cosmetic_id)">
+            <ion-icon name="add" slot="start"></ion-icon>
+            <ion-label>
+              <b> {{ i.items.price}} $ </b>
+            </ion-label>
+          </ion-button>
         </ion-card-content>
       </ion-card>
     </ion-list>
