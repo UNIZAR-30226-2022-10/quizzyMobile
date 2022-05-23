@@ -20,8 +20,8 @@ export class InitialMenuPage implements OnInit {
     photo;
     username = localStorage.getItem('nickname'); //Leer de la sesión
     coins;
-    cosmetic = localStorage.getItem('cosmetic');
-    cosmetic_src = "../../assets/cosmetics/cosmetic_" + this.cosmetic.toString() + ".jpg";
+    cosmetic: any;
+    cosmetic_src: any;
     admin = true;
     
 
@@ -43,8 +43,6 @@ export class InitialMenuPage implements OnInit {
       return new Promise((resolve,reject) => {
         this.http.get(url, options).subscribe(response => {
           resolve(response);
-          this.coins = JSON.parse(JSON.stringify(response["wallet"]));
-          localStorage.setItem('cosmetic', JSON.parse(JSON.stringify(response["actual_cosmetic"])));
         }, (error) => {
           if(error.status != 200){
             this.FailToast();
@@ -54,8 +52,13 @@ export class InitialMenuPage implements OnInit {
       });
     };
     ngOnInit() { 
-      this.getData();
-      console.log("../../assets/cosmetics/cosmetic_" + this.cosmetic.toString() + ".jpg")
+      this.getData().then( e => {
+        console.log("ENTRO");
+        this.coins = JSON.parse(JSON.stringify(e["wallet"]));
+        this.cosmetic = JSON.parse(JSON.stringify(e["actual_cosmetic"]));
+        localStorage.setItem('cosmetic', this.cosmetic);
+        this.cosmetic_src = "../../assets/cosmetics/cosmetic_" + this.cosmetic + ".jpg";
+      });
     }
 
     async chooseOptions() {
