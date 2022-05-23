@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { SuggestService } from './suggest.service';
 
 @Component({
   selector: 'app-suggest',
@@ -8,17 +9,16 @@ import { Router } from '@angular/router';
 })
 export class SuggestPage implements OnInit {
 
-  constructor(public router: Router) { }
+  constructor(public router: Router, private suggestService: SuggestService) { }
 
   suggestion = {
-    question: 'Pregunta',
+    question: '',
     category: '',
     difficulty: '',
     correctAnswer: '',
     wrongAnswer1: '',
     wrongAnswer2: '',
-    wrongAnswer3: '',
-    nickname: ''
+    wrongAnswer3: ''
   };
 
   ngOnInit() {
@@ -37,6 +37,9 @@ export class SuggestPage implements OnInit {
   }
 
   onSubmit() {
+    this.suggestService.suggestQuestion(this.suggestion.question, this.suggestion.category,
+      this.suggestion.difficulty, this.suggestion.correctAnswer, this.suggestion.wrongAnswer1, 
+      this.suggestion.wrongAnswer2, this.suggestion.wrongAnswer3)
     this.router.navigate(['/initial-menu'])
   }
 

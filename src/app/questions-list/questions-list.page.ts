@@ -10,17 +10,12 @@ export class QuestionsListPage implements OnInit {
 
   @ViewChild(IonInfiniteScroll) infiniteScroll: IonInfiniteScroll
 
-  question: Array<{text: string}> = [
-    { text:'Prueba'},
-    { text:'Prueba'},
-    { text:'Prueba'},
-    { text:'Prueba'},
-    { text:'Prueba'}
-  ]
+  question: any;
 
   constructor() { }
 
   ngOnInit() {
+    this.question = [];
   }
 
 }

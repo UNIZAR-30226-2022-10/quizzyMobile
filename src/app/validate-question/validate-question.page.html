@@ -48,8 +48,8 @@
         <ion-textarea disabled="true" type="text" name="answer4" placeholder="Enter A4" [(ngModel)]="suggestion.wrongAnswer3" id="answer"></ion-textarea>
         <br>
         <div class="botones">
-          <ion-button id="accept" (click)="accept()">Accept</ion-button>
-          <ion-button id="decline" (click)="decline()">Decline</ion-button>
+          <ion-button color="danger" id="decline" (click)="decline()">Decline</ion-button>
+          <ion-button color="success" id="accept" (click)="accept()">Accept</ion-button>
         </div>
     </ion-list>
 </ion-content>
