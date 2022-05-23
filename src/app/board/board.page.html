@@ -1,11 +1,16 @@
-<ion-buttons color="dark" slot="start">
-  <ion-back-button defaultHref="home" (click)="unlockOrientation()"></ion-back-button>
-  <ion-button>
-    <ion-icon slot="icon-only" name="menu"></ion-icon>
-  </ion-button>
-</ion-buttons>
-
-<!--<ion-split-pane when="sm">
+<ion-content>
+    <div id="phaser-game"></div>
+    <ion-buttons color="dark" slot="start">
+        <ion-back-button
+          defaultHref="home"
+          (click)="unlockOrientation()"
+        ></ion-back-button>
+        <ion-button>
+          <ion-icon slot="icon-only" name="menu"></ion-icon>
+        </ion-button>
+    </ion-buttons>
+</ion-content>
+  <!--<ion-split-pane when="sm">
   <ion-menu>
     <ion-header> 
       <ion-toolbar color="tertiary">
@@ -25,4 +30,3 @@
     </ion-content>
   </ion-menu>
 </ion-split-pane> -->
-
