@@ -28,7 +28,7 @@ export class RemoteServiceSignUp {
   addPost(data){
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      'Accept': 'aplication/json'});
+      'Accept': 'application/json'});
     let options = { headers : headers};
     return new Promise((resolve,reject) => {
       this.http.post(this.url, JSON.stringify(data),options).subscribe(response => {

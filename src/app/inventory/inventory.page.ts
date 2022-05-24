@@ -51,7 +51,7 @@ export class InventoryPage implements OnInit {
     const url = 'http://quizzyappbackend.herokuapp.com/user/cosmetics';
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      'Accept': 'aplication/json',
+      'Accept': 'application/json',
       'Authorization': `Bearer ${localStorage.getItem('token')}`});
     let options = { headers : headers};
     return new Promise(resolve => {
@@ -72,7 +72,7 @@ export class InventoryPage implements OnInit {
     const url = 'http://quizzyappbackend.herokuapp.com/user/wildcards';
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      'Accept': 'aplication/json',
+      'Accept': 'application/json',
       'Authorization': `Bearer ${localStorage.getItem('token')}`});
     let options = { headers : headers};
     return new Promise(resolve => {
@@ -103,7 +103,7 @@ export class InventoryPage implements OnInit {
     const url = 'http://quizzyappbackend.herokuapp.com/user/equip';
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      'Accept': 'aplication/json',
+      'Accept': 'application/json',
       'Authorization': `Bearer ${localStorage.getItem('token')}`});
     let options = { headers : headers};
     return new Promise(resolve => {
