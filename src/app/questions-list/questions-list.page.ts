@@ -22,9 +22,13 @@ export class QuestionsListPage implements OnInit {
     {category: 'History', difficulty: 'medium', nickname: 'Juan5', question:'pregunta', correctAnswer: 'La que está bien', wrongAnswer1: 'no le sabe', wrongAnswer2: 'no le vuelve a saber', wrongAnswer3: 'a ver si te la aprendes ya bobo', id: 1}
   ]*/
 
-  constructor(private validateQuestionService: ValidateQuestionService, public router:Router) { }
+  constructor(private validateQuestionService: ValidateQuestionService, public router: Router) { }
 
   ngOnInit() {
+    this.loadQuestions();
+  }
+
+  loadQuestions() {
     this.Question = [];
 
     this.validateQuestionService.getPendingQuestions().then(e => {

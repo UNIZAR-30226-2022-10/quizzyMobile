@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FriendsService } from '../friends/friends.service';
 
+
 @Component({
   selector: 'app-request',
   templateUrl: './request.page.html',
@@ -21,10 +22,12 @@ export class RequestPage implements OnInit {
   accept(nickname) {
 
     this.friendsService.acceptFriend(nickname);
+    this.ngOnInit();
   }
 
   reject(nickname) {
     this.friendsService.deleteFriend(nickname);
+    this.ngOnInit();
   }
 
   ngOnInit() {

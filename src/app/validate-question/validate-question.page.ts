@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { State } from 'pixi.js';
 import { ValidateQuestionService } from './validate-question.service';
 
 @Component({

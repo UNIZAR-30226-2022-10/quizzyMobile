@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FriendsService } from '../friends/friends.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-list-friends',
@@ -8,7 +9,7 @@ import { FriendsService } from '../friends/friends.service';
 })
 export class ListFriendsPage implements OnInit {
 
-  constructor(private friendsService: FriendsService) { }
+  constructor(private friendsService: FriendsService, public router: Router) { }
 
   friends: any; // user + idCosm
 
@@ -24,7 +25,15 @@ export class ListFriendsPage implements OnInit {
   ]*/
 
   ngOnInit() {
+    this.loadFriends();
+  }
 
+  deleteFriend(nickname) {
+    this.friendsService.deleteFriend(nickname);
+    this.loadFriends();
+  }
+
+  loadFriends() {
     this.friends = [];
 
     this.friendsService.getFriends().then(e => {
