@@ -168,7 +168,7 @@ export class BoardPage implements OnInit {
 
       this.scale.on('resize', resize, this);
 
-      let mov = showMovement([10, 54, 8], this);
+      let mov = showMovement([10, 54, 8], this, this.player);
 
       console.log("Salgo");
       console.log(mov);
@@ -195,7 +195,7 @@ export class BoardPage implements OnInit {
         player.y = y;
     }
 
-    function showMovement(arrayPos, thiss): number{
+    function showMovement(arrayPos, thiss, player): number{
       let possibilities = [];
       let numberReturn = 0;
       let pushed = false;
@@ -213,6 +213,7 @@ export class BoardPage implements OnInit {
             for (const iter of possibilities) {
               iter.destroy();
             }
+            movePlayer(player,thiss.cells[numberReturn].getx(), thiss.cells[numberReturn].gety());
             return numberReturn;
           });
         });
@@ -243,7 +244,6 @@ export class BoardPage implements OnInit {
         'duration: ' + p.getDuration(),
       ]);
 
-      movePlayer(this.player, 300, 4);
     }
 
   }
