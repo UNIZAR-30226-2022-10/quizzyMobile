@@ -149,6 +149,7 @@ export class BoardPage implements OnInit {
       this.stitch.on('pointerout', function () {
         this.clearTint();
       });
+      console.log(this);
 
       this.input.setDraggable(this.stitch);
 
@@ -166,6 +167,12 @@ export class BoardPage implements OnInit {
       });
 
       this.scale.on('resize', resize, this);
+
+      let mov = showMovement([10, 54, 8], this);
+
+      console.log("Salgo");
+      console.log(mov);
+      //movePlayer(this.player,this.cells[mov].getx(), this.cells[mov].gety());
     }
 
     /**
@@ -186,6 +193,38 @@ export class BoardPage implements OnInit {
     function movePlayer(player, x, y){
         player.x = x;
         player.y = y;
+    }
+
+    function showMovement(arrayPos, thiss): number{
+      let possibilities = [];
+      let numberReturn = 0;
+      let pushed = false;
+      for(let i= 0; i < arrayPos.length; i++){
+        possibilities[i] = thiss.add.image(thiss.cells[arrayPos[i]].getx(), thiss.cells[arrayPos[i]].gety(), 'stitch').setInteractive();
+        possibilities[i].setScale(0.1,0.1); 
+
+        possibilities[i].on('pointerdown', function() {
+          this.setTint(0xff0000);
+          pushed = true;
+          numberReturn = arrayPos[i];
+          console.log(numberReturn);
+
+          possibilities[i].on('pointerup', function() {
+            for (const iter of possibilities) {
+              iter.destroy();
+            }
+            return numberReturn;
+          });
+        });
+
+        if(pushed){
+          for (const iter of possibilities) {
+            iter.destroy();
+            console.log(iter);
+          }
+          return numberReturn;
+        }
+      }
     }
     /**
      * Game loop routine. This function will be called once per frame, any displaying 
