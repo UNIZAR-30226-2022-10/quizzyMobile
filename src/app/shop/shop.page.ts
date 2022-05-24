@@ -72,7 +72,7 @@ export class ShopPage implements OnInit {
     let url= 'http://quizzyappbackend.herokuapp.com/user';
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      'Accept': 'aplication/json',
+      'Accept': 'application/json',
       'Authorization': `Bearer ${localStorage.getItem('token')}`});
 
     let options = { headers : headers};
@@ -94,7 +94,7 @@ export class ShopPage implements OnInit {
     let url= 'http://quizzyappbackend.herokuapp.com/user/cosmetics';
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      'Accept': 'aplication/json',
+      'Accept': 'application/json',
       'Authorization': `Bearer ${localStorage.getItem('token')}`});
 
     let options = { headers : headers};

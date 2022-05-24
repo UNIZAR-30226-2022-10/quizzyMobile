@@ -20,7 +20,7 @@ export class FriendsService {
     const url = environment.backendUrl + 'friends';
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      'Accept': 'aplication/json',
+      'Accept': 'application/json',
       'Authorization': `Bearer ${localStorage.getItem('token')}`});
     let options = { headers : headers};
     return new Promise(resolve => {
@@ -37,7 +37,7 @@ export class FriendsService {
     const url = environment.backendUrl + 'friends/pending';
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      'Accept': 'aplication/json',
+      'Accept': 'application/json',
       'Authorization': `Bearer ${localStorage.getItem('token')}`});
     let options = { headers : headers};
     return new Promise(resolve => {
@@ -54,7 +54,7 @@ export class FriendsService {
     const url = environment.backendUrl + 'friends/add';
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      'Accept': 'aplication/json',
+      'Accept': 'application/json',
       'Authorization': `Bearer ${localStorage.getItem('token')}`});
     let options = { headers : headers};
     return new Promise(resolve => {
@@ -92,7 +92,7 @@ export class FriendsService {
     const url = environment.backendUrl + 'friends/accept';
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      'Accept': 'aplication/json',
+      'Accept': 'application/json',
       'Authorization': `Bearer ${localStorage.getItem('token')}`});
     let options = { headers : headers};
     return new Promise(resolve => {
@@ -108,7 +108,7 @@ export class FriendsService {
     const url = environment.backendUrl + 'friends/delete';
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      'Accept': 'aplication/json',
+      'Accept': 'application/json',
       'Authorization': `Bearer ${localStorage.getItem('token')}`});
     let options = { headers : headers, body: {friendNickname: nickname}};
     return new Promise(resolve => {
@@ -125,7 +125,7 @@ export class FriendsService {
     const url = environment.backendUrl + 'user/search';
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      'Accept': 'aplication/json'});
+      'Accept': 'application/json'});
     let params = new HttpParams()
       .set('nickname', nickname)
     let options = { headers : headers, params:params};
