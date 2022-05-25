@@ -2,10 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { fromEvent, tap, Observable, Subscription, of, windowWhen } from 'rxjs';
 import { TrivialCell } from './trivial-cell';
 import { ScreenOrientation } from '@awesome-cordova-plugins/screen-orientation/ngx';
-import { PopoverController } from '@ionic/angular';
+import { PopoverController, RouterLinkDelegate } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
 import { DiceComponent } from '../components/dice/dice.component';
 import { BoardService } from './board.service';
+import { Socket } from 'ngx-socket-io';
 
 export interface Player {
   id: number;
@@ -40,7 +41,8 @@ export class BoardPage implements OnInit {
     private screenOrientation: ScreenOrientation,
     private activatedRoute: ActivatedRoute,
     private popoverCtrl: PopoverController,
-    private boardService: BoardService
+    private boardService: BoardService, 
+    private socket: Socket
   ) {
     this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.LANDSCAPE);
   }
@@ -50,13 +52,14 @@ export class BoardPage implements OnInit {
   }
 
   ngOnInit(): void {
+    this.socket.ioSocket.io.opts.query = { Authorization: `${localStorage.getItem('token')}`};
     this.updated = false;
     this.numPlayers = this.activatedRoute.snapshot.paramMap.get('numJugadores');
-    /*for (let i = 0; i < this.numPlayers; i++){
+    for (let i = 0; i < this.numPlayers; i++){
       let data = this.boardService.getUser('NICKNAME');
       this.actors[i].name = JSON.parse(JSON.stringify(data["nickname"]));
       this.actors[i].skin = '../../assets/cosmetics/cosmetic_'+ JSON.parse(JSON.stringify(data["actual_cosmetic"])) + '.png';
-    }*/
+    }
 
     var config = {
       type: Phaser.AUTO,
@@ -88,7 +91,7 @@ export class BoardPage implements OnInit {
       this.load.image('background', 'assets/tableroFinalCentroCompleto.png');
       this.load.image('stitch', 'assets/stitch.png');
       for(let i= 0; i < this.numJugadores; i++){
-        this.load.image('player'+(i+1).toString(),this.actors[i].skin);
+        this.load.image(this.actors[i].nickname,this.actors[i].skin);
       }
     }
 
@@ -162,6 +165,7 @@ export class BoardPage implements OnInit {
       });
       this.bg = this.add.image(0, 0, 'background');
       this.bg.setScale(0.2, 0.2);
+      this.bg.setPosition(width / 2, height / 2);
 
       this.player = this.add
       .image(width / 2, height / 2, 'stitch')
@@ -181,8 +185,10 @@ export class BoardPage implements OnInit {
 
       waitTurn();
 
+      roll();
       showMovement([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54], this, this.player);
 
+      endTurn();
       //movePlayer(this.player,this.cells[23].getx(), this.cells[23].gety());
     }
 
@@ -201,6 +207,9 @@ export class BoardPage implements OnInit {
       this.bg.setPosition(width / 2, height / 2);
     }
 
+    function roll() {
+      //socket.emit('')
+    }
     function movePlayer(player, x, y){
         player.x = x;
         player.y = y;
@@ -211,7 +220,7 @@ export class BoardPage implements OnInit {
       let numberReturn = 0;
       for(let i= 0; i < arrayPos.length; i++){
         possibilities[i] = thiss.add.image(thiss.cells[arrayPos[i]].getx(), thiss.cells[arrayPos[i]].gety(), 'stitch').setInteractive();
-        possibilities[i].setScale(0.1,0.1); 
+        possibilities[i].setDisplaySize(window.innerWidth/20, window.innerHeight/13);
 
         possibilities[i].on('pointerdown', function() {
           this.setTint(0xff0000);
@@ -231,6 +240,10 @@ export class BoardPage implements OnInit {
     }
 
     function waitTurn(){
+
+    }
+
+    function endTurn() {
 
     }
 
