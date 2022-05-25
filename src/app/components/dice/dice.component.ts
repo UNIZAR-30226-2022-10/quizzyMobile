@@ -7,21 +7,24 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class DiceComponent implements OnInit {
 
-  @Input() num: number;
-
   img: string;
   click: boolean;
-
-  constructor() { }
+  num: number;
+  constructor() {
+    const receiveNum = window.localStorage.getItem('Board');
+    this.num  = JSON.parse(receiveNum);
+   }
 
   ngOnInit() {
     this.click = false;
   }
 
   rollDice(){
-    const num = Math.floor(Math.random() * 6) + 1;
     this.click = true;
-    this.img = '../../../assets/dice/dice'+ num +'.png';
+    this.img = '../../../assets/dice/dice'+ this.num +'.png';
+
+    window.localStorage.setItem('Dice', JSON.stringify(this.click));
+    console.log("ENVIADO");
   }
 
 }
