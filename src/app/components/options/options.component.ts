@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { PopoverController } from '@ionic/angular';
 
@@ -8,6 +8,8 @@ import { PopoverController } from '@ionic/angular';
   styleUrls: ['./options.component.scss'],
 })
 export class OptionsComponent implements OnInit {
+
+  @Input("answers") answers;
 
   constructor(public router: Router, public viewCtrl: PopoverController) { }
 

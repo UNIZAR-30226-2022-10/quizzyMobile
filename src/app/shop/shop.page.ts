@@ -130,7 +130,7 @@ export class ShopPage implements OnInit {
           handler: () => {
             item.amount = 1;
             const send: SendShop =
-              {id: item.cosmetic_id, amount: item.amount}
+              {id: item.items.cosmetic_id, amount: item.amount}
             ;
             this.shopService.postItemCosmetic(send);
             console.log(item);

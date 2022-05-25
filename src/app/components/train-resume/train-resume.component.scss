@@ -1,0 +1,21 @@
+#lista{
+    display: grid;
+    grid-template-columns: repeat(
+        auto-fit, 
+        minmax(
+            90%,
+            1fr
+        )
+    );
+    gap: 3%;
+    background-color: #e8f0fc;
+}
+
+#texto{
+    padding-left: 5%;
+}
+
+.img-grid{
+    width: 90%;
+    margin: 5%;
+}

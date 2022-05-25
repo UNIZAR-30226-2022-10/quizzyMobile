@@ -1,0 +1,16 @@
+<div id="modes">
+  <div>
+
+    <ion-list id="lista" color="light">
+        <ion-label *ngFor="let i of answers" id="texto">
+            <b> {{ i.category}} : {{i.correct}} / {{i.total}} </b>
+        </ion-label>
+    </ion-list>
+    
+  </div>
+
+  <ion-button class="img-grid" color="primary" (click)="moveToMenu()">
+    <ion-icon slot="start" name="home"></ion-icon>
+    Back to menu
+  </ion-button>
+</div>
