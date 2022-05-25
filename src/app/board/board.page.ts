@@ -89,7 +89,7 @@ export class BoardPage implements OnInit {
      */
     function preload() {
       this.load.image('background', 'assets/tableroFinalCentroCompleto.png');
-      this.load.image('stitch', 'assets/stitch.png');
+      this.load.image('stitch', 'assets/cosmetics_10.png');
       for(let i= 0; i < this.numJugadores; i++){
         this.load.image(this.actors[i].nickname,this.actors[i].skin);
       }
@@ -164,8 +164,8 @@ export class BoardPage implements OnInit {
         fill: '#00ff00',
       });
       this.bg = this.add.image(0, 0, 'background');
-      this.bg.setScale(0.2, 0.2);
-      this.bg.setPosition(width / 2, height / 2);
+      this.bg = this.add.image(width / 2, height / 2, 'background');
+      this.bg.setDisplaySize(width,height);
 
       this.player = this.add
       .image(width / 2, height / 2, 'stitch')
