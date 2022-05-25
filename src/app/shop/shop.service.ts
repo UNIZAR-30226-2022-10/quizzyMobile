@@ -113,6 +113,7 @@ export class ShopService {
       'Authorization': `Bearer ${localStorage.getItem('token')}`});
     let options = { headers : headers};
     return new Promise((resolve, reject) => {
+      console.log(item);
       this.http.post(url, {id: item.id},options).subscribe(response => {
         resolve(response);
       }, (error) => {

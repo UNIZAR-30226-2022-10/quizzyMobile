@@ -233,4 +233,8 @@ export class QuestionPage implements OnInit {
     return !(this.cant[id] > 0 && !this.wildcardUse);
   }
 
+  finishTrain(){
+    
+  }
+
 }
