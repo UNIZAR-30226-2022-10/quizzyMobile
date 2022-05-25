@@ -56,9 +56,9 @@ export class BoardPage implements OnInit {
     this.updated = false;
     this.numPlayers = this.activatedRoute.snapshot.paramMap.get('numJugadores');
     for (let i = 0; i < this.numPlayers; i++){
-      let data = this.boardService.getUser('NICKNAME');
-      this.actors[i].name = JSON.parse(JSON.stringify(data["nickname"]));
-      this.actors[i].skin = '../../assets/cosmetics/cosmetic_'+ JSON.parse(JSON.stringify(data["actual_cosmetic"])) + '.png';
+      //let data = this.boardService.getUser('NICKNAME');
+     // this.actors[i].name = JSON.parse(JSON.stringify(data["nickname"]));
+     // this.actors[i].skin = '../../assets/cosmetics/cosmetic_'+ JSON.parse(JSON.stringify(data["actual_cosmetic"])) + '.png';
     }
 
     var config = {
@@ -89,7 +89,7 @@ export class BoardPage implements OnInit {
      */
     function preload() {
       this.load.image('background', 'assets/tableroFinalCentroCompleto.png');
-      this.load.image('stitch', 'assets/cosmetics_10.png');
+      this.load.image('stitch', 'assets/cosmetic_10.png');
       for(let i= 0; i < this.numJugadores; i++){
         this.load.image(this.actors[i].nickname,this.actors[i].skin);
       }
@@ -163,9 +163,9 @@ export class BoardPage implements OnInit {
         font: '16px Courier',
         fill: '#00ff00',
       });
-      this.bg = this.add.image(0, 0, 'background');
+      
       this.bg = this.add.image(width / 2, height / 2, 'background');
-      this.bg.setDisplaySize(width,height);
+      this.bg.setDisplaySize(width/1.75,height/1.75);
 
       this.player = this.add
       .image(width / 2, height / 2, 'stitch')
