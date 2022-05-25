@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { DescriptionComponent } from '../components/description/description.component';
 import { Platform, PopoverController, ToastController } from '@ionic/angular';
+import { InitialMenuPage } from '../initial-menu/initial-menu.page';
 
 @Component({
   selector: 'app-inventory',
@@ -106,6 +107,7 @@ export class InventoryPage implements OnInit {
       'Accept': 'application/json',
       'Authorization': `Bearer ${localStorage.getItem('token')}`});
     let options = { headers : headers};
+    this.router.navigate(['initial-menu']);
     return new Promise(resolve => {
       this.http.put(url, {id: cosmetic}, options).subscribe(data => {
         localStorage.setItem('cosmetic', cosmetic);
