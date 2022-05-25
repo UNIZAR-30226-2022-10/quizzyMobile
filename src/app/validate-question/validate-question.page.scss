@@ -1,3 +1,11 @@
+ion-header{
+  position: initial;
+}
+
+ion-title{
+  font-weight: bold;
+}
+
 #question {
     border: 1px solid #000;
     margin-left: 7.5%;
@@ -7,6 +15,10 @@
 
 #label {
     margin-left: 10%;
+}
+
+#lista{
+  background-color: #e8f0fc;
 }
 
 .opciones {

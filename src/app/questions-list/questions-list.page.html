@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar color="light">
     <ion-buttons slot="start">
       <ion-back-button defaultHref="initial-menu"></ion-back-button>
     </ion-buttons>
@@ -8,8 +8,8 @@
 </ion-header>
 
 <ion-content>
-  <ion-list>
-    <ion-item *ngFor="let item of Question; let i = index" (click)="onClick(i)">
+  <ion-list id="lista">
+    <ion-item *ngFor="let item of Question; let i = index" (click)="onClick(i)" color="light">
       <div>
           {{item.nickname}}</div> <div id="category">{{item.category_name}}
           </div>

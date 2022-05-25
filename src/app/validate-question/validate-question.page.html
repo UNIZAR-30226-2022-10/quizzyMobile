@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar color="light">
     <ion-buttons slot="start">
       <ion-back-button defaultHref="questions-list"></ion-back-button>
     </ion-buttons>
@@ -8,15 +8,15 @@
 </ion-header>
 
 <ion-content>
-    <ion-list>
+    <ion-list id="lista">
       
         <ion-label id="label" position="floating">Suggested Question</ion-label>
         <ion-textarea disabled="true" type="text" name="question" required="true" placeholder="Question" [(ngModel)]="suggestion.question" id="question"></ion-textarea>
         <br>
-        <ion-item class="opciones">
+        <ion-item class="opciones" color="light">
           <ion-label>Category</ion-label>
           <br>
-          <ion-select interface="popover" disabled="true" value="{{suggestion.category}}">
+          <ion-select interface="popover" disabled="true" value="{{suggestion.category}}" color="light">
             <ion-select-option value="History">History</ion-select-option>
             <ion-select-option value="Art">Art</ion-select-option>
             <ion-select-option value="Geography">Geography</ion-select-option>
@@ -26,7 +26,7 @@
           </ion-select>
         </ion-item>
         <br>
-        <ion-item class="opciones">
+        <ion-item class="opciones" color="light">
           <ion-label>Difficulty</ion-label>
           <ion-select interface="popover" disabled="true" value="{{suggestion.difficulty}}">
             <ion-select-option value="easy">Easy</ion-select-option>
