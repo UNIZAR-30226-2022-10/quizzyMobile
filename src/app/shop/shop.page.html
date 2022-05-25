@@ -61,7 +61,7 @@
 
           <img src={{i.src}} id="cosmetico"/>
 
-          <ion-button color="primary" (click)="buyWildcards(i)" id="but" [disabled]="disableButton(i.items.cosmetic_id)">
+          <ion-button color="primary" (click)="buyCosmetics(i)" id="but" [disabled]="disableButton(i.items.cosmetic_id)">
             <ion-icon name="add" slot="start"></ion-icon>
             <ion-label>
               <b> {{ i.items.price}} $ </b>
