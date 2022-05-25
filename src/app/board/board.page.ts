@@ -2,11 +2,16 @@ import { Component, OnInit } from '@angular/core';
 import { fromEvent, tap, Observable, Subscription, of } from 'rxjs';
 import { TrivialCell } from './trivial-cell';
 import { ScreenOrientation } from '@awesome-cordova-plugins/screen-orientation/ngx';
-import { Player } from './player';
 import { PopoverController } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
 import { DiceComponent } from '../components/dice/dice.component';
 
+export interface Player {
+  id: number;
+  name: string;
+  skin: string;
+  categoryAchieved: Array<string>;
+}
 declare let Phaser;
 @Component({
   selector: 'app-board',
@@ -18,6 +23,8 @@ export class BoardPage implements OnInit {
   config: any;
   player: any;
   cells: any;
+  numPlayers: any;
+  actors: Player[];
   constructor(
     private screenOrientation: ScreenOrientation,
     private activatedRoute: ActivatedRoute,
@@ -31,6 +38,11 @@ export class BoardPage implements OnInit {
   }
 
   ngOnInit(): void {
+    this.numPlayers = this.activatedRoute.snapshot.paramMap.get('numJugadores');
+    for (let i = 0; i < this.numPlayers; i++){
+      this.actors.push({id: i+1, name: 'Player 1', skin:'assets/stitch', categoryAchieved: null});
+    }
+
     var config = {
       type: Phaser.AUTO,
       width: 800,
@@ -60,6 +72,9 @@ export class BoardPage implements OnInit {
     function preload() {
       this.load.image('background', 'assets/tableroFinalCentroCompleto.png');
       this.load.image('stitch', 'assets/stitch.png');
+      for(let i= 0; i < this.numJugadores; i++){
+        this.load.image('player'+(i+1).toString(),this.actors[i].skin);
+      }
     }
 
     /**
@@ -68,7 +83,7 @@ export class BoardPage implements OnInit {
      */
     function create() {
       this.cells =[
-        new TrivialCell( 0,772, 346), // 0
+        new TrivialCell( 0,this.game.width / 2, this.game.height / 2), // 0
         new TrivialCell( 1,767, 245),
         new TrivialCell( 2,767, 211),
         new TrivialCell( 3,767, 171),
@@ -142,37 +157,12 @@ export class BoardPage implements OnInit {
         .image(width / 2, height / 2, 'stitch')
         .setInteractive();
       this.stitch.setScale(0.1, 0.1);
-      this.stitch.on('click', function () {
-        
-      });
 
-      this.stitch.on('pointerout', function () {
-        this.clearTint();
-      });
-      console.log(this);
+      //this.scale.on('resize', resize, this);
 
-      this.input.setDraggable(this.stitch);
+      //showMovement([10, 54, 8], this, this.player);
+      movePlayer(this.player, this.cells[0].getx(), this.cells[0].gety());
 
-      this.input.on('dragstart', function (pointer, gameObject) {
-        gameObject.setTint(0xff0000);
-      });
-
-      this.input.on('drag', function (pointer, gameObject, dragX, dragY) {
-        gameObject.x = dragX;
-        gameObject.y = dragY;
-      });
-
-      this.input.on('dragend', function (pointer, gameObject) {
-        gameObject.clearTint();
-      });
-
-      this.scale.on('resize', resize, this);
-
-      let mov = showMovement([10, 54, 8], this, this.player);
-
-      console.log("Salgo");
-      console.log(mov);
-      //movePlayer(this.player,this.cells[mov].getx(), this.cells[mov].gety());
     }
 
     /**
@@ -195,17 +185,15 @@ export class BoardPage implements OnInit {
         player.y = y;
     }
 
-    function showMovement(arrayPos, thiss, player): number{
+    function showMovement(arrayPos, thiss, player){
       let possibilities = [];
       let numberReturn = 0;
-      let pushed = false;
       for(let i= 0; i < arrayPos.length; i++){
         possibilities[i] = thiss.add.image(thiss.cells[arrayPos[i]].getx(), thiss.cells[arrayPos[i]].gety(), 'stitch').setInteractive();
         possibilities[i].setScale(0.1,0.1); 
 
         possibilities[i].on('pointerdown', function() {
           this.setTint(0xff0000);
-          pushed = true;
           numberReturn = arrayPos[i];
           console.log(numberReturn);
 
@@ -214,17 +202,10 @@ export class BoardPage implements OnInit {
               iter.destroy();
             }
             movePlayer(player,thiss.cells[numberReturn].getx(), thiss.cells[numberReturn].gety());
-            return numberReturn;
+            
           });
         });
 
-        if(pushed){
-          for (const iter of possibilities) {
-            iter.destroy();
-            console.log(iter);
-          }
-          return numberReturn;
-        }
       }
     }
     /**

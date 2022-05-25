@@ -18,7 +18,8 @@
     <ion-icon name="dice"></ion-icon>
   </ion-button>
 </ion-buttons>
-  <!--<ion-split-pane when="sm">
+
+  <ion-split-pane when="sm">
   <ion-menu>
     <ion-header> 
       <ion-toolbar color="tertiary">
@@ -30,11 +31,11 @@
       <ion-list>
         <ion-menu-toggle >
           <ion-item button *ngFor="let i of actors">
-            <ion-icon slot="start" name="people"> </ion-icon>
-            <ion-label> Player </ion-label>
+            <ion-img src= {{i.skin}}> </ion-img>
+            <ion-label> {{i.name}} </ion-label>
           </ion-item>
         </ion-menu-toggle>
       </ion-list>
     </ion-content>
   </ion-menu>
-</ion-split-pane> -->
+</ion-split-pane> 

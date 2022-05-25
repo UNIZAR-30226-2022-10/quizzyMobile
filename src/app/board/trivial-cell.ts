@@ -1,24 +1,17 @@
-import { Actor } from './actor';
-import * as PIXI from 'pixi.js';
 
 export interface Coor {
     x: number;
     y: number;
   }
 
-export class TrivialCell extends Actor{
+export class TrivialCell {
     public numX: number;
     public numY: number;
 
     constructor(id: number, x: number, y: number){
-        super();
 
         this.numX = x;
         this.numY = y;
-
-        //this.beginFill(0xccefef);
-        //this.drawCircle(0, 0, 10);
-        //this.endFill();
 
     }
 
@@ -28,5 +21,10 @@ export class TrivialCell extends Actor{
 
     gety(): number{
         return this.numY;
+    }
+
+    callQuestion(){
+        //funcion Back que nos diga que categoria es
+        //navigate question
     }
 }

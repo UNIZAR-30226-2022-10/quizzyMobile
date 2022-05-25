@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-dice',
@@ -6,6 +6,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./dice.component.scss'],
 })
 export class DiceComponent implements OnInit {
+
+  @Input() num: number;
 
   img: string;
   click: boolean;
