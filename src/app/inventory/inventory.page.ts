@@ -27,7 +27,7 @@ export class InventoryPage implements OnInit {
 
     this.getItemsCosmetics().then(data => {
       JSON.parse(JSON.stringify(data["cosmetics"])).forEach( e => {
-        this.Cosmetics.push({items: e, src:"../../assets/cosmetics/cosmetic_" + e.cosmetic_id + ".jpg"})
+        this.Cosmetics.push({items: e, src:"../../assets/cosmetics/cosmetic_" + e.cosmetic_id + ".png"})
       }
       ); 
     });

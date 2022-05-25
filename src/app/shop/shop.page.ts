@@ -61,7 +61,7 @@ export class ShopPage implements OnInit {
     this.shopService.getItemsCosmetics().then(data => {
       JSON.parse(JSON.stringify(data["cosmetics"])).forEach(e => {
 
-          this.itemCosmetics.push({items: e, src:"../../assets/cosmetics/cosmetic_" + e.cosmetic_id + ".jpg"});
+          this.itemCosmetics.push({items: e, src:"../../assets/cosmetics/cosmetic_" + e.cosmetic_id + ".png"});
       }); 
     });
   }

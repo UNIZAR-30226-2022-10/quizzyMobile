@@ -14,7 +14,7 @@ export class ListFriendsPage implements OnInit {
   friends: any; // user + idCosm
 
   cosm(id):string {
-    return "../../assets/cosmetics/cosmetic_" + id + ".jpg";
+    return "../../assets/cosmetics/cosmetic_" + id + ".png";
   }
 
   /*  { username: 'Darío', img: "../../assets/icon/a.jpg"},

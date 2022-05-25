@@ -59,7 +59,7 @@ export class InitialMenuPage implements OnInit {
         this.coins = JSON.parse(JSON.stringify(e["wallet"]));
         this.cosmetic = JSON.parse(JSON.stringify(e["actual_cosmetic"]));
         localStorage.setItem('cosmetic', this.cosmetic);
-        this.cosmetic_src = "../../assets/cosmetics/cosmetic_" + this.cosmetic + ".jpg";
+        this.cosmetic_src = "../../assets/cosmetics/cosmetic_" + this.cosmetic + ".png";
       });
       //console.log(this.cosmetic);
       //this.cosmetic_src = "../../assets/cosmetics/cosmetic_" + this.cosmetic + ".jpg";
