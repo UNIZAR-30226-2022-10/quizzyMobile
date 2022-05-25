@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common'
 import { ScreenOrientation } from '@awesome-cordova-plugins/screen-orientation/ngx';
 import { ActivatedRoute, Router } from '@angular/router';
+import { TrainResumeComponent } from '../components/train-resume/train-resume.component';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Platform } from '@ionic/angular';
+import { Platform, PopoverController } from '@ionic/angular';
 
 @Component({
   selector: 'app-question',
@@ -12,17 +13,13 @@ import { Platform } from '@ionic/angular';
 })
 export class QuestionPage implements OnInit {
 
-  questionOptions:any;
+  questionOptions: any;
+
+  questionAnswers: Array<{category: string, total: number, correct: number}>;
 
   respuesta:boolean=false;
-  constructor(public location: Location, public http:HttpClient, public platform: Platform, public router: Router, private screenOrientation: ScreenOrientation) {
+  constructor(public location: Location, public http:HttpClient, public platform: Platform, public router: Router, private screenOrientation: ScreenOrientation, public popoverController: PopoverController) {
     this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.LANDSCAPE);
-    this.platform.backButton.subscribeWithPriority(100, () => {
-      this.screenOrientation.unlock();
-      clearInterval(this.timer);
-      clearInterval(this.cancel);
-      this.router.navigate(['/initial-menu']);
-    });
   }
   
   disable : Array<boolean> = [
@@ -41,7 +38,7 @@ export class QuestionPage implements OnInit {
   ]
 
   wildcardUse : boolean;
-
+  categ: any;
 
   time = 150;
   timeleft = 150;
@@ -56,16 +53,23 @@ export class QuestionPage implements OnInit {
   position : any;
 
   ngOnInit() {
-
+    this.categ = '';
     this.wild = [];
     this.cant = [];
     this.iden = [];
+    this.questionAnswers = [];
+
+    
 
     this.questionOptions = this.location.getState();
-    console.log(this.questionOptions);
+    //console.log(this.questionOptions);
+
+    this.questionOptions.categories.forEach(e => {
+      this.questionAnswers.push({category: e.name, total: 0, correct: 0});
+    });
 
     this.getQuestion(this.questionOptions);
-
+    
     this.getUserWildcards().then(data => { 
       JSON.parse(JSON.stringify(data["wildcards"])).forEach(e => {
         this.wild.push(e.wname);
@@ -74,7 +78,7 @@ export class QuestionPage implements OnInit {
       }); 
     });
 
-    console.log(this.wild);
+   // console.log(this.wild);
 
     this.Showprogress();
   } 
@@ -94,12 +98,19 @@ export class QuestionPage implements OnInit {
     this.timeleft = this.timeleft-1; 
     if(this.timeleft==0)
     {
+      this.questionAnswers.forEach(e => {
+        if (e.category == this.categ){
+          e.total++;
+        }
+      });
       this.time = 150;
       this.timeleft = 150;
       clearInterval(this.timer);
       clearInterval(this.cancel);
       this.getQuestion(this.questionOptions);
       this.Showprogress();
+      console.log("Respuesta incorrecta");
+      console.log(this.questionAnswers);      
     }
   }
 
@@ -107,11 +118,26 @@ export class QuestionPage implements OnInit {
   onClick(id) {
     if(this.answers[id].correct===true)
     {
+      
+      this.questionAnswers.forEach(e => {
+        if (e.category == this.categ){
+          e.total++;
+          e.correct++;
+        }
+      });
       console.log("Respuesta correcta");
+      console.log(this.questionAnswers);
     }
     else
     {
+      this.questionAnswers.forEach(e => {
+        if (e.category == this.categ){
+          e.total++;
+          console.log(e.category, this.categ);
+        }
+      });
       console.log("Respuesta incorrecta");
+      console.log(this.questionAnswers);
     }
 
     this.time = 150;
@@ -124,6 +150,7 @@ export class QuestionPage implements OnInit {
 
 
   getQuestion(questionOptions){
+
     const url = 'http://quizzyappbackend.herokuapp.com/questions';
     
     let params = new HttpParams();
@@ -144,6 +171,7 @@ export class QuestionPage implements OnInit {
         let question = data["questions"][0];
 
         this.quest = question.question;
+        this.categ = questionOptions.categories[num | 0].name;
 
         this.position = (Math.random() * 4) | 0;
         console.log(this.position);
@@ -190,15 +218,17 @@ export class QuestionPage implements OnInit {
    *
    * @returns All the wildcards
    */
-   wildcardUseApi(){
-    const url = 'http://quizzyappbackend.herokuapp.com/user/wildcards';
+   wildcardUseApi(id){
+    const url = 'http://quizzyappbackend.herokuapp.com/user/use';
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Accept': 'aplication/json',
       'Authorization': `Bearer ${localStorage.getItem('token')}`});
-    let options = { headers : headers};
+      let params = new HttpParams()
+      .set('id', id)
+    let options = { headers : headers, params: params};
     return new Promise(resolve => {
-      this.http.get(url,options).subscribe(data => {
+      this.http.put(url, {}, options).subscribe(data => {
         console.log(data);
         resolve(data);
       }, error => {
@@ -213,13 +243,15 @@ export class QuestionPage implements OnInit {
 
       this.cant[1]--;
       console.log("50 TO 50", this.position);
-
+      this.wildcardUseApi(1);
       this.disable[(this.position + 3) % 4] = true;
       this.disable[(this.position + 5) % 4] = true;
     }
     else{
       this.cant[0]--;
       clearInterval(this.cancel);
+
+      this.wildcardUseApi(2);
 
       this.timeleft = this.timeleft + 150;
       this.time = this.time + 150;
@@ -233,8 +265,17 @@ export class QuestionPage implements OnInit {
     return !(this.cant[id] > 0 && !this.wildcardUse);
   }
 
-  finishTrain(){
-    
+  async finishTrain(){
+
+    clearInterval(this.timer);
+    clearInterval(this.cancel);    
+
+    const popover = await this.popoverController.create({
+      component: TrainResumeComponent,
+      componentProps: {answers: this.questionAnswers}
+    });
+  
+    await popover.present();
   }
 
 }
