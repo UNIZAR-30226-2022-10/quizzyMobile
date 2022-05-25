@@ -1,6 +1,3 @@
-<ion-content>
-   <div id="phaser-game" class="absolute"></div> 
-</ion-content>
 <ion-buttons color="dark" slot="start" class ="front">
     <ion-back-button
       defaultHref="home"
@@ -9,17 +6,17 @@
     <ion-button class="front" id="menu">
       <ion-icon slot="icon-only" name="menu"></ion-icon>
     </ion-button>
+    <ion-button href="chat">
+      <ion-icon name="chatbubbles"></ion-icon>
+    </ion-button>
+    <ion-button (click)="showDice()">
+      <ion-icon name="dice"></ion-icon>
+    </ion-button>
 </ion-buttons>
-<ion-buttons class="front" slot="end" id="buttonsPlayers">
-  <ion-button href="chat">
-    <ion-icon name="chatbubbles"></ion-icon>
-  </ion-button>
-  <ion-button (click)="showDice()">
-    <ion-icon name="dice"></ion-icon>
-  </ion-button>
-</ion-buttons>
-
-  <ion-split-pane when="sm">
+<ion-content>
+  <div id="phaser-game" class="absolute"></div> 
+</ion-content>
+<!--  <ion-split-pane when="sm">
   <ion-menu>
     <ion-header> 
       <ion-toolbar color="tertiary">
@@ -38,4 +35,4 @@
       </ion-list>
     </ion-content>
   </ion-menu>
-</ion-split-pane> 
+</ion-split-pane> -->
