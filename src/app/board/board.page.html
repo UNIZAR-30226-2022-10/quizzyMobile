@@ -1,38 +1,16 @@
-<!-- <ion-buttons color="dark" slot="start" class ="front">
-    <ion-back-button
-      defaultHref="home"
-      (click)="unlockOrientation()"
-    ></ion-back-button>
-    <ion-button class="front" id="menu">
-      <ion-icon slot="icon-only" name="menu"></ion-icon>
-    </ion-button>
-    <ion-button href="chat">
-      <ion-icon name="chatbubbles"></ion-icon>
-    </ion-button>
-    <ion-button (click)="showDice()" >
-      <ion-icon name="dice"></ion-icon>
-    </ion-button>
-</ion-buttons> -->
 <ion-content>
-  <div id="phaser-game" class="absolute"></div> 
+  <div id="phaser-game" class="absolute">
+      <button class="chat">
+        <ion-icon size="large" name="chatbubbles"></ion-icon>
+      </button>
+      <button class="players">
+        <ion-icon size="large" name="people"></ion-icon>
+      </button>
+      <button class="quit" (click)="returnMenu()">
+        <ion-icon size="large" name="close"></ion-icon>
+      </button>
+      <button class="dice" (click)="showDice()">
+        <ion-icon size="large" name="dice"></ion-icon>
+      </button>
+  </div> 
 </ion-content>
-<!--  <ion-split-pane when="sm">
-  <ion-menu>
-    <ion-header> 
-      <ion-toolbar color="tertiary">
-        <ion-title> Players </ion-title>
-      </ion-toolbar>
-    </ion-header>
-
-    <ion-content>
-      <ion-list>
-        <ion-menu-toggle >
-          <ion-item button *ngFor="let i of actors">
-            <ion-img src= {{i.skin}}> </ion-img>
-            <ion-label> {{i.name}} </ion-label>
-          </ion-item>
-        </ion-menu-toggle>
-      </ion-list>
-    </ion-content>
-  </ion-menu>
-</ion-split-pane> -->
