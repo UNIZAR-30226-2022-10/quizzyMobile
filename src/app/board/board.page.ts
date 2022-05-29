@@ -2,12 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { fromEvent, tap, Observable, Subscription, of, windowWhen } from 'rxjs';
 import { TrivialCell } from './trivial-cell';
 import { ScreenOrientation } from '@awesome-cordova-plugins/screen-orientation/ngx';
-import { PopoverController, RouterLinkDelegate } from '@ionic/angular';
+import { MenuController, PopoverController, RouterLinkDelegate } from '@ionic/angular';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DiceComponent } from '../components/dice/dice.component';
 import { BoardService } from './board.service';
 import { Socket } from 'ngx-socket-io';
-
+import { async } from '@angular/core/testing';
+import { TokensCardComponent } from '../components/tokens-card/tokens-card.component';
+      
 export interface Player {
   id: number;
   name: string;
@@ -27,12 +29,6 @@ export class BoardPage implements OnInit {
   cells: any;
   numPlayers: any;
   actors: Player[] = [
-    {id: 1, name: null, skin: null, categoryAchieved: null},
-    {id: 2, name: null, skin: null, categoryAchieved: null},
-    {id: 3, name: null, skin: null, categoryAchieved: null},
-    {id: 4, name: null, skin: null, categoryAchieved: null},
-    {id: 5, name: null, skin: null, categoryAchieved: null},
-    {id: 6, name: null, skin: null, categoryAchieved: null},
   ];
   num: number;
   updated: boolean;
@@ -43,9 +39,23 @@ export class BoardPage implements OnInit {
     private activatedRoute: ActivatedRoute,
     private popoverCtrl: PopoverController,
     private boardService: BoardService, 
-    private socket: Socket
+    private socket: Socket,
+    private menu: MenuController
   ) {
     this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.LANDSCAPE);
+  }
+
+  showChat() {
+    this.menu.enable(true, 'second');
+    this.menu.open('second');
+  }
+
+  async showTokens() {
+    const popover = await this.popoverCtrl.create({
+      component: TokensCardComponent,
+    });
+
+    await popover.present();
   }
 
   returnMenu() {
@@ -60,9 +70,10 @@ export class BoardPage implements OnInit {
     this.numPlayers = this.activatedRoute.snapshot.paramMap.get('numJugadores');
     for (let i = 0; i < this.numPlayers; i++){
       //let data = this.boardService.getUser('NICKNAME');
-     // this.actors[i].name = JSON.parse(JSON.stringify(data["nickname"]));
-     // this.actors[i].skin = '../../assets/cosmetics/cosmetic_'+ JSON.parse(JSON.stringify(data["actual_cosmetic"])) + '.png';
-    }
+      //this.actors.push({id:i+1, name:JSON.parse(JSON.stringify(data["nickname"])), skin:'../../assets/cosmetics/cosmetic_'+ JSON.parse(JSON.stringify(data["actual_cosmetic"])) + '.png', categoryAchieved:[]})
+      this.actors.push({id:i+1, name:'juan', skin:'../../assets/cosmetic_10.png', categoryAchieved:['art']})
+      //let data = this.boardService.getUser('NICKNAME');
+     }
 
     var config = {
       type: Phaser.AUTO,
@@ -81,7 +92,7 @@ export class BoardPage implements OnInit {
       scene: {
         preload: preload,
         create: create,
-        update: update,
+        //update: update,
       },
     };
 
@@ -259,7 +270,7 @@ export class BoardPage implements OnInit {
      * of requests. If you need to interact with the backend, this should be done via
      * events on the create function.
      */
-    function update() {
+    /*function update() {
       var p = this.input.activePointer;
 
       this.text.setText([
@@ -268,10 +279,14 @@ export class BoardPage implements OnInit {
         'duration: ' + p.getDuration(),
       ]);
 
-    }
+    }*/
 
   }
 
+  showPlayers(){
+    this.menu.enable(true, 'first');
+    this.menu.open('first');
+  }
 
 
   async showDice(){

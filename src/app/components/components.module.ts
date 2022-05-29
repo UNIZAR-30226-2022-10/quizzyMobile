@@ -14,6 +14,7 @@ import { MbscModule } from '@mobiscroll/angular';
 import { OptionsComponent } from './options/options.component';
 import { OptionsAdminComponent } from './options-admin/options-admin.component';
 import { DiceComponent } from './dice/dice.component';
+import { TokensCardComponent } from './tokens-card/tokens-card.component';
 
 
 
@@ -29,7 +30,8 @@ import { DiceComponent } from './dice/dice.component';
     IntroduceCodeComponent,
     OptionsAdminComponent,
     OptionsComponent,
-    DiceComponent
+    DiceComponent,
+    TokensCardComponent
   ],
   exports: [
     ListaPartidasComponent,

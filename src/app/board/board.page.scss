@@ -10,6 +10,28 @@
     display:inline-block;
 }
 
+#players-list {
+    height: 100%;
+}
+
+#cosmetico{
+    height: 2.5rem;
+    margin-right: 1.5rem;
+}
+
+#container{
+    height: 2.5rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 5%;
+    margin-top: 5%;
+}
+
+#pop {
+    height: 100%;
+}
+
 .players{
     z-index: 1;
     position: absolute;

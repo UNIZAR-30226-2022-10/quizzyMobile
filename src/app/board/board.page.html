@@ -1,16 +1,46 @@
 <ion-content>
   <div id="phaser-game" class="absolute">
-      <button class="chat">
+      <button class="chat" (click)="showChat()">
         <ion-icon size="large" name="chatbubbles"></ion-icon>
       </button>
-      <button class="players">
+      <button class="players" id="players" (click)="showPlayers()">
         <ion-icon size="large" name="people"></ion-icon>
       </button>
+      <ion-menu side="start" menuId="second" contentId="main">
+        <ion-label>Escribe aquí</ion-label>
+        <ion-textarea></ion-textarea>
+      </ion-menu>
+      <ion-menu side="end" menuId="first" contentId="main">
+        <ion-header>
+          <ion-toolbar color="primary">
+            <ion-title>Players</ion-title>
+          </ion-toolbar>
+        </ion-header>
+        <ion-content>
+          <ion-list>
+            <ion-card *ngFor="let item of actors; let i index" id="friend" color="tertiary" (click)="showTokens(i)">
+              <ion-card-content>
+                <ion-row class="ion-align-items-center">
+                  <div id="container">
+                    <img src={{item.skin}} id="cosmetico"/>
+                  <div id="container-inner">
+                    <ion-label>
+                      <b>{{item.name}}</b>
+                    </ion-label>
+                  </div>
+                </div>
+                </ion-row>
+              </ion-card-content>
+            </ion-card>
+          </ion-list>
+        </ion-content>
+      </ion-menu>
       <button class="quit" (click)="returnMenu()">
         <ion-icon size="large" name="close"></ion-icon>
       </button>
       <button class="dice" (click)="showDice()">
         <ion-icon size="large" name="dice"></ion-icon>
       </button>
+      <ion-router-outlet id="main"></ion-router-outlet>
   </div> 
 </ion-content>
