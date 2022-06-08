@@ -55,20 +55,20 @@ export class WebSocketProvider{
      return this.socket.fromEvent('public:startTurn');
    }
 
-   pausePublic(){
-     this.socket.emit('public:pause');
+   pausePublic(data){
+     this.socket.emit('public:pause', {data});
    }
 
    responsePausePublic(){
      return this.socket.fromEvent('public:pause');
    }
 
-   resumePublic(){
-     this.socket.emit('public:resume');
+   resumePublic(data){
+     this.socket.emit('public:resume',{data});
    }
 
-   responseResumePublic(data){
-     return this.socket.fromEvent('public:resume');
+   responseResumePublic(){
+     return this.socket.fromEvent('public:resume', );
    }
 
 }
