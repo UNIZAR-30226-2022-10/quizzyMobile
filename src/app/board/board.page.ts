@@ -7,6 +7,7 @@ import { ActivatedRoute } from '@angular/router';
 import { DiceComponent } from '../components/dice/dice.component';
 import { BoardService } from './board.service';
 import { Socket } from 'ngx-socket-io';
+import { WebSocketProvider } from '../web-socket.service';
 
 export interface Player {
   id: number;
@@ -42,7 +43,8 @@ export class BoardPage implements OnInit {
     private activatedRoute: ActivatedRoute,
     private popoverCtrl: PopoverController,
     private boardService: BoardService, 
-    private socket: Socket
+    private socket: Socket,
+    private webSocket: WebSocketProvider
   ) {
     this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.LANDSCAPE);
   }
@@ -52,14 +54,13 @@ export class BoardPage implements OnInit {
   }
 
   ngOnInit(): void {
-    this.socket.ioSocket.io.opts.query = { Authorization: `${localStorage.getItem('token')}`};
     this.updated = false;
     this.numPlayers = this.activatedRoute.snapshot.paramMap.get('numJugadores');
-    for (let i = 0; i < this.numPlayers; i++){
+    /*for (let i = 0; i < this.numPlayers; i++){
       let data = this.boardService.getUser('NICKNAME');
       this.actors[i].name = JSON.parse(JSON.stringify(data["nickname"]));
       this.actors[i].skin = '../../assets/cosmetics/cosmetic_'+ JSON.parse(JSON.stringify(data["actual_cosmetic"])) + '.png';
-    }
+    }*/
 
     var config = {
       type: Phaser.AUTO,
@@ -89,7 +90,7 @@ export class BoardPage implements OnInit {
      */
     function preload() {
       this.load.image('background', 'assets/tableroFinalCentroCompleto.png');
-      this.load.image('stitch', 'assets/cosmetics_10.png');
+      this.load.image('stitch', 'assets/cosmetic_10.png');
       for(let i= 0; i < this.numJugadores; i++){
         this.load.image(this.actors[i].nickname,this.actors[i].skin);
       }
@@ -163,9 +164,10 @@ export class BoardPage implements OnInit {
         font: '16px Courier',
         fill: '#00ff00',
       });
-      this.bg = this.add.image(0, 0, 'background');
+      //this.bg = this.add.image(0, 0, 'background');
       this.bg = this.add.image(width / 2, height / 2, 'background');
-      this.bg.setDisplaySize(width,height);
+      this.bg.setDisplaySize(width / 2,height / 2);
+      //this.bg.setScale(0.2,0.2);
 
       this.player = this.add
       .image(width / 2, height / 2, 'stitch')
@@ -179,16 +181,18 @@ export class BoardPage implements OnInit {
  
       //this.stitch.setScale(0.1, 0.1);
 
-      this.scale.on('resize', resize, this);
+      //this.scale.on('resize', resize, this);
 
       // mientras no se haya acabado el juego 
 
-      waitTurn();
+      while(true){
+        waitTurn();
 
-      roll();
-      showMovement([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54], this, this.player);
+        roll();
+        showMovement([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54], this, this.player);
 
-      endTurn();
+        endTurn();
+      }
       //movePlayer(this.player,this.cells[23].getx(), this.cells[23].gety());
     }
 
@@ -208,7 +212,7 @@ export class BoardPage implements OnInit {
     }
 
     function roll() {
-      //socket.emit('')
+      
     }
     function movePlayer(player, x, y){
         player.x = x;
@@ -240,7 +244,6 @@ export class BoardPage implements OnInit {
     }
 
     function waitTurn(){
-
     }
 
     function endTurn() {
