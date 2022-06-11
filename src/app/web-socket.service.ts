@@ -1,9 +1,6 @@
-import { Injectable, Output } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Socket } from 'ngx-socket-io';
-import { environment } from 'src/environments/environment';
-import { CookieService } from 'ngx-cookie-service';
-import { Observable } from 'rxjs';
-import { map } from '@mobiscroll/angular/dist/js/core/util/misc';
+
 
 @Injectable({
   providedIn: 'root'
@@ -12,63 +9,182 @@ export class WebSocketProvider{
 
   constructor(public socket: Socket) {}
 
-   connectSocket(){
+  connectSocket(){
      console.log("INTENTO CONEXION");
      this.socket.connect();
-     console.log("CONECTADO, QUIZAS")
-   }
+     console.log("CONECTADO, QUIZAS");
+  }
 
-   disconnectSocket() {
+  disconnectSocket() {
       this.socket.disconnect();
-   }
+  }
 
-   joinPublicGame(){
+  joinPublicGame(){
      this.socket.emit('public:join');
-   }
+  }
 
-   responseJoinPublicGame(){
+  responseJoinPublicGame(){
       return this.socket.fromEvent('public:join');
-   }
+  }
 
-   leavePublicGame(){
+  createPrivateGame(data){
+     this.socket.emit('private:create', data);
+  }
+
+  responseCreatePrivateGame(){
+     return this.socket.fromEvent('private:create');
+  }
+
+  joinPrivateGame(rid){
+     this.socket.emit('private:join',{rid});
+  }
+
+  responseJoinPrivateGame(){
+     return this.socket.fromEvent('private:join');
+  }
+
+  leavePublicGame(){
      this.socket.emit('public:leave');
-   }
+  }
 
-   responseLeavePublicGame(){
+  responseLeavePublicGame(){
      return this.socket.fromEvent('public:leave');
-   }
-
-   makeMove(data){
-    this.socket.emit('public:makeMove', {data});
   }
 
-  responseMakeMove(){
-    return this.socket.fromEvent('public:makeMove');
+  leavePrivateGame(rid){
+     this.socket.emit('private:leave',{rid});
   }
 
-   startTurn(rid) {
-     this.socket.emit('public:startTurn', {rid});
-   }
+  responseLeavePrivateGame(){
+     return this.socket.fromEvent('private:leave');
+  }
+
+  startGamePrivate(rid){
+     this.socket.emit('private:start', {rid});
+  }
+
+  responseStartGamePrivate(){
+      return this.socket.fromEvent('private:start');
+  }
+
+  cancelGamePrivate(rid){
+     this.socket.emit('private:cancel',{rid});
+  }
+
+  responseCancelGamePrivate(){
+     return this.socket.fromEvent('private:cancel');
+  }
+
+  makeMove(publico,data){
+     if(publico){
+        this.socket.emit('public:makeMove', data);
+     }
+     else {
+        this.socket.emit('private:makeMove', data);
+     }
+  }
+
+  responseMakeMove(publico){
+     if(publico){
+        return this.socket.fromEvent('public:makeMove');
+     }
+     else {
+        return this.socket.fromEvent('private:makeMove');
+     }
+  }
+
+  questionTimeout(){
+      return this.socket.fromEvent('server:timeout');
+  }
+  turn(){
+    return this.socket.fromEvent('server:turn');
+  }
+
+  winner(){
+    return this.socket.fromEvent('server:winner');
+  }
+
+  startTurn(publico,rid) {
+     if(publico){
+        this.socket.emit('public:startTurn', {rid});
+     }
+     else {
+        this.socket.emit('private:startTurn', {rid});
+     }
+  }
 
    // PARA USARLO this.socketService.responseStartTurn().subscribe((data: any) => variable = data)
-   responseStartTurn(){
-     return this.socket.fromEvent('public:startTurn');
-   }
+  responseStartTurn(pub){
+     if(pub){
+        return this.socket.fromEvent('public:startTurn');
+     }
+     else {
+        return this.socket.fromEvent('private:startTurn');
+     }
+  }
 
-   pausePublic(data){
-     this.socket.emit('public:pause', {data});
-   }
+  pause(pub,data){
+     if(pub){
+         this.socket.emit('public:pause', {data});
+     }
+     else {
+         this.socket.emit('private:pause', {data});
+     }
+  }
 
-   responsePausePublic(){
-     return this.socket.fromEvent('public:pause');
-   }
+  responsePause(pub){
+     if(pub){
+        return this.socket.fromEvent('public:pause');
+     }
+     else {
+        return this.socket.fromEvent('private:pause');
+     }
+  }
 
-   resumePublic(data){
-     this.socket.emit('public:resume',{data});
-   }
+  resume(pub,data){
+      if(pub){
+         this.socket.emit('public:resume',{data});
+      }
+      else {
+         this.socket.emit('private:resume',{data});
+      }
+  }
 
-   responseResumePublic(){
-     return this.socket.fromEvent('public:resume', );
-   }
+  responseResume(pub){
+     if(pub){
+        return this.socket.fromEvent('public:resume');
+     }
+     else{
+        return this.socket.fromEvent('private:resume');
+     }
 
+  }
+
+  listenNewPlayers(){
+     return this.socket.fromEvent('server:private:player:join');
+  }
+
+  listenLeavePlayers(){
+     return this.socket.fromEvent('server:private:player:leave');
+  }
+
+  joinChat(rid){
+     this.socket.emit('chat:join', {rid});
+  }
+
+  responseJoinChat(){
+     return this.socket.fromEvent('chat:join');
+  }
+
+  sendMessage(data){
+     this.socket.emit('chat:send', {data});
+  }
+
+  responseSendMessage(){
+     return this.socket.fromEvent('chat:send');
+  }
+
+  subscribeToMessage(){
+      return this.socket.fromEvent('chat:message');
+  }
 }

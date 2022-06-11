@@ -22,6 +22,7 @@ export class HomePage {
   constructor(public platform: Platform, public webSocket: WebSocketProvider) {
     this.platform.backButton.subscribeWithPriority(100, () => {
       navigator['app'].exitApp();
+      //Cambiarlo de lugar (socket)
       this.webSocket.disconnectSocket();
     });
     this.webSocket.connectSocket();

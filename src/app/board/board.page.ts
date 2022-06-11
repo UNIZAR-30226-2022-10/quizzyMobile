@@ -10,7 +10,7 @@ import { Socket } from 'ngx-socket-io';
 import { async } from '@angular/core/testing';
 import { TokensCardComponent } from '../components/tokens-card/tokens-card.component';
 import { WebSocketProvider } from '../web-socket.service';
-      
+
 export interface Player {
   id: number;
   name: string;
@@ -35,11 +35,11 @@ export class BoardPage implements OnInit {
   updated: boolean;
 
   constructor(
-    public router:Router,
+    public router: Router,
     private screenOrientation: ScreenOrientation,
     private activatedRoute: ActivatedRoute,
     private popoverCtrl: PopoverController,
-    private boardService: BoardService, 
+    private boardService: BoardService,
     private socket: Socket,
     private menu: MenuController,
     private socketService: WebSocketProvider
@@ -179,7 +179,7 @@ export class BoardPage implements OnInit {
         font: '16px Courier',
         fill: '#00ff00',
       });
-      
+
       this.bg = this.add.image(width / 2, height / 2, 'background');
       this.bg.setDisplaySize(width,height);
 
@@ -192,12 +192,12 @@ export class BoardPage implements OnInit {
       //this.stitch = this.add
         //.image(width / 2, height / 2, 'stitch')
         //.setInteractive();
- 
+
       //this.stitch.setScale(0.1, 0.1);
 
       this.scale.on('resize', resize, this);
 
-      // mientras no se haya acabado el juego 
+      // mientras no se haya acabado el juego
 
       waitTurn();
 
@@ -211,10 +211,10 @@ export class BoardPage implements OnInit {
 
     /**
      * Resize handler.
-     * @param gameSize 
-     * @param baseSize 
-     * @param displaySize 
-     * @param resolution 
+     * @param gameSize
+     * @param baseSize
+     * @param displaySize
+     * @param resolution
      */
     function resize(gameSize, baseSize, displaySize, resolution) {
       var width = window.innerWidth;
@@ -249,7 +249,7 @@ export class BoardPage implements OnInit {
               iter.destroy();
             }
             movePlayer(player,thiss.cells[numberReturn].getx(), thiss.cells[numberReturn].gety());
-            
+
           });
         });
 
@@ -257,17 +257,15 @@ export class BoardPage implements OnInit {
     }
 
     function waitTurn(){
-
     }
 
     function endTurn() {
-
     }
 
     /**
-     * Game loop routine. This function will be called once per frame, any displaying 
+     * Game loop routine. This function will be called once per frame, any displaying
      * logic that updates with time ( movements, rotations, etc... ) should go here.
-     * 
+     *
      * Don't call network services from here, as it will generate a great amount
      * of requests. If you need to interact with the backend, this should be done via
      * events on the create function.
@@ -301,3 +299,13 @@ export class BoardPage implements OnInit {
 
   }
 }
+
+/**CONTROL DEL JUEGO:
+* ESPERAR A QUE TURN TE DEVUELVA TU ID
+* CUANDO TE LO DEVUELVA START TURN Y COLOCAMOS A TODOS EN SU POSICION
+* MOSTRAMOS UNA PREGUNTA
+* SI ES CORRECTA LE DEJAMOS TIRAR EL DADO (MAKEMOVE)
+* MOSTRAMOS LAS CASILLAS A DONDE PUEDE IR
+* SI FALLA UNA PREGUNTA SE ACABA SU TURNO
+* AL VOLVER TE SACA PREGUNTA DE ESA CASILLA
+*/
