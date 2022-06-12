@@ -1,17 +1,9 @@
-<ion-item id="footer" color="primary">
-  <ion-avatar slot="start">
-    <a href="initial-menu"><ion-img src="../../assets/icon/shop-1.png"></ion-img></a>
-  </ion-avatar>
-  <ion-avatar slot="start">
-    <a href="initial-menu"><ion-img src="../../assets/icon/32223.png"></ion-img></a>
-  </ion-avatar>
-  <ion-avatar slot="start">
-    <a href="initial-menu"><ion-img src="../../assets/icon/Home-Logo-Background-PNG-Image.png"></ion-img></a>
-  </ion-avatar>
-  <ion-avatar slot="start">
-    <a href="initial-menu"><ion-img src="../../assets/icon/statistics.png"></ion-img></a>
-  </ion-avatar>
-  <ion-avatar slot="start">
-    <a href="suggest"><ion-img src="../../assets/icon/plus.png"></ion-img></a>
-  </ion-avatar>
-</ion-item>
+<ion-footer color="primary">
+  <ion-toolbar color="primary" id="pie">
+    <ion-icon name="cash" class="footer" color="light" (click)="moveToShop()"></ion-icon>
+    <ion-icon name="shirt" class="footer" color="light" (click)="moveToInventory()"></ion-icon>
+    <ion-icon name="home" class="footer" color="light" (click)="moveToMenu()"></ion-icon>
+    <ion-icon name="person-add" class="footer" color="light" (click)="moveToFriends()"></ion-icon>
+  </ion-toolbar>
+</ion-footer>
+

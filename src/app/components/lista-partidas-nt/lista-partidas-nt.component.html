@@ -1,0 +1,17 @@
+<div id="partidas">
+  <p id="title">WAINTING TURN</p>
+  
+  <ion-list class="lista" color="light">
+    <ion-item *ngFor="let item of dataNt; let i = index" color="light">
+      <ion-label> Game {{ i + 1 }} </ion-label>
+      <ion-icon name="ellipsis-vertical"></ion-icon>
+    </ion-item>
+  </ion-list>
+
+  <!--<ion-infinite-scroll threshold="100px" (ionInfinite)="loadGamesNt($event)">
+    <ion-infinite-scroll-content
+      loadingSpinner="crescent"
+      loadingText="Cargando...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>-->
+</div>

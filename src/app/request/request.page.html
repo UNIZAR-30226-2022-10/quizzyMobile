@@ -1,0 +1,26 @@
+<ion-content>
+  <ion-list id="lista">
+    <ion-card *ngFor="let item of requests" id="friend" color="tertiary">
+      <ion-card-content>
+        <div class="name">
+          <ion-label>
+            <b>{{item.nickname_2}}</b>
+          </ion-label>
+        </div>
+        <br>
+        <div class="row">
+            <ion-button class="img-grid" slot="start" color="danger" (click)="reject(item.nickname_2)">
+              <ion-icon name="close" ></ion-icon>
+              Reject
+            </ion-button>
+            
+            <ion-button class="img-grid" slot="end" color="success" (click)="accept(item.nickname_2)">
+              <ion-icon name="checkmark" ></ion-icon>
+              Accept
+            </ion-button>
+        </div>   
+      </ion-card-content>
+    </ion-card>
+  </ion-list>
+
+</ion-content>

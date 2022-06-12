@@ -15,17 +15,13 @@ export class OptionsAdminComponent implements OnInit {
 
   closeSession() {
     this.viewCtrl.dismiss();
+    localStorage.clear();
     this.router.navigate(['/home'])
-  }
-
-  suggestQuestion() {
-    this.viewCtrl.dismiss();
-    this.router.navigate(['/suggest'])
   }
 
   validateQuestion() {
     this.viewCtrl.dismiss();
-    this.router.navigate(['/validate-question'])
+    this.router.navigate(['/questions-list'])
   }
 
 

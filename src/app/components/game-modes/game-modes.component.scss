@@ -1,16 +1,25 @@
+ion-button{
+    --border-radius: 0.5rem;
+}
+
 .img-grid {
-    margin-left: 5%;
-    width: auto;
-    height: 80px;
+    width: 90%;
+    height: 3rem;
+    margin: 5%;
 }
 
-.categ {
-    border: solid 1px #000;
+ion-row{
+    display: grid;
+    grid-template-columns: repeat(
+        auto-fit, 
+        minmax(
+            90%,
+            1fr
+        )
+    );
+    gap: 3%;
 }
 
-#modes {
-    text-align: center;
-}
 
 #title {
     text-align: center;
@@ -20,9 +29,5 @@
 
 #grid {
     text-align: center;
-}
-
-#start {
-    display: flex;
-    align-items: center;
+    --border-radius:1rem;
 }

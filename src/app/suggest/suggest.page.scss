@@ -1,3 +1,15 @@
+ion-header{
+  position: initial;
+}
+
+ion-title{
+  font-weight: bold;
+}
+
+
+#lista{
+  background-color: #e8f0fc;
+}
 #question {
     border: 1px solid #000;
     margin-left: 7.5%;
@@ -5,6 +17,13 @@
     height: 25%;
     border-radius: 10px;
   }
+
+.opciones {
+  margin-left: 7.5%;
+  margin-right: 7.5%;
+  border-radius: 10px;
+  border: 1px solid #000;
+}
 
 #label {
     margin-left: 10%;
@@ -19,12 +38,9 @@
   }
 
   #submit {
-    margin-left: 10%;
-    border: #000 1px solid;
-    background-color: blue;
-    width: 80%;
-    height: 75px;
-    border-radius: 10px;
+    margin-left: 7.5%;
+    width: 85%;
+    border-radius: 15%;
     align-items: center;
     justify-content: center;
     display: flex;

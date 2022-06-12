@@ -21,15 +21,16 @@ export class LoginService {
     let url= 'http://quizzyappbackend.herokuapp.com/user/login';
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      'Accept': 'aplication/json'});
+      'Accept': 'application/json'});
     let options = { headers : headers};
     return new Promise((resolve,reject) => {
       this.http.post(url, data, options ).subscribe(response => {
         localStorage.removeItem("token");
         let myToken = JSON.parse(JSON.stringify(response["token"]));
         localStorage.setItem('token', myToken);
+        localStorage.setItem('nickname', data.nickname);
         resolve(response);
-        this.router.navigate(['/home']);
+        this.router.navigate(['/initial-menu']);
       }, (error) => {
         if(error.status != 200){
           this.userFailToast();

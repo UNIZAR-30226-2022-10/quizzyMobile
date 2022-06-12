@@ -1,22 +1,39 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>question</ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content>
-<ion-item>
-  <ion-label [textContent]="quest"></ion-label>
-</ion-item>
+<div id="exit" (click)="finishTrain()">
+  <ion-icon slot="start" name="close"></ion-icon>
+</div>
+
+<div id="question">
+  <p [textContent]="quest"></p>
+</div>
+<ion-progress-bar id="bar" [value]="p_bar_value"></ion-progress-bar>
 <!--<mat-progress-bar mode="determinate" [value]="progress"></mat-progress-bar> -->
-<ion-grid id="grid">
-  <ion-row>
-    <ion-button [disabled]="respuesta" class="ans" [textContent]="answers[0].text" (click)="onClick(0)"></ion-button>  
-    <ion-button [disabled]="respuesta" class="ans" [textContent]="answers[1].text" (click)="onClick(1)"></ion-button>
-  </ion-row> 
-  <ion-row> 
-    <ion-button [disabled]="respuesta" class="ans" [textContent]="answers[2].text" (click)="onClick(2)"></ion-button>  
-    <ion-button [disabled]="respuesta" class="ans" [textContent]="answers[3].text" (click)="onClick(3)"></ion-button>
-  </ion-row>
-</ion-grid>
+
+  <div id="container">
+    <button [disabled]="disable[0]" class="ans" (click)="onClick(0)">
+      <span id="texto" [textContent]="answers[0].text"></span>
+    </button>  
+    <button [disabled]="disable[1]" class="ans" (click)="onClick(1)">
+      <span id="texto" [textContent]="answers[1].text"></span>
+    </button>
+  </div>
+  <div id="container">
+    <button [disabled]="disable[2]" class="ans" (click)="onClick(2)">
+      <span id="texto" [textContent]="answers[2].text"></span>
+    </button>  
+    <button [disabled]="disable[3]" class="ans" (click)="onClick(3)">
+      <span id="texto" [textContent]="answers[3].text"></span>
+    </button>
+  </div>
+
+  <div id="posicion">
+
+    <div id="container2">
+      <ion-button [disabled]="comodines(0)" class="ans" (click)="useWildcard(iden[0])" [textContent]="wild[0]" color="secondary">
+      </ion-button>  
+      <ion-button [disabled]="comodines(1)" class="ans" (click)="useWildcard(iden[1])" [textContent]="wild[1]" color="secondary">
+      </ion-button>
+    </div>
+  </div>
+
 </ion-content>

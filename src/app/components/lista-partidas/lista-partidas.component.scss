@@ -1,16 +1,29 @@
 #partidas {
     //border: 1px solid #000;
    // margin-left: 7.5%;
-   // margin-right: 7.5%;
-    width: 85%;    
+   // margin-right: 7.5%;    
    // border-radius: 10px;
     text-align: center;
     z-index: -1;
-    position: static;
+    margin:auto;
+}
+#title{
+    font-weight: bold;
+    color: #112d4e;
 }
 
-#partidas a {
-    font-style: italic;
-    color: #000;
-    width: fit-content;
+.lista{
+    background-color: #e8f0fc;
+    z-index: -1;
+    display: inline-block;
+    width: 100%;
+    contain: layout;
+}
+
+ion-infinite-scroll-content{
+    display: layout !important;
+}
+
+ion-item{
+    width: 100%;
 }

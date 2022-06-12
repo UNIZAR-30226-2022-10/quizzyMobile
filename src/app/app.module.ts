@@ -23,8 +23,10 @@ const config: SocketIoConfig = {url: environment.backendUrl, options: {}};
   imports: [
     FormsModule,
     MbscModule, BrowserModule, IonicModule.forRoot(), AppRoutingModule, HttpClientModule, SocketIoModule.forRoot(config)],
+
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, RemoteServiceSignUp, LoginService, ShopService,
               ScreenOrientation, BoardService,  CookieService],
+
   bootstrap: [AppComponent],
 })
 export class AppModule {}

@@ -1,3 +1,11 @@
+ion-header{
+  position: initial;
+}
+
+ion-title{
+  font-weight: bold;
+}
+
 #question {
     border: 1px solid #000;
     margin-left: 7.5%;
@@ -7,6 +15,17 @@
 
 #label {
     margin-left: 10%;
+}
+
+#lista{
+  background-color: #e8f0fc;
+}
+
+.opciones {
+  margin-left: 7.5%;
+  margin-right: 7.5%;
+  border-radius: 10px;
+  border: 1px solid #000;
 }
 
 #answer {
@@ -31,4 +50,9 @@
 #submit a {
   font-size: 24px;
   color: #fff;
+}
+
+.botones{
+  justify-content: space-evenly;
+  display: flex;
 }

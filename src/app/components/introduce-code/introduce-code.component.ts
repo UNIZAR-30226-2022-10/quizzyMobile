@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PopoverController } from '@ionic/angular';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+
 
 @Component({
   selector: 'app-introduce-code',
@@ -12,4 +14,7 @@ export class IntroduceCodeComponent implements OnInit {
 
   ngOnInit() {}
 
+  formJoin = new FormGroup({
+    code: new FormControl('',[Validators.required])
+  });
 }

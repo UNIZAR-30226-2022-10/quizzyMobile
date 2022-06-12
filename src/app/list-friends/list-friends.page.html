@@ -1,0 +1,22 @@
+<ion-content>
+  <ion-list id="lista">
+    <ion-card *ngFor="let item of friends" id="friend" color="tertiary">
+      <ion-card-content>
+        <ion-row class="ion-align-items-center">
+          <div id="container">
+            <img src="../../assets/cosmetics/cosmetic_{{item.actual_cosmetic}}.png" id="cosmetico"/>
+          <div id="container-inner">
+            <ion-label>
+              <b>{{item.nickname}}</b>
+            </ion-label>
+          </div>
+        </div>
+        <ion-button class="img-grid"  color="danger" (click)="deleteFriend(item.nickname)" href="list-friends">
+          <ion-icon name="close" ></ion-icon>
+          Delete
+        </ion-button>
+        </ion-row>
+      </ion-card-content>
+    </ion-card>
+  </ion-list>
+</ion-content>

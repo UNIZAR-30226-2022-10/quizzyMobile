@@ -1,14 +1,17 @@
-<a>Choose Game Settings</a><br>
+<p id="title">Choose Game Settings</p>
+
 <ion-label>Number of Players</ion-label>
 <ion-range min="2" max="6" color="secondary" pin="true" snaps="" ticks="true" value="6">
   <ion-label slot="start">2</ion-label>
   <ion-label slot="end">6</ion-label>
 </ion-range>
+
 <ion-label>Time to answer</ion-label>
 <ion-range min="5" max="30" color="secondary" pin="true" snaps="" ticks="true" step="5" value="15">
   <ion-label slot="start">5</ion-label>
   <ion-label slot="end">30</ion-label>
 </ion-range>
+
 <ion-label>Wildcards</ion-label>
 <ion-segment (ionChange)="segmentChanged($event)" value="true">
   <ion-segment-button value="true">
@@ -18,5 +21,5 @@
     <ion-label>Disabled</ion-label>
   </ion-segment-button>
 </ion-segment>
-<br>
+
 <ion-button id="start" (click)="onClick()">Empezar</ion-button>

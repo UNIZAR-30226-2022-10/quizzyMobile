@@ -17,7 +17,7 @@ export class ListaPartidasComponent implements OnInit {
 
   ngOnInit() {
   }
-
+/*
   loadGames(event) {
     console.log('Cargando Partidas');
     
@@ -34,5 +34,6 @@ export class ListaPartidasComponent implements OnInit {
       event.target.complete();
     }, 1000);
   }
+  */
 }
 
