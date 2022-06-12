@@ -16,6 +16,8 @@ import { CreateJoinComponent } from './create-join/create-join.component';
 import { MbscModule } from '@mobiscroll/angular';
 import { OptionsComponent } from './options/options.component';
 import { OptionsAdminComponent } from './options-admin/options-admin.component';
+import { DiceComponent } from './dice/dice.component';
+import { TokensCardComponent } from './tokens-card/tokens-card.component';
 
 
 
@@ -32,6 +34,9 @@ import { OptionsAdminComponent } from './options-admin/options-admin.component';
     IntroduceCodeComponent,
     OptionsAdminComponent,
     OptionsComponent,
+    devPhaserBoard
+    DiceComponent,
+    TokensCardComponent
     DescriptionComponent,
     TrainResumeComponent
   ],
@@ -41,7 +46,8 @@ import { OptionsAdminComponent } from './options-admin/options-admin.component';
     FooterComponent,
     ProgressbarComponent,
     GameOptionsComponent,
-    GameModesComponent
+    GameModesComponent,
+    DiceComponent
   ],
   imports: [
     CommonModule,

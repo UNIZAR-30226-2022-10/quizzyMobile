@@ -8,6 +8,8 @@ import { Component } from '@angular/core';
 import { Platform } from '@ionic/angular';
 import { Plugins } from '@capacitor/core';
 import { Router } from '@angular/router';
+import { Socket } from 'ngx-socket-io';
+import { WebSocketProvider } from '../web-socket.service';
 const { App } = Plugins;
 
 @Component({
@@ -17,10 +19,14 @@ const { App } = Plugins;
 })
 export class HomePage {
 
-  constructor(public platform : Platform) {
+  constructor(public platform: Platform, public webSocket: WebSocketProvider) {
     this.platform.backButton.subscribeWithPriority(100, () => {
       navigator['app'].exitApp();
+      //Cambiarlo de lugar (socket)
+      this.webSocket.disconnectSocket();
     });
+    this.webSocket.connectSocket();
+
   }
 
 }

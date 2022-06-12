@@ -9,3 +9,71 @@
 #playersDiv{
     display:inline-block;
 }
+
+#players-list {
+    height: 100%;
+}
+
+#cosmetico{
+    height: 2.5rem;
+    margin-right: 1.5rem;
+}
+
+#container{
+    height: 2.5rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 5%;
+    margin-top: 5%;
+}
+
+#pop {
+    height: 100%;
+}
+
+.players{
+    z-index: 1;
+    position: absolute;
+    top:1rem;
+    right:1rem;
+    border-radius: 100rem;
+    border: 1px solid black;
+    height: 3rem;
+    width: 3rem;
+}
+
+.quit{
+    z-index: 1;
+    position: absolute;
+    top: 1rem;
+    left:1rem;
+    border-radius: 100rem;
+    border: 1px solid black;
+    height: 3rem;
+    width: 3rem;
+}
+
+.dice{
+    z-index: 1;
+    position: absolute;
+    bottom:1rem;
+    right:1rem;
+    border-radius: 100rem;
+    border: 1px solid black;
+    height: 3rem;
+    width: 3rem;
+}
+
+.chat{
+    z-index: 1;
+    position: absolute;
+    bottom:1rem;
+    left:1rem;
+    border-radius: 100rem;
+    border: 1px solid black;
+    height: 3rem;
+    width: 3rem;
+}
+
+
