@@ -237,21 +237,21 @@ export class QuestionPage implements OnInit {
     });
   }
 
-  useWildcard(wildcard_id){
+  useWildcard(array_id, wildcard_id){
 
     if(wildcard_id == 1){ //  50/50
 
-      this.cant[1]--;
+      this.cant[array_id]--;
       console.log("50 TO 50", this.position);
-      this.wildcardUseApi(1);
+      this.wildcardUseApi(wildcard_id);
       this.disable[(this.position + 3) % 4] = true;
       this.disable[(this.position + 5) % 4] = true;
     }
     else{
-      this.cant[0]--;
+      this.cant[array_id]--;
       clearInterval(this.cancel);
 
-      this.wildcardUseApi(2);
+      this.wildcardUseApi(wildcard_id);
 
       this.timeleft = this.timeleft + 150;
       this.time = this.time + 150;
@@ -261,8 +261,8 @@ export class QuestionPage implements OnInit {
     this.wildcardUse = true;
   }
 
-  comodines(id){
-    return !(this.cant[id] > 0 && !this.wildcardUse);
+  comodines(array_id){
+    return !(this.cant[array_id] > 0 && !this.wildcardUse);
   }
 
   async finishTrain(){
