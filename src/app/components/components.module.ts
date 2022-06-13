@@ -34,9 +34,8 @@ import { TokensCardComponent } from './tokens-card/tokens-card.component';
     IntroduceCodeComponent,
     OptionsAdminComponent,
     OptionsComponent,
-    devPhaserBoard
     DiceComponent,
-    TokensCardComponent
+    TokensCardComponent,
     DescriptionComponent,
     TrainResumeComponent
   ],
