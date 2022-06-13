@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { PopoverController } from '@ionic/angular';
 import { GameOptionsComponent } from '../game-options/game-options.component';
 import { CreateJoinComponent } from '../create-join/create-join.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-game-modes',
@@ -10,7 +11,7 @@ import { CreateJoinComponent } from '../create-join/create-join.component';
 })
 export class GameModesComponent implements OnInit {
 
-  constructor( private popoverCtrl: PopoverController, public viewCtrl: PopoverController) { }
+  constructor( private popoverCtrl: PopoverController, public viewCtrl: PopoverController, public router: Router) { }
 
   ngOnInit() {}
 
@@ -29,5 +30,9 @@ export class GameModesComponent implements OnInit {
 
     this.viewCtrl.dismiss();
     await popover.present();
+  }
+
+  enqueue(){
+    this.router.navigate(['/public-room']);
   }
 }

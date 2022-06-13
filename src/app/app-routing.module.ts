@@ -76,7 +76,15 @@ const routes: Routes = [
   {
     path: 'inventory',
     loadChildren: () => import('./inventory/inventory.module').then( m => m.InventoryPageModule)
+  },  {
+    path: 'public-room',
+    loadChildren: () => import('./public-room/public-room.module').then( m => m.PublicRoomPageModule)
   },
+  {
+    path: 'private-room',
+    loadChildren: () => import('./private-room/private-room.module').then( m => m.PrivateRoomPageModule)
+  },
+
 
 
 
