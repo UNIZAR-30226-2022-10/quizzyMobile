@@ -1,10 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { IonInfiniteScroll, Platform, ToastController } from '@ionic/angular';
+import { Platform, ToastController } from '@ionic/angular';
 import { PopoverController } from '@ionic/angular';
 import { GameModesComponent } from '../components/game-modes/game-modes.component';
 import { OptionsComponent } from '../components/options/options.component';
 import { OptionsAdminComponent } from '../components/options-admin/options-admin.component';
 import { Router } from '@angular/router';
+import { Socket } from 'ngx-socket-io';
+import { WebSocketProvider } from '../web-socket.service';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
 
@@ -16,7 +18,6 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 })
 export class InitialMenuPage implements OnInit {
 
-    @ViewChild(IonInfiniteScroll) infiniteScroll: IonInfiniteScroll
     photo;
     username = localStorage.getItem('nickname'); //Leer de la sesión
     coins;
@@ -26,10 +27,13 @@ export class InitialMenuPage implements OnInit {
     
 
     data: any[] = Array(3);
-    constructor(public http: HttpClient, public toastController: ToastController, private popoverCtrl: PopoverController, public router: Router, public platform: Platform) {
+    constructor(public http: HttpClient, public toastController: ToastController, private popoverCtrl: PopoverController, public router: Router, public platform: Platform, public webSocket: WebSocketProvider) {
       this.platform.backButton.subscribeWithPriority(100, () => {
         navigator['app'].exitApp();
+        //Cambiarlo de lugar (socket)
+        this.webSocket.disconnectSocket();
       });
+      this.webSocket.connectSocket();
      }
     getData() {
 
