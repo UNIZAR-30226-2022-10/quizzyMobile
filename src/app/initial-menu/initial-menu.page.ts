@@ -56,6 +56,22 @@ export class InitialMenuPage implements OnInit {
         });
       });
     };
+
+    doRefresh(event){
+      this.getData().then( e => {
+        console.log("ENTRO");
+        this.admin = JSON.parse(JSON.stringify(e["is_admin"]));
+        this.coins = JSON.parse(JSON.stringify(e["wallet"]));
+        this.cosmetic = JSON.parse(JSON.stringify(e["actual_cosmetic"]));
+        localStorage.setItem('cosmetic', this.cosmetic);
+        this.cosmetic_src = "../../assets/cosmetics/cosmetic_" + this.cosmetic + ".png";
+      
+        setTimeout(() => {
+          event.target.complete()
+        }, 2000);
+      });
+    }
+    
     ngOnInit() { 
       this.getData().then( e => {
         console.log("ENTRO");

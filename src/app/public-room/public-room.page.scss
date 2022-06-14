@@ -1,0 +1,69 @@
+ion-header{
+    position: initial;
+    
+}
+
+#cargador{
+    font-weight: bold;
+    text-align: center;
+    width: 100%;
+}
+
+#spin{
+    height: 2.5rem;
+    width: 2.5rem;
+    margin: 0.25rem;
+}
+
+#but{
+    width: 100%;
+    text-align: center;
+}
+
+#categ{
+    border-radius: 1rem;
+}
+
+#lista{
+    background-color: #e8f0fc;
+}
+
+
+#menu{
+    font-weight: bold;
+}
+
+#money{
+    padding-left: 5%;
+}
+
+#money-icon{
+    font-weight: bold;
+    width:2rem;
+}
+
+#money-span{
+    font-weight: bold;
+    padding-left: 5%;
+    font-size:1.125rem;
+    
+}
+
+#cosmetics{
+   display: block;
+}
+
+#comodines {
+   display:block;
+}
+
+ion-content{
+    z-index: -1;
+}
+
+#cosmetico {
+    border-radius: 1rem;
+    width: 90%;
+    margin-left: 5%;
+}
+

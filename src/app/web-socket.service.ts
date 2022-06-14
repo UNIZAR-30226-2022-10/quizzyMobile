@@ -1,17 +1,32 @@
 import { Injectable } from '@angular/core';
-import { Socket } from 'ngx-socket-io';
-
+import { Observable } from 'rxjs';
+import { io, Socket } from 'socket.io-client';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
-  providedIn: 'root'
-})
+   providedIn: 'root'
+ })
 export class WebSocketProvider{
 
-  constructor(public socket: Socket) {}
+   
+   socket:Socket
+         
+
+   
+
+  constructor() {
+   this.socket = io(environment.backendUrl, {
+      auth: {
+        token: localStorage.getItem('token')
+      }
+      
+    });
+  }
 
   connectSocket(){
      console.log("INTENTO CONEXION");
      this.socket.connect();
+     
      console.log("CONECTADO, QUIZAS");
   }
 
@@ -19,14 +34,18 @@ export class WebSocketProvider{
       this.socket.disconnect();
   }
 
-  joinPublicGame(){
-     this.socket.emit('public:join');
-  }
+   joinPublicGame(func:Function){
+     this.socket.emit('public:join', func);     
+   }
 
-  responseJoinPublicGame(){
-      return this.socket.fromEvent('public:join');
-  }
+   responseJoinPublicGame(func:any){
+      return this.socket.once('server:public:joined',func);
+   }
 
+   leavePublicGame(func:Function){
+      this.socket.emit('public:leave', func);
+   }
+/*
   createPrivateGame(data){
      this.socket.emit('private:create', data);
   }
@@ -43,13 +62,9 @@ export class WebSocketProvider{
      return this.socket.fromEvent('private:join');
   }
 
-  leavePublicGame(){
-     this.socket.emit('public:leave');
-  }
+  
 
-  responseLeavePublicGame(){
-     return this.socket.fromEvent('public:leave');
-  }
+  
 
   leavePrivateGame(rid){
      this.socket.emit('private:leave',{rid});
@@ -187,4 +202,5 @@ export class WebSocketProvider{
   subscribeToMessage(){
       return this.socket.fromEvent('chat:message');
   }
+  */
 }

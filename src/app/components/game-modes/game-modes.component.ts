@@ -3,6 +3,7 @@ import { PopoverController } from '@ionic/angular';
 import { GameOptionsComponent } from '../game-options/game-options.component';
 import { CreateJoinComponent } from '../create-join/create-join.component';
 import { Router } from '@angular/router';
+import { WebSocketProvider } from 'src/app/web-socket.service';
 
 @Component({
   selector: 'app-game-modes',
@@ -11,7 +12,7 @@ import { Router } from '@angular/router';
 })
 export class GameModesComponent implements OnInit {
 
-  constructor( private popoverCtrl: PopoverController, public viewCtrl: PopoverController, public router: Router) { }
+  constructor( private popoverCtrl: PopoverController, public viewCtrl: PopoverController, public router: Router, public webSocket: WebSocketProvider) { }
 
   ngOnInit() {}
 
@@ -32,7 +33,13 @@ export class GameModesComponent implements OnInit {
     await popover.present();
   }
 
+
+  
   enqueue(){
-    this.router.navigate(['/public-room']);
+    this.webSocket.joinPublicGame(({ok, msg}) => {
+      console.log("PUBLIC:JOIN", ok, msg);
+      this.viewCtrl.dismiss();
+      this.router.navigate(['/public-room']);
+    });
   }
 }

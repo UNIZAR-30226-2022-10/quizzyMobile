@@ -1,9 +1,47 @@
+<!--
+ -- Author: Celia Mainar
+ -- Filename: shop.page.html
+ -- Module: FrontEnd Mobile
+ -- Description: This is the html of the page shop
+-->
 <ion-header>
-  <ion-toolbar>
-    <ion-title>publicRoom</ion-title>
-  </ion-toolbar>
+  <div>
+    <ion-toolbar color="light">
+      <ion-buttons slot="start">
+        <ion-back-button [disabled]="!cargando" (click)="goOut()"></ion-back-button>
+      </ion-buttons>
+      <ion-title id="menu">Random Game</ion-title>
+    </ion-toolbar>
+  </div>
 </ion-header>
 
 <ion-content>
 
+  <div id="cargador">
+    <ion-spinner color="primary" id="spin"></ion-spinner>
+    <ion-title color="primary" id="menu">Waiting for players...</ion-title>
+  </div>
+
+  <div id="jugadores"> 
+
+    <ion-list id="lista">
+
+      <ion-card *ngFor="let i of itemWildcards" color="tertiary" >
+        <ion-card-header>
+          <ion-card-title>{{i.wname}}</ion-card-title>
+        </ion-card-header>
+        <!--<img src="../../assets/quizzylogo.png"> -->
+        <ion-card-content>
+              <ion-button color="primary" (click)="buyWildcards(i)" id="but">
+                <ion-icon name="add" slot="start"></ion-icon>
+                <ion-label>
+                  <b> {{ i.price}} $ </b>
+                </ion-label>
+              </ion-button>
+        </ion-card-content>
+      </ion-card>
+    </ion-list>
+  </div>
+
+  <ion-button [disabled]="!cargando" color="danger" (click)="goOut()">Cancelar</ion-button>
 </ion-content>

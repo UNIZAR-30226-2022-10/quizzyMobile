@@ -82,6 +82,8 @@ export class ShopService {
    */
 
   postItemWildcards(item){
+
+    console.log(item);
     
     const url = 'http://quizzyappbackend.herokuapp.com/shop/wildcards/buy';
     let headers = new HttpHeaders({
@@ -90,7 +92,7 @@ export class ShopService {
       'Authorization': `Bearer ${localStorage.getItem('token')}`});
     let options = { headers : headers};
     return new Promise((resolve, reject) => {
-      this.http.post(url, JSON.stringify(item), options).subscribe(response => {
+      this.http.post(url, item, options).subscribe(response => {
         resolve(response);
       }, (error) => {
         console.log(error);
