@@ -10,6 +10,7 @@ export class DiceComponent implements OnInit {
   img: string;
   click: boolean;
   num: number;
+  timeout: any;
   constructor() {
     const receiveNum = window.localStorage.getItem('Board');
     this.num  = JSON.parse(receiveNum);
@@ -17,14 +18,15 @@ export class DiceComponent implements OnInit {
 
   ngOnInit() {
     this.click = false;
+    this.timeout = setTimeout( () => {
+      this.rollDice();
+    },2000);
   }
 
   rollDice(){
-    this.click = true;
-    this.img = '../../../assets/dice/dice'+ this.num +'.png';
+    clearTimeout(this.timeout);
 
-    window.localStorage.setItem('Dice', JSON.stringify(this.click));
-    console.log("ENVIADO");
+    this.img = '../../../assets/dice/dice'+ this.num +'.png';
   }
 
 }

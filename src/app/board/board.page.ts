@@ -1,21 +1,23 @@
 import { Component, OnInit } from '@angular/core';
-import { fromEvent, tap, Observable, Subscription, of, windowWhen } from 'rxjs';
+import { fromEvent, tap, Observable, Subscription, of, windowWhen, ObjectUnsubscribedError } from 'rxjs';
 import { TrivialCell } from './trivial-cell';
 import { ScreenOrientation } from '@awesome-cordova-plugins/screen-orientation/ngx';
 import { MenuController, PopoverController, RouterLinkDelegate } from '@ionic/angular';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DiceComponent } from '../components/dice/dice.component';
 import { BoardService } from './board.service';
-import { Socket } from 'ngx-socket-io';
 import { async } from '@angular/core/testing';
 import { TokensCardComponent } from '../components/tokens-card/tokens-card.component';
 import { WebSocketProvider } from '../web-socket.service';
+import { ShowOnDirtyErrorStateMatcher } from '@angular/material/core';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
 export interface Player {
   id: number;
   name: string;
   skin: string;
   categoryAchieved: Array<string>;
+  position: number;
 }
 declare let Phaser;
 @Component({
@@ -42,9 +44,9 @@ export class BoardPage implements OnInit {
     private activatedRoute: ActivatedRoute,
     private popoverCtrl: PopoverController,
     private boardService: BoardService,
-    private socket: Socket,
     private menu: MenuController,
-    private socketService: WebSocketProvider
+    public webSocket: WebSocketProvider,
+    public http: HttpClient
   ) {
     this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.LANDSCAPE);
   }
@@ -69,21 +71,22 @@ export class BoardPage implements OnInit {
 
   ngOnInit(): void {
     console.log(window.innerWidth / 2, window.innerHeight / 2);
-    this.socket.ioSocket.io.opts.query = { Authorization: `${localStorage.getItem('token')}`};
     this.updated = false;
     this.rid = this.activatedRoute.snapshot.paramMap.get('rid');
-    //this.players = JSON.parse(localStorage.getItem('players'));
-    console.log(this.rid);
     this.numPlayers = this.activatedRoute.snapshot.paramMap.get('numJugadores');
+
     localStorage.setItem('numPlayers', this.numPlayers);
     localStorage.setItem('rid', this.rid);
-    for (let i = 0; i < this.numPlayers; i++){
-      //this.actors.push({id:i, name:this.players[i].name, skin: '../../assets/cosmetics/cosmetic_' + this.players[i].actual_cosmetic,
-                        // categoryAchieved:[]});
 
-     }
-
-     localStorage.setItem('actors', JSON.stringify(this.actors));
+    console.log("ENTRE TABLERO", this.numPlayers, this.rid);
+    let id = 0;
+    this.webSocket.turn((data) => {
+      Object.keys(data.stats).forEach(player => {
+        getUser(data, id);
+        id = id + 1;
+      });
+      localStorage.setItem('actors_' + this.rid, JSON.stringify(this.actors));
+    });
 
     var config = {
       type: Phaser.AUTO,
@@ -106,6 +109,34 @@ export class BoardPage implements OnInit {
       },
     };
 
+    function getUser(nickname, id_){
+      console.log("GET USER: ", nickname);
+      let url= 'http://quizzyappbackend.herokuapp.com/user/reduced';
+      let headers = new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'});
+      let params = new HttpParams()
+          .set('nickname', nickname);
+      let options = { headers : headers, params:params};
+  
+      return new Promise( (resolve,reject) => {
+        this.http.get(url,options).subscribe(data => {
+          console.log("PROMISE", data)
+          //let tokens = getTokens(nickname.tokens);
+          this.actors.push({id: id_, name: nickname, skin: '../../assets/cosmetics/cosmetic_' + data.actual_cosmetic+'.png',
+                             categoryAchieved: [], position: nickname.position});
+          resolve(data);
+        }, error => {
+          reject(error);
+          console.log(error);
+        });
+      });
+    }
+
+    function getTokens(token){
+      
+    }
+
     var phaserGame = new Phaser.Game(config);
 
     /**
@@ -113,8 +144,10 @@ export class BoardPage implements OnInit {
      */
     function preload() {
       let numPlayers = parseInt(localStorage.getItem('numPlayers'));
-      let actors = JSON.parse(localStorage.getItem('actors'));
+      let rid = localStorage.getItem('rid');
+      let actors = JSON.parse(localStorage.getItem('actors_'+rid));
 
+      console.log(actors);
       this.load.image('background', 'assets/tableroFinalCentroCompleto.png');
       for(let i= 0; i < numPlayers; i++){
         this.load.image(actors[i].name, actors[i].skin);
@@ -127,8 +160,8 @@ export class BoardPage implements OnInit {
      */
     function create() {
       let numPlayers = parseInt(localStorage.getItem('numPlayers'));
-      let actors = JSON.parse(localStorage.getItem('actors'));
       let rid = parseInt(localStorage.getItem('rid'));
+      let actors = JSON.parse(localStorage.getItem('actors_' + rid));
       let player0: any;
       let player1: any;
       let player2: any;
@@ -229,24 +262,16 @@ export class BoardPage implements OnInit {
         player5.setDisplaySize(width/20,height/13);
       }
 
-      let players = [player0,player1,player2,player3,player4,player5];
+      const players = [player0,player1,player2,player3,player4,player5];
+
+      for(let i = 0; i < numPlayers; i++){
+        movePlayer(players[i], this.cells[actors[i].position].getx(),this.cells[actors[i].position].gety());
+      }
 
       this.scale.on('resize', resize, this);
 
-      // mientras no se haya acabado el juego
-
-      waitTurn();
-
-      roll();
-      //showMovement([0,1,2,3,19,37,54,20,53,21,52,51,50,49,48,47/*,3,4,5,6,7,8,9*/,10,11,12/*,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54*/], this, this.player);
-      //showMovement([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54], this, this.player);
-
-      for( let i = 0; i < numPlayers; i++){
-        showMovement([i],this,players[i]);
-      }
 
       endTurn();
-      //movePlayer(this.player,this.cells[23].getx(), this.cells[23].gety());
     }
 
     /**
@@ -264,15 +289,12 @@ export class BoardPage implements OnInit {
       this.bg.setPosition(width / 2, height / 2);
     }
 
-    function roll() {
-      //socket.emit('')
-    }
     function movePlayer(player, x, y){
         player.x = x;
         player.y = y;
     }
 
-    function showMovement(arrayPos, thiss, player){
+    function showMovement(arrayPos, thiss, player, id){
       let possibilities = [];
       let numberReturn = 0;
       for(let i= 0; i < arrayPos.length; i++){
@@ -283,6 +305,7 @@ export class BoardPage implements OnInit {
           this.setTint(0xff0000);
           numberReturn = arrayPos[i];
           console.log(numberReturn);
+          this.actors[i].position = numberReturn;
 
           possibilities[i].on('pointerup', function() {
             for (const iter of possibilities) {
@@ -291,25 +314,56 @@ export class BoardPage implements OnInit {
             movePlayer(player,thiss.cells[numberReturn].getx(), thiss.cells[numberReturn].gety());
 
           });
+          callQuestion();
         });
 
       }
     }
 
-    function waitTurn(){
+    function startTurn(){
       console.log("ESPERANDO TURNO..");
-      this.socketService.startTurn(this.rid,true,({ok,msg}) => {
+      this.webSocket.startTurn(this.rid,true,({ok,msg}) => {
         console.log("Start Turn");
         if (ok === false){
           console.log("error ", msg);
         }
         else {
           console.log("CORRECTO");
+          callQuestion();
         }
       });
     }
 
+    function callQuestion(){
+
+    }
     function endTurn() {
+    }
+
+    function correctAnwser(idP, player){
+      let num;
+      let cells;
+      this.webSocket.makeMove(this.rid,true,this.actors[idP].position, ({ok,msg}) =>{
+        console.log("make move");
+      });
+
+      this.webSocket.responseMakeMove(true, (data) => {
+        if ( data.ok === false) {
+          return;
+        }
+        num = data.roll;
+        cells = data.cells;
+      });
+
+
+      window.localStorage.setItem('Board', JSON.stringify(num));
+      this.updated = true;
+
+      let timeout = setTimeout( () => {
+        this.showMovement(cells,this,player,idP);
+        clearTimeout(timeout);
+      }, 2000);
+
     }
 
     /**
@@ -336,18 +390,15 @@ export class BoardPage implements OnInit {
     this.menu.open('first');
   }
 
-
   async showDice(){
     const popover = await this.popoverCtrl.create({
       component: DiceComponent,
     });
-    this.num = Math.floor(Math.random() * 6) + 1;
 
-    window.localStorage.setItem('Board', JSON.stringify(this.num));
 
     await popover.present();
-
   }
+
 }
 
 /**CONTROL DEL JUEGO:
