@@ -7,6 +7,8 @@ ion-header{
     font-weight: bold;
     text-align: center;
     width: 100%;
+    position: absolute;
+    bottom: 50%;
 }
 
 #spin{
@@ -15,55 +17,48 @@ ion-header{
     margin: 0.25rem;
 }
 
+ion-footer{
+    position: initial;
+}
+
 #but{
+    margin: 5%;
+}
+
+#container_timer{
     width: 100%;
     text-align: center;
+
 }
 
-#categ{
-    border-radius: 1rem;
+#timer{
+    font-weight: bold;
 }
-
-#lista{
-    background-color: #e8f0fc;
-}
-
 
 #menu{
     font-weight: bold;
 }
-
-#money{
-    padding-left: 5%;
+#lista{
+    background-color: #e8f0fc;
 }
 
-#money-icon{
-    font-weight: bold;
-    width:2rem;
+#container{
+    height: 2.5rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 5%;
+    margin-top: 5%;
 }
 
-#money-span{
-    font-weight: bold;
-    padding-left: 5%;
-    font-size:1.125rem;
-    
+
+
+#cosmetico{
+    height: 2.5rem;
+    margin-right: 1.5rem;
 }
 
-#cosmetics{
-   display: block;
-}
-
-#comodines {
-   display:block;
-}
-
-ion-content{
-    z-index: -1;
-}
-
-#cosmetico {
-    border-radius: 1rem;
+.img-grid{
     width: 90%;
-    margin-left: 5%;
+    margin: 5%;
 }
-

@@ -45,29 +45,56 @@ export class WebSocketProvider{
    leavePublicGame(func:Function){
       this.socket.emit('public:leave', func);
    }
-/*
-  createPrivateGame(data){
-     this.socket.emit('private:create', data);
+
+   turn(func:any){
+      return this.socket.on('server:turn', func);
+    }
+
+    turnSala(func:any){
+      return this.socket.once('server:turn', func);
+    }
+
+  createPrivateGame(data, func){
+     this.socket.emit('private:create', data, func);
   }
 
+  listenNewPlayers(func){
+   return this.socket.on('server:private:player:join', func);
+  }
+
+listenLeavePlayers(func){
+   return this.socket.on('server:private:player:leave', func);
+}
+
+listenCancelGamePrivate(func){
+   return this.socket.on('server:private:cancelled', func);
+}
+
+cleanup(event){
+   return this.socket.off(event);
+}
+
+leavePrivateGame(rid, func){
+   this.socket.emit('private:leave',{rid}, func);
+}
+
+cancelGamePrivate(rid, func){
+   this.socket.emit('private:cancel',{rid}, func);
+}
+
+joinPrivateGame(rid, func){
+   this.socket.emit('private:join',{rid}, func);
+}
+
+/*
   responseCreatePrivateGame(){
      return this.socket.fromEvent('private:create');
   }
 
-  joinPrivateGame(rid){
-     this.socket.emit('private:join',{rid});
-  }
+  
 
   responseJoinPrivateGame(){
      return this.socket.fromEvent('private:join');
-  }
-
-  
-
-  
-
-  leavePrivateGame(rid){
-     this.socket.emit('private:leave',{rid});
   }
 
   responseLeavePrivateGame(){
@@ -82,13 +109,9 @@ export class WebSocketProvider{
       return this.socket.fromEvent('private:start');
   }
 
-  cancelGamePrivate(rid){
-     this.socket.emit('private:cancel',{rid});
-  }
+  
 
-  responseCancelGamePrivate(){
-     return this.socket.fromEvent('private:cancel');
-  }
+  
 
   makeMove(publico,data){
      if(publico){
@@ -111,9 +134,7 @@ export class WebSocketProvider{
   questionTimeout(){
       return this.socket.fromEvent('server:timeout');
   }
-  turn(){
-    return this.socket.fromEvent('server:turn');
-  }
+  
 
   winner(){
     return this.socket.fromEvent('server:winner');

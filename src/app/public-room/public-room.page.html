@@ -1,8 +1,8 @@
 <!--
- -- Author: Celia Mainar
- -- Filename: shop.page.html
+ -- Author: Jaime Martín
+ -- Filename: public-room.page.html
  -- Module: FrontEnd Mobile
- -- Description: This is the html of the page shop
+ -- Description: This is the html of the public room page
 -->
 <ion-header>
   <div>
@@ -17,31 +17,41 @@
 
 <ion-content>
 
-  <div id="cargador">
+  <div id="cargador" *ngIf="cargando">
     <ion-spinner color="primary" id="spin"></ion-spinner>
     <ion-title color="primary" id="menu">Waiting for players...</ion-title>
   </div>
 
-  <div id="jugadores"> 
 
+  <div id="jugadores" *ngIf="!cargando"> 
+    <br>
+    <div id="container_timer">
+      <ion-label color="primary" id="timer">Game starts in {{time}} seconds</ion-label>
+    </div>
+    <br>
+    <ion-title id="menu">Players</ion-title>
+    <br>
     <ion-list id="lista">
-
-      <ion-card *ngFor="let i of itemWildcards" color="tertiary" >
-        <ion-card-header>
-          <ion-card-title>{{i.wname}}</ion-card-title>
-        </ion-card-header>
-        <!--<img src="../../assets/quizzylogo.png"> -->
+      <ion-card *ngFor="let item of players" id="friend" color="tertiary">
         <ion-card-content>
-              <ion-button color="primary" (click)="buyWildcards(i)" id="but">
-                <ion-icon name="add" slot="start"></ion-icon>
-                <ion-label>
-                  <b> {{ i.price}} $ </b>
-                </ion-label>
-              </ion-button>
+          <ion-row class="ion-align-items-center">
+            <div id="container">
+              <img src="../../assets/cosmetics/cosmetic_{{item.actual_cosmetic}}.png" id="cosmetico"/>
+            <div id="container-inner">
+              <ion-label>
+                <b>{{item.nickname}}</b>
+              </ion-label>
+            </div>
+          </div>
+          </ion-row>
         </ion-card-content>
       </ion-card>
     </ion-list>
   </div>
 
-  <ion-button [disabled]="!cargando" color="danger" (click)="goOut()">Cancelar</ion-button>
+  
 </ion-content>
+
+<ion-footer color="light">
+  <ion-button  id="but" expand="block" color="danger" [disabled]="!cargando" (click)="goOut()">CANCELAR</ion-button>
+</ion-footer>

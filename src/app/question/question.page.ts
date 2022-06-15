@@ -40,8 +40,8 @@ export class QuestionPage implements OnInit {
   wildcardUse : boolean;
   categ: any;
 
-  time = 150;
-  timeleft = 150;
+  time : any;
+  timeleft : any;
 
   timer: any;
   cancel:any;
@@ -49,6 +49,7 @@ export class QuestionPage implements OnInit {
   wild : Array<any>;
   iden : Array<any>;
   cant : Array<any>;
+  buttons : Array<any>;
 
   position : any;
 
@@ -58,8 +59,12 @@ export class QuestionPage implements OnInit {
     this.cant = [];
     this.iden = [];
     this.questionAnswers = [];
+    this.buttons = [];
 
-    
+    this.buttons.push(document.getElementById('res0'));
+    this.buttons.push(document.getElementById('res1'));
+    this.buttons.push(document.getElementById('res2'));
+    this.buttons.push(document.getElementById('res3'));
 
     this.questionOptions = this.location.getState();
     //console.log(this.questionOptions);
@@ -69,6 +74,11 @@ export class QuestionPage implements OnInit {
     });
 
     this.getQuestion(this.questionOptions);
+
+    this.time = this.questionOptions.time*10;
+    this.timeleft = this.time;
+
+    console.log(this.time, "TIEMPO BOBO");
     
     this.getUserWildcards().then(data => { 
       JSON.parse(JSON.stringify(data["wildcards"])).forEach(e => {
@@ -103,8 +113,8 @@ export class QuestionPage implements OnInit {
           e.total++;
         }
       });
-      this.time = 150;
-      this.timeleft = 150;
+      this.time = this.questionOptions.time*10;
+      this.timeleft = this.time;
       clearInterval(this.timer);
       clearInterval(this.cancel);
       this.getQuestion(this.questionOptions);
@@ -127,6 +137,10 @@ export class QuestionPage implements OnInit {
       });
       console.log("Respuesta correcta");
       console.log(this.questionAnswers);
+
+      this.buttons[id].style.cssText = 'background-color: #2dd36f';
+      
+
     }
     else
     {
@@ -138,14 +152,27 @@ export class QuestionPage implements OnInit {
       });
       console.log("Respuesta incorrecta");
       console.log(this.questionAnswers);
+
+      this.buttons[id].style.cssText = 'background-color: #eb445a';
+      this.buttons[this.position].style.cssText = 'background-color: #2dd36f';
+
     }
 
-    this.time = 150;
-    this.timeleft = 150;
-    clearInterval(this.timer);
-    clearInterval(this.cancel);
-    this.getQuestion(this.questionOptions);
-    this.Showprogress();
+    let timeout = setTimeout(() => {
+
+      for(var i = 0; i < this.answers.length; i++){
+        this.buttons[i].style.cssText = 'background-color: #112d4e';
+      }
+
+      this.time = this.questionOptions.time*10;
+      this.timeleft = this.time;
+      clearInterval(this.timer);
+      clearInterval(this.cancel);
+      clearTimeout(timeout);
+      this.getQuestion(this.questionOptions);
+      this.Showprogress();
+    }, 500);
+    
   }
 
 
@@ -246,6 +273,9 @@ export class QuestionPage implements OnInit {
       this.wildcardUseApi(wildcard_id);
       this.disable[(this.position + 3) % 4] = true;
       this.disable[(this.position + 5) % 4] = true;
+
+      this.buttons[(this.position + 3) % 4].style.cssText = 'background-color: #828c9c';
+      this.buttons[(this.position + 5) % 4].style.cssText = 'background-color: #828c9c';
     }
     else{
       this.cant[array_id]--;

@@ -26,7 +26,10 @@ export class InitialMenuPage implements OnInit {
     admin : boolean;
     
 
-    data: any[] = Array(3);
+    data: any[];
+    dataNt: any[];
+    dataIn: any[];
+
     constructor(public http: HttpClient, public toastController: ToastController, private popoverCtrl: PopoverController, public router: Router, public platform: Platform, public webSocket: WebSocketProvider) {
       this.platform.backButton.subscribeWithPriority(100, () => {
         navigator['app'].exitApp();
@@ -35,6 +38,7 @@ export class InitialMenuPage implements OnInit {
       });
       this.webSocket.connectSocket();
      }
+
     getData() {
 
       let url= 'http://quizzyappbackend.herokuapp.com/user';
@@ -57,6 +61,71 @@ export class InitialMenuPage implements OnInit {
       });
     };
 
+    getPublicGames(){
+      let url= 'http://quizzyappbackend.herokuapp.com/games/public';
+      let headers = new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`});
+
+      let options = { headers : headers};
+      return new Promise((resolve,reject) => {
+        this.http.get(url, options).subscribe(response => {
+          this.data = response['games'];
+          resolve(response);
+        }, (error) => {
+          if(error.status != 200){
+            this.FailToast();
+          }
+          reject(error);
+        });
+      });
+    }
+
+    getPrivateGames(){
+      let url= 'http://quizzyappbackend.herokuapp.com/games/private';
+      let headers = new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`});
+
+      let options = { headers : headers};
+      return new Promise((resolve,reject) => {
+        this.http.get(url, options).subscribe(response => {
+          this.dataNt = response['games'];
+          console.log(this.dataNt);
+          resolve(response);
+        }, (error) => {
+          if(error.status != 200){
+            this.FailToast();
+          }
+          reject(error);
+        });
+      });
+    }    
+
+    getInvitaciones(){
+      let url= 'http://quizzyappbackend.herokuapp.com/games/invite';
+      let headers = new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`});
+
+      let options = { headers : headers};
+      return new Promise((resolve,reject) => {
+        this.http.get(url, options).subscribe(response => {
+          this.dataIn = response['invites'];
+          
+          resolve(response);
+        }, (error) => {
+          if(error.status != 200){
+            this.FailToast();
+          }
+          reject(error);
+        });
+      });
+    }
+
     doRefresh(event){
       this.getData().then( e => {
         console.log("ENTRO");
@@ -66,10 +135,15 @@ export class InitialMenuPage implements OnInit {
         localStorage.setItem('cosmetic', this.cosmetic);
         this.cosmetic_src = "../../assets/cosmetics/cosmetic_" + this.cosmetic + ".png";
       
-        setTimeout(() => {
-          event.target.complete()
-        }, 2000);
       });
+
+      this.getPublicGames();
+      this.getPrivateGames();
+      this.getInvitaciones();
+    
+      setTimeout(() => {
+        event.target.complete()
+      }, 2000);
     }
     
     ngOnInit() { 
@@ -81,6 +155,10 @@ export class InitialMenuPage implements OnInit {
         localStorage.setItem('cosmetic', this.cosmetic);
         this.cosmetic_src = "../../assets/cosmetics/cosmetic_" + this.cosmetic + ".png";
       });
+
+      this.getPublicGames();
+      this.getPrivateGames();
+      this.getInvitaciones();
       //console.log(this.cosmetic);
       //this.cosmetic_src = "../../assets/cosmetics/cosmetic_" + this.cosmetic + ".jpg";
       //console.log("../../assets/cosmetics/cosmetic_" + this.cosmetic + ".jpg")
@@ -132,5 +210,68 @@ export class InitialMenuPage implements OnInit {
       await toast.present();
       await toast.onDidDismiss();
     } 
+
+
+    accept(data){
+
+      console.log("ENTRO", data.rid)
+      this.webSocket.joinPrivateGame(
+        data.rid
+       , (e) => {
+         if(e.ok){
+           console.log(e);
+
+           this.decline(data)
+
+           this.router.navigate(['/private-room'], {
+             state: {
+               rid: data.rid,
+               players:e.players,
+               create: false
+             }
+           });
+         }
+         else{
+           this.FailJoinToast();
+           this.router.navigate(['/initial-menu']);
+         }
+   
+         
+       })
+    }
+
+    decline(data){
+      const url = 'http://quizzyappbackend.herokuapp.com/games/invite';
+      let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': `Bearer ${localStorage.getItem('token')}`});
+      let options = { headers : headers, body: {nickname: data.leader_nickname, rid: data.rid}};
+      return new Promise(resolve => {
+        this.http.delete(url, options).subscribe(response => {
+          resolve(response);
+        }, (error) => {
+          console.log(error);
+        });
+      });
+    }
+
+    /**
+     * @summary function that shows a toast when the user or the password aren't on the base data
+     */
+   async FailJoinToast() {
+    const toast = await this.toastController.create({
+      header: 'Private game join failed',
+      position: 'top',
+      buttons:[
+        {
+          text: 'Aceptar',
+          role: 'cancel'
+        }
+      ]
+    });
+    await toast.present();
+    await toast.onDidDismiss();
+  } 
 
   }

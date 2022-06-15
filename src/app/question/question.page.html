@@ -10,18 +10,18 @@
 <!--<mat-progress-bar mode="determinate" [value]="progress"></mat-progress-bar> -->
 
   <div id="container">
-    <button [disabled]="disable[0]" class="ans" (click)="onClick(0)">
+    <button id="res0" [disabled]="disable[0]" class="ans" (click)="onClick(0)">
       <span id="texto" [textContent]="answers[0].text"></span>
     </button>  
-    <button [disabled]="disable[1]" class="ans" (click)="onClick(1)">
+    <button id="res1" [disabled]="disable[1]" class="ans" (click)="onClick(1)">
       <span id="texto" [textContent]="answers[1].text"></span>
     </button>
   </div>
   <div id="container">
-    <button [disabled]="disable[2]" class="ans" (click)="onClick(2)">
+    <button id="res2" [disabled]="disable[2]" class="ans" (click)="onClick(2)">
       <span id="texto" [textContent]="answers[2].text"></span>
     </button>  
-    <button [disabled]="disable[3]" class="ans" (click)="onClick(3)">
+    <button id="res3" [disabled]="disable[3]" class="ans" (click)="onClick(3)">
       <span id="texto" [textContent]="answers[3].text"></span>
     </button>
   </div>

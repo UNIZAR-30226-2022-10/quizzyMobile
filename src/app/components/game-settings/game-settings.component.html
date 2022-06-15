@@ -1,13 +1,13 @@
 <p id="title">Choose Game Settings</p>
 
 <ion-label>Number of Players</ion-label>
-<ion-range min="2" max="6" color="secondary" pin="true" snaps="" ticks="true" value="6">
+<ion-range (ionChange)="rangePlayersChanged($event)" min="2" max="6" color="secondary" pin="true" snaps="" ticks="true" value="6">
   <ion-label slot="start">2</ion-label>
   <ion-label slot="end">6</ion-label>
 </ion-range>
 
 <ion-label>Time to answer</ion-label>
-<ion-range min="5" max="30" color="secondary" pin="true" snaps="" ticks="true" step="5" value="15">
+<ion-range (ionChange)="rangeTimeChanged($event)" min="5" max="30" color="secondary" pin="true" snaps="" ticks="true" step="5" value="15">
   <ion-label slot="start">5</ion-label>
   <ion-label slot="end">30</ion-label>
 </ion-range>
@@ -19,6 +19,20 @@
   </ion-segment-button>
   <ion-segment-button value="false">
     <ion-label>Disabled</ion-label>
+  </ion-segment-button>
+</ion-segment>
+
+<br>
+<ion-label>Difficulty</ion-label>
+<ion-segment (ionChange)="segmentDifficultyChanged($event)" value="1">
+  <ion-segment-button value="0">
+    <ion-label>Easy</ion-label>
+  </ion-segment-button>
+  <ion-segment-button value="1">
+    <ion-label>Normal</ion-label>
+  </ion-segment-button>
+  <ion-segment-button value="2">
+    <ion-label>Hard</ion-label>
   </ion-segment-button>
 </ion-segment>
 

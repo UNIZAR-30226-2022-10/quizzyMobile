@@ -29,7 +29,14 @@
   </mbsc-segmented>
 </mbsc-segmented-group>
 
-<br>
+
+<a>Time to answer</a>
+<ion-range (ionChange)="rangeChanged($event)" min="5" max="30" color="secondary" pin="true" snaps="" ticks="true" step="5" value="15">
+  <ion-label slot="start">5</ion-label>
+  <ion-label slot="end">30</ion-label>
+</ion-range>
+
+
 <a>Difficulty</a>
 <ion-segment (ionChange)="segmentChanged($event)" value="1">
   <ion-segment-button value="0">
