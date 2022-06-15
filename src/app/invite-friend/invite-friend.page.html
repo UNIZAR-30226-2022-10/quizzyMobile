@@ -1,0 +1,27 @@
+<ion-header>
+  <ion-toolbar color="light">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title id="menu">Friends</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list class="lista" color="light" *ngIf="dataIn?.length > 0">
+    <ion-item class="container"*ngFor="let item of dataIn" color="light">
+      <ion-label> {{item.nickname}} </ion-label>
+      
+      <ion-button color="success" (click)="invite(item.nickname)">
+        Invite 
+        <ion-icon slot="end" name="send-sharp" ></ion-icon>
+
+      </ion-button>
+      
+    </ion-item>
+  </ion-list>
+  
+
+  <p id="subtitle" *ngIf="dataIn?.length == 0">Añade amigos para poder invitarlos</p>
+
+</ion-content>

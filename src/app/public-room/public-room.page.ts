@@ -39,7 +39,7 @@ export class PublicRoomPage implements OnInit {
       this.timeout = setTimeout(() => {
         clearInterval(this.interval);
         clearTimeout(this.timeout);
-
+        this.router.navigate(['initial-menu']);
         //  Rellenar algo si hace falta
         // this.router.navigate(['/tablero']);
       }, 5000);
