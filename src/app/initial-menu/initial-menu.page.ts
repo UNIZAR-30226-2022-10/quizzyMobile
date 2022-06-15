@@ -232,6 +232,7 @@ export class InitialMenuPage implements OnInit {
            });
          }
          else{
+          this.decline(data)
            this.FailJoinToast();
            this.router.navigate(['/initial-menu']);
          }
@@ -249,6 +250,9 @@ export class InitialMenuPage implements OnInit {
       let options = { headers : headers, body: {nickname: data.leader_nickname, rid: data.rid}};
       return new Promise(resolve => {
         this.http.delete(url, options).subscribe(response => {
+          console.log(this.dataIn)
+          this.dataIn = this.dataIn.filter((u) => u.leader_nickname != data.leader_nickname || u.rid != data.rid )
+          console.log(this.dataIn)
           resolve(response);
         }, (error) => {
           console.log(error);

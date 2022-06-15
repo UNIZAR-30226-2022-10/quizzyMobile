@@ -65,6 +65,12 @@ export class PrivateRoomPage implements OnInit {
       this.webSocket.listenCancelGamePrivate(() => {
         this.router.navigate(['initial-menu']);
       })
+
+      this.webSocket.turnSala(() => {
+        //  La partida comienza
+
+        this.router.navigate(['initial-menu']);
+      })
     }
     
   }
@@ -103,10 +109,22 @@ export class PrivateRoomPage implements OnInit {
   }
 
   inviteFriends(){
-
+    this.router.navigate(['/invite-friend'], {
+      state:  {
+        game : this.game
+      }
+    });
   }
 
   startGame(){
+    this.webSocket.startGamePrivate(this.game.rid, ({ok, msg}) => {
+      if ( !ok ) console.log("Error al comenzar la partida : " + msg);
+    })
 
+    this.webSocket.cleanup('server:turn');
+    this.webSocket.cleanup('server:private:player:join');
+    this.webSocket.cleanup('server:private:player:leave');
+
+    this.router.navigate(['initial-menu']);
   }
 }

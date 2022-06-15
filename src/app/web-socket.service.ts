@@ -86,24 +86,13 @@ joinPrivateGame(rid, func){
    this.socket.emit('private:join',{rid}, func);
 }
 
+startGamePrivate(rid, func){
+   this.socket.emit('private:start', {rid}, func);
+}
+
 /*
-  responseCreatePrivateGame(){
-     return this.socket.fromEvent('private:create');
-  }
 
   
-
-  responseJoinPrivateGame(){
-     return this.socket.fromEvent('private:join');
-  }
-
-  responseLeavePrivateGame(){
-     return this.socket.fromEvent('private:leave');
-  }
-
-  startGamePrivate(rid){
-     this.socket.emit('private:start', {rid});
-  }
 
   responseStartGamePrivate(){
       return this.socket.fromEvent('private:start');
