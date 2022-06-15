@@ -38,7 +38,7 @@
       <button class="quit" (click)="returnMenu()">
         <ion-icon size="large" name="close"></ion-icon>
       </button>
-      <button class="dice" (click)="showDice()">
+      <button class="dice" (click)="showDice()" [disabled]="!this.updated">
         <ion-icon size="large" name="dice"></ion-icon>
       </button>
       <ion-router-outlet id="main"></ion-router-outlet>

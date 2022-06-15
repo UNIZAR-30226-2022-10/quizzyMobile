@@ -3,6 +3,14 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { WebSocketProvider } from '../web-socket.service';
 
+export interface Player {
+  id: number;
+  name: string;
+  skin: string;
+  categoryAchieved: Array<string>;
+  position: number;
+}
+
 @Component({
   selector: 'app-public-room',
   templateUrl: './public-room.page.html',
@@ -15,10 +23,13 @@ export class PublicRoomPage implements OnInit {
   time = 5;
   interval: any;
   timeout: any;
+  actors: Player[] = [
+  ];
 
   constructor(public http: HttpClient, public router : Router, public webSocket: WebSocketProvider) { }
 
   ngOnInit() {
+    let id = 0;
     this.webSocket.responseJoinPublicGame(({rid}) => {
       console.log("TE HAS UNIDO A LA PARTIDA", rid);
       this.cargando = false;
@@ -26,7 +37,8 @@ export class PublicRoomPage implements OnInit {
       this.players = [];
       this.webSocket.turnSala((data) => {
         Object.keys(data.stats).forEach(e => {
-          this.userInfo(e);
+          this.userInfo(e,id,0);
+          id = id + 1;
           console.log("ADD USER");
         });
       });
@@ -39,16 +51,19 @@ export class PublicRoomPage implements OnInit {
       this.timeout = setTimeout(() => {
         clearInterval(this.interval);
         clearTimeout(this.timeout);
-        this.router.navigate(['initial-menu']);
+
+        console.log(this.actors);
+        localStorage.setItem('actors_' + rid,  JSON.stringify(this.actors));
         //  Rellenar algo si hace falta
-        // this.router.navigate(['/tablero']);
+         this.router.navigate(['/board/'+this.players.length + '/' + rid]);
       }, 5000);
 
-    });  
-    
+    });
+
   }
 
-  userInfo(data){
+  userInfo(data, idPlayer, positionPlayer){
+    console.log("Data", data);
     let url= 'http://quizzyappbackend.herokuapp.com/user/reduced';
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -59,6 +74,8 @@ export class PublicRoomPage implements OnInit {
     return new Promise((resolve,reject) => {
       this.http.get(url, options ).subscribe(response => {
         this.players.push(response);
+        this.actors.push({id: idPlayer, name: data, skin: '../../assets/cosmetics/cosmetic_' + this.players[idPlayer].actual_cosmetic + '.png',
+                             categoryAchieved: [], position: positionPlayer});
         resolve(response);
       }, (error) => {
         reject(error);
