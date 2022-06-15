@@ -1,0 +1,36 @@
+<ion-content>  
+  <div id="question">
+    <p [textContent]="quest"></p>
+  </div>
+  <ion-progress-bar id="bar" [value]="p_bar_value"></ion-progress-bar>
+  <!--<mat-progress-bar mode="determinate" [value]="progress"></mat-progress-bar> -->
+  
+    <div id="container">
+      <button id="res0" [disabled]="disable[0]" class="ans" (click)="onClick(0)">
+        <span id="texto" [textContent]="answers[0].text"></span>
+      </button>  
+      <button id="res1" [disabled]="disable[1]" class="ans" (click)="onClick(1)">
+        <span id="texto" [textContent]="answers[1].text"></span>
+      </button>
+    </div>
+    <div id="container">
+      <button id="res2" [disabled]="disable[2]" class="ans" (click)="onClick(2)">
+        <span id="texto" [textContent]="answers[2].text"></span>
+      </button>  
+      <button id="res3" [disabled]="disable[3]" class="ans" (click)="onClick(3)">
+        <span id="texto" [textContent]="answers[3].text"></span>
+      </button>
+    </div>
+  
+    <div id="posicion">
+  
+      <div id="container2">
+        <ion-button [disabled]="comodines(0)" class="ans" (click)="useWildcard(0, iden[0])" [textContent]="wild[0]" color="secondary">
+        </ion-button>  
+        <ion-button [disabled]="comodines(1)" class="ans" (click)="useWildcard(1, iden[1])" [textContent]="wild[1]" color="secondary">
+        </ion-button>
+      </div>
+    </div>
+  
+  </ion-content>
+  

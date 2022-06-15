@@ -7,28 +7,27 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TokensCardComponent implements OnInit {
 
-  player={
-    name:'Juan',
-    skin: '10'
-  }
+  player: any;
 
-  tokens : Array<String> = [
-    'historia',
-    'arte'
-  ]
+  tokens: Array<string>;
 
-  tokenList : Array<String> = [
+  tokenList: Array<string> = [
     'historia',
     'arte',
     'geografia',
     'ciencia',
     'entretenimiento',
     'deportes'
-  ]
+  ];
 
   constructor() { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    console.log("PERO");
+    this.player = JSON.parse(localStorage.getItem('id'));
+    console.log("LO QUE RECIBO: ", this.player);
+    this.tokens = JSON.parse(localStorage.getItem('tokens'));
+  }
 
   getToken(id) {
     if(this.tokens.includes(this.tokenList[id]))

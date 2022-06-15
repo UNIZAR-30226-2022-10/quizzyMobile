@@ -85,6 +85,11 @@ const routes: Routes = [
     path: 'private-room',
     loadChildren: () => import('./private-room/private-room.module').then( m => m.PrivateRoomPageModule)
   },
+  {
+    path: 'single-question/:category',
+    loadChildren: () => import('./single-question/single-question.module').then( m => m.SingleQuestionPageModule)
+  },
+
 
 
 

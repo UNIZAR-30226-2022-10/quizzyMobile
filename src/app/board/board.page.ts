@@ -56,7 +56,9 @@ export class BoardPage implements OnInit {
     this.menu.open('second');
   }
 
-  async showTokens() {
+  async showTokens(nickname) {
+    this.getTokens(nickname.categoryAchieved);
+    localStorage.setItem('id', JSON.stringify(nickname));
     const popover = await this.popoverCtrl.create({
       component: TokensCardComponent,
     });
@@ -88,6 +90,8 @@ export class BoardPage implements OnInit {
       localStorage.setItem('actors_' + this.rid, JSON.stringify(this.actors));
     });
 
+    this.actors = JSON.parse(localStorage.getItem('actors_'+this.rid));
+
     var config = {
       type: Phaser.AUTO,
       width: 800,
@@ -110,7 +114,6 @@ export class BoardPage implements OnInit {
     };
 
     function getUser(nickname, id_){
-      console.log("GET USER: ", nickname);
       let url= 'http://quizzyappbackend.herokuapp.com/user/reduced';
       let headers = new HttpHeaders({
         'Content-Type': 'application/json',
@@ -121,7 +124,6 @@ export class BoardPage implements OnInit {
   
       return new Promise( (resolve,reject) => {
         this.http.get(url,options).subscribe(data => {
-          console.log("PROMISE", data)
           //let tokens = getTokens(nickname.tokens);
           this.actors.push({id: id_, name: nickname, skin: '../../assets/cosmetics/cosmetic_' + data.actual_cosmetic+'.png',
                              categoryAchieved: [], position: nickname.position});
@@ -133,9 +135,7 @@ export class BoardPage implements OnInit {
       });
     }
 
-    function getTokens(token){
-      
-    }
+
 
     var phaserGame = new Phaser.Game(config);
 
@@ -147,7 +147,6 @@ export class BoardPage implements OnInit {
       let rid = localStorage.getItem('rid');
       let actors = JSON.parse(localStorage.getItem('actors_'+rid));
 
-      console.log(actors);
       this.load.image('background', 'assets/tableroFinalCentroCompleto.png');
       for(let i= 0; i < numPlayers; i++){
         this.load.image(actors[i].name, actors[i].skin);
@@ -170,61 +169,61 @@ export class BoardPage implements OnInit {
       let player5: any;
 
       this.cells =[
-        new TrivialCell( 0, window.innerWidth / 2,     window.innerHeight / 2),
-        new TrivialCell( 1, window.innerWidth / 2,     window.innerHeight / 3.1),
-        new TrivialCell( 2, window.innerWidth / 2,     window.innerHeight / 4),
-        new TrivialCell( 3, window.innerWidth / 2,     window.innerHeight / 6),
-        new TrivialCell( 4, window.innerWidth / 1.525, window.innerHeight / 2.5),
-        new TrivialCell( 5, window.innerWidth / 1.38,  window.innerHeight / 2.7),
-        new TrivialCell( 6, window.innerWidth / 1.25,  window.innerHeight / 3),
-        new TrivialCell( 7, window.innerWidth / 1.525, window.innerHeight / 1.75),
-        new TrivialCell( 8, window.innerWidth / 1.38,  window.innerHeight / 1.6),
-        new TrivialCell( 9, window.innerWidth / 1.25,  window.innerHeight / 1.475),
-        new TrivialCell(10, window.innerWidth / 2,     window.innerHeight / 1.475),
-        new TrivialCell(11, window.innerWidth / 2,     window.innerHeight / 1.325),
-        new TrivialCell(12, window.innerWidth / 2,     window.innerHeight / 1.2),
-        new TrivialCell(13, window.innerWidth / 3,  window.innerHeight / 1.75),
-        new TrivialCell(14, window.innerWidth / 3.65,  window.innerHeight / 1.62),
-        new TrivialCell(15, window.innerWidth / 5,  window.innerHeight / 1.5),
-        new TrivialCell(16, window.innerWidth / 3,  window.innerHeight / 2.5),
-        new TrivialCell(17, window.innerWidth / 3.65,  window.innerHeight / 2.7),
-        new TrivialCell(18, window.innerWidth / 5,  window.innerHeight / 3),
-        new TrivialCell(19, window.innerWidth / 2,     window.innerHeight / 14),
-        new TrivialCell(20, window.innerWidth / 1.7,  window.innerHeight / 12.5),
-        new TrivialCell(21, window.innerWidth / 1.525,  window.innerHeight / 11),
-        new TrivialCell(22, window.innerWidth / 1.385,  window.innerHeight / 8.5),
-        new TrivialCell(23, window.innerWidth / 1.275,  window.innerHeight / 6.4),
-        new TrivialCell(24, window.innerWidth / 1.2,   window.innerHeight / 4.8),
-        new TrivialCell(25, window.innerWidth / 1.1375,  window.innerHeight / 3.5),
-        new TrivialCell(26, window.innerWidth / 1.1,   window.innerHeight / 2.7),
-        new TrivialCell(27, window.innerWidth / 1.075,  window.innerHeight / 2.3),
-        new TrivialCell(28, window.innerWidth / 1.065,  window.innerHeight / 2),
-        new TrivialCell(29, window.innerWidth / 1.075,  window.innerHeight / 1.75),
-        new TrivialCell(30, window.innerWidth / 1.1,   window.innerHeight / 1.575),
-        new TrivialCell(31, window.innerWidth / 1.1375,  window.innerHeight / 1.4),
-        new TrivialCell(32, window.innerWidth / 1.225,   window.innerHeight / 1.26),
-        new TrivialCell(33, window.innerWidth / 1.3,  window.innerHeight / 1.1875),
-        new TrivialCell(34, window.innerWidth / 1.4,  window.innerHeight / 1.135),
-        new TrivialCell(35, window.innerWidth / 1.525,  window.innerHeight / 1.1),
-        new TrivialCell(36, window.innerWidth / 1.7,  window.innerHeight / 1.08),
-        new TrivialCell(37, window.innerWidth / 2,     window.innerHeight / 1.075),
-        new TrivialCell(38, window.innerWidth / 2.45,   window.innerHeight / 1.08),
-        new TrivialCell(39, window.innerWidth / 2.95,  window.innerHeight / 1.1),
-        new TrivialCell(40, window.innerWidth / 3.65,   window.innerHeight / 1.135),
-        new TrivialCell(41, window.innerWidth / 4.65,   window.innerHeight / 1.1875),
-        new TrivialCell(42, window.innerWidth / 6,     window.innerHeight / 1.26),
-        new TrivialCell(43, window.innerWidth / 9,   window.innerHeight / 1.4),
-        new TrivialCell(44, window.innerWidth / 12,   window.innerHeight / 1.575),
-        new TrivialCell(45, window.innerWidth / 16,   window.innerHeight / 1.75),
-        new TrivialCell(46, window.innerWidth / 20,   window.innerHeight / 2),
-        new TrivialCell(47, window.innerWidth / 16,   window.innerHeight / 2.3),
-        new TrivialCell(48, window.innerWidth / 12,   window.innerHeight / 2.7),
-        new TrivialCell(49, window.innerWidth / 9,   window.innerHeight / 3.5),
-        new TrivialCell(50, window.innerWidth / 6,     window.innerHeight / 4.75),
-        new TrivialCell(51, window.innerWidth / 4.75,   window.innerHeight / 6.4),
-        new TrivialCell(52, window.innerWidth / 3.7,   window.innerHeight / 8.5),
-        new TrivialCell(53, window.innerWidth / 2.95,  window.innerHeight / 11),
-        new TrivialCell(54, window.innerWidth / 2.45,   window.innerHeight / 12.5),
+        new TrivialCell( 0, window.innerWidth / 2,     window.innerHeight / 2, null),
+        new TrivialCell( 1, window.innerWidth / 2,     window.innerHeight / 3.1, 4),
+        new TrivialCell( 2, window.innerWidth / 2,     window.innerHeight / 4, 3),
+        new TrivialCell( 3, window.innerWidth / 2,     window.innerHeight / 6, 2),
+        new TrivialCell( 4, window.innerWidth / 1.525, window.innerHeight / 2.5, 1),
+        new TrivialCell( 5, window.innerWidth / 1.38,  window.innerHeight / 2.7, 4),
+        new TrivialCell( 6, window.innerWidth / 1.25,  window.innerHeight / 3, 3),
+        new TrivialCell( 7, window.innerWidth / 1.525, window.innerHeight / 1.75, 5),
+        new TrivialCell( 8, window.innerWidth / 1.38,  window.innerHeight / 1.6, 1),
+        new TrivialCell( 9, window.innerWidth / 1.25,  window.innerHeight / 1.475, 4),
+        new TrivialCell(10, window.innerWidth / 2,     window.innerHeight / 1.475, 0),
+        new TrivialCell(11, window.innerWidth / 2,     window.innerHeight / 1.325,5),
+        new TrivialCell(12, window.innerWidth / 2,     window.innerHeight / 1.2,1),
+        new TrivialCell(13, window.innerWidth / 3,  window.innerHeight / 1.75,2),
+        new TrivialCell(14, window.innerWidth / 3.65,  window.innerHeight / 1.62,0),
+        new TrivialCell(15, window.innerWidth / 5,  window.innerHeight / 1.5,5),
+        new TrivialCell(16, window.innerWidth / 3,  window.innerHeight / 2.5,3),
+        new TrivialCell(17, window.innerWidth / 3.65,  window.innerHeight / 2.7,2),
+        new TrivialCell(18, window.innerWidth / 5,  window.innerHeight / 3,0),
+        new TrivialCell(19, window.innerWidth / 2,     window.innerHeight / 14,5),
+        new TrivialCell(20, window.innerWidth / 1.7,  window.innerHeight / 12.5,1),
+        new TrivialCell(21, window.innerWidth / 1.525,  window.innerHeight / 11,4),
+        new TrivialCell(22, window.innerWidth / 1.385,  window.innerHeight / 8.5,null),
+        new TrivialCell(23, window.innerWidth / 1.275,  window.innerHeight / 6.4,3),
+        new TrivialCell(24, window.innerWidth / 1.2,   window.innerHeight / 4.8,2),
+        new TrivialCell(25, window.innerWidth / 1.1375,  window.innerHeight / 3.5,0),
+        new TrivialCell(26, window.innerWidth / 1.1,   window.innerHeight / 2.7,5),
+        new TrivialCell(27, window.innerWidth / 1.075,  window.innerHeight / 2.3,1),
+        new TrivialCell(28, window.innerWidth / 1.065,  window.innerHeight / 2,null),
+        new TrivialCell(29, window.innerWidth / 1.075,  window.innerHeight / 1.75,4),
+        new TrivialCell(30, window.innerWidth / 1.1,   window.innerHeight / 1.575,3),
+        new TrivialCell(31, window.innerWidth / 1.1375,  window.innerHeight / 1.4,2),
+        new TrivialCell(32, window.innerWidth / 1.225,   window.innerHeight / 1.26,0),
+        new TrivialCell(33, window.innerWidth / 1.3,  window.innerHeight / 1.1875,5),
+        new TrivialCell(34, window.innerWidth / 1.4,  window.innerHeight / 1.135,null),
+        new TrivialCell(35, window.innerWidth / 1.525,  window.innerHeight / 1.1,1),
+        new TrivialCell(36, window.innerWidth / 1.7,  window.innerHeight / 1.08,4),
+        new TrivialCell(37, window.innerWidth / 2,     window.innerHeight / 1.075,3),
+        new TrivialCell(38, window.innerWidth / 2.45,   window.innerHeight / 1.08,2),
+        new TrivialCell(39, window.innerWidth / 2.95,  window.innerHeight / 1.1,0),
+        new TrivialCell(40, window.innerWidth / 3.65,   window.innerHeight / 1.135,null),
+        new TrivialCell(41, window.innerWidth / 4.65,   window.innerHeight / 1.1875,5),
+        new TrivialCell(42, window.innerWidth / 6,     window.innerHeight / 1.26,1),
+        new TrivialCell(43, window.innerWidth / 9,   window.innerHeight / 1.4,4),
+        new TrivialCell(44, window.innerWidth / 12,   window.innerHeight / 1.575,3),
+        new TrivialCell(45, window.innerWidth / 16,   window.innerHeight / 1.75,2),
+        new TrivialCell(46, window.innerWidth / 20,   window.innerHeight / 2,null),
+        new TrivialCell(47, window.innerWidth / 16,   window.innerHeight / 2.3,0),
+        new TrivialCell(48, window.innerWidth / 12,   window.innerHeight / 2.7,5),
+        new TrivialCell(49, window.innerWidth / 9,   window.innerHeight / 3.5,1),
+        new TrivialCell(50, window.innerWidth / 6,     window.innerHeight / 4.75,4),
+        new TrivialCell(51, window.innerWidth / 4.75,   window.innerHeight / 6.4,3),
+        new TrivialCell(52, window.innerWidth / 3.7,   window.innerHeight / 8.5, null),
+        new TrivialCell(53, window.innerWidth / 2.95,  window.innerHeight / 11,2),
+        new TrivialCell(54, window.innerWidth / 2.45,   window.innerHeight / 12.5,0),
       ];
       var width = window.innerWidth;
       var height = window.innerHeight;
@@ -270,7 +269,8 @@ export class BoardPage implements OnInit {
 
       this.scale.on('resize', resize, this);
 
-
+      startTurn();
+      
       endTurn();
     }
 
@@ -304,7 +304,6 @@ export class BoardPage implements OnInit {
         possibilities[i].on('pointerdown', function() {
           this.setTint(0xff0000);
           numberReturn = arrayPos[i];
-          console.log(numberReturn);
           this.actors[i].position = numberReturn;
 
           possibilities[i].on('pointerup', function() {
@@ -314,7 +313,7 @@ export class BoardPage implements OnInit {
             movePlayer(player,thiss.cells[numberReturn].getx(), thiss.cells[numberReturn].gety());
 
           });
-          callQuestion();
+          callQuestion(numberReturn);
         });
 
       }
@@ -328,14 +327,17 @@ export class BoardPage implements OnInit {
           console.log("error ", msg);
         }
         else {
+          callQuestion(0);
           console.log("CORRECTO");
-          callQuestion();
+
         }
       });
     }
 
-    function callQuestion(){
+    function callQuestion(numberCell){
+      const cat = this.cells[numberCell].getCategory();
 
+      this.router.navigate['/single-question/'+ cat];
     }
     function endTurn() {
     }
@@ -388,6 +390,37 @@ export class BoardPage implements OnInit {
   showPlayers(){
     this.menu.enable(true, 'first');
     this.menu.open('first');
+  }
+
+  getTokens(token){
+    let listToken: Array<string>;
+    listToken = [];
+    for (let i = 0; i < token.length; i++){
+      if(token[i]){
+        switch (i){
+          case 0:
+            listToken.push('geografia');
+            break;
+          case 1:
+            listToken.push('arte');
+            break;
+          case 2:
+            listToken.push('historia');
+            break;
+          case 3:
+            listToken.push('ciencia');
+            break;
+          case 4:
+            listToken.push('deportes');
+            break;
+          case 5:
+            listToken.push('entretenimiento');
+            break;
+        }
+      }
+    }
+
+    localStorage.setItem('tokens', JSON.stringify(listToken));
   }
 
   async showDice(){

@@ -45,7 +45,7 @@ export class PublicRoomPage implements OnInit {
       
       this.interval = setInterval(() => {
         this.time = this.time - 1;
-      }, 1000)
+      }, 1000);
       // go to tablero
   
       this.timeout = setTimeout(() => {
