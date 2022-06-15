@@ -167,7 +167,8 @@ export class ShopPage implements OnInit {
         {
           text: 'Buy',
           handler: data => {
-            item.amount = data.amount;
+            
+            item.amount = parseInt( data.amount);
             const send: SendShop =
               {id: item.wildcard_id, amount: item.amount}
             ;
