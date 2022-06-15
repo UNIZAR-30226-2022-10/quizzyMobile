@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Location } from '@angular/common';
 import { fromEvent, tap, Observable, Subscription, of, windowWhen, ObjectUnsubscribedError } from 'rxjs';
 import { TrivialCell } from './trivial-cell';
 import { ScreenOrientation } from '@awesome-cordova-plugins/screen-orientation/ngx';
@@ -16,7 +17,7 @@ export interface Player {
   id: number;
   name: string;
   skin: string;
-  categoryAchieved: Array<string>;
+  categoryAchieved: any;
   position: number;
 }
 declare let Phaser;
@@ -37,8 +38,10 @@ export class BoardPage implements OnInit {
   num: number;
   updated: boolean;
   players: any;
+  game: any;
 
   constructor(
+    public location: Location,
     public router: Router,
     private screenOrientation: ScreenOrientation,
     private activatedRoute: ActivatedRoute,
@@ -71,26 +74,38 @@ export class BoardPage implements OnInit {
     this.router.navigate(['initial-menu']);
   }
 
+  movePlayer(player, x, y){
+    player.x = x;
+    player.y = y;
+  }
+
   ngOnInit(): void {
+    
+    this.game = this.location.getState();
+      console.log("CONFIG", this.game);
+
     console.log(window.innerWidth / 2, window.innerHeight / 2);
     this.updated = false;
     this.rid = this.activatedRoute.snapshot.paramMap.get('rid');
     this.numPlayers = this.activatedRoute.snapshot.paramMap.get('numJugadores');
 
-    localStorage.setItem('numPlayers', this.numPlayers);
+    /*localStorage.setItem('numPlayers', this.numPlayers);
     localStorage.setItem('rid', this.rid);
 
     console.log("ENTRE TABLERO", this.numPlayers, this.rid);
     let id = 0;
     this.webSocket.turn((data) => {
       Object.keys(data.stats).forEach(player => {
-        getUser(data, id);
+        this.getUser(data, id);
         id = id + 1;
       });
+      //localStorage.removeItem('actors_' + this.rid);
       localStorage.setItem('actors_' + this.rid, JSON.stringify(this.actors));
     });
 
-    this.actors = JSON.parse(localStorage.getItem('actors_'+this.rid));
+    this.actors = JSON.parse(localStorage.getItem('actors_'+this.rid));*/
+
+    // si en el data Stats te devuelve answer... mirar si true o false y llamar a las opiones
 
     var config = {
       type: Phaser.AUTO,
@@ -111,31 +126,11 @@ export class BoardPage implements OnInit {
         create: create,
         //update: update,
       },
+      game: this.game,
+      webSocket: this.webSocket,
+      router: this.router,
+      rid: this.rid,
     };
-
-    function getUser(nickname, id_){
-      let url= 'http://quizzyappbackend.herokuapp.com/user/reduced';
-      let headers = new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'});
-      let params = new HttpParams()
-          .set('nickname', nickname);
-      let options = { headers : headers, params:params};
-  
-      return new Promise( (resolve,reject) => {
-        this.http.get(url,options).subscribe(data => {
-          //let tokens = getTokens(nickname.tokens);
-          this.actors.push({id: id_, name: nickname, skin: '../../assets/cosmetics/cosmetic_' + data.actual_cosmetic+'.png',
-                             categoryAchieved: [], position: nickname.position});
-          resolve(data);
-        }, error => {
-          reject(error);
-          console.log(error);
-        });
-      });
-    }
-
-
 
     var phaserGame = new Phaser.Game(config);
 
@@ -143,13 +138,15 @@ export class BoardPage implements OnInit {
      * Function for preloading assets into the game.
      */
     function preload() {
-      let numPlayers = parseInt(localStorage.getItem('numPlayers'));
+      /*let numPlayers = parseInt(localStorage.getItem('numPlayers'));
       let rid = localStorage.getItem('rid');
-      let actors = JSON.parse(localStorage.getItem('actors_'+rid));
+      let actors = JSON.parse(localStorage.getItem('actors_'+rid));*/
+
+      console.log("PRELOAD: ", config.game.actors);
 
       this.load.image('background', 'assets/tableroFinalCentroCompleto.png');
-      for(let i= 0; i < numPlayers; i++){
-        this.load.image(actors[i].name, actors[i].skin);
+      for(let i= 0; i < config.game.actors.length; i++){
+        this.load.image(config.game.actors[i].name, config.game.actors[i].skin);
       }
     }
 
@@ -158,15 +155,11 @@ export class BoardPage implements OnInit {
      * Setup the objects which will be displayed into the scene
      */
     function create() {
-      let numPlayers = parseInt(localStorage.getItem('numPlayers'));
+      /*let numPlayers = parseInt(localStorage.getItem('numPlayers'));
       let rid = parseInt(localStorage.getItem('rid'));
-      let actors = JSON.parse(localStorage.getItem('actors_' + rid));
-      let player0: any;
-      let player1: any;
-      let player2: any;
-      let player3: any;
-      let player4: any;
-      let player5: any;
+      let actors = JSON.parse(localStorage.getItem('actors_' + rid));*/
+
+      let players: any;
 
       this.cells =[
         new TrivialCell( 0, window.innerWidth / 2,     window.innerHeight / 2, null),
@@ -235,43 +228,45 @@ export class BoardPage implements OnInit {
       this.bg = this.add.image(width / 2, height / 2, 'background');
       this.bg.setDisplaySize(width,height);
 
-      player0 = this.add.image(width / 2, height / 2, actors[0].name).setInteractive();
-      player0.setDisplaySize(width/20,height/13);
+      this.players = [];
 
-      player1 = this.add.image(width / 2, height / 2, actors[1].name).setInteractive();
-      player1.setDisplaySize(width/20,height/13);
-
-      if(numPlayers > 2){
-        player2 = this.add.image(width / 2, height / 2, actors[2].name).setInteractive();
-        player2.setDisplaySize(width/20,height/13);
-      }
-
-      if(numPlayers > 3){
-        player3 = this.add.image(width / 2, height / 2, actors[3].name).setInteractive();
-        player3.setDisplaySize(width/20,height/13);
-      }
-
-      if(numPlayers > 4){
-        player4 = this.add.image(width / 2, height / 2, actors[4].name).setInteractive();
-        player4.setDisplaySize(width/20,height/13);
-      }
-
-      if(numPlayers > 5){
-        player5 = this.add.image(width / 2, height / 2, actors[5].name).setInteractive();
-        player5.setDisplaySize(width/20,height/13);
-      }
-
-      const players = [player0,player1,player2,player3,player4,player5];
-
-      for(let i = 0; i < numPlayers; i++){
-        movePlayer(players[i], this.cells[actors[i].position].getx(),this.cells[actors[i].position].gety());
+      for(let i = 0; i < config.game.actors.length; i++){
+        this.players.push(this.add.image(this.cells[config.game.actors[i].position].getx(), 
+                          this.cells[config.game.actors[i].position].gety(), config.game.actors[i].name).setInteractive());
+        this.players.at(i).setDisplaySize(width/20,height/13);
       }
 
       this.scale.on('resize', resize, this);
 
-      startTurn();
-      
-      endTurn();
+      config.webSocket.startTurn(config.rid, config.game.pub, (res) => {
+        console.log("START TURN : ", res);
+        if(res.currentQuestion){
+
+          console.log("SOY YO");
+
+          config.router.navigate(['/single-question'], {
+            state: {
+              question: res.currentQuestion,
+              timeout : res.timeout
+            }
+          });
+          
+        }
+        else {
+          console.log("No soy yo");
+  
+        }
+      });
+
+      /*let myActor = this.actors.filter((e) => e.nickname === localStorage.getItem('nickname'));
+
+      console.log("MY ACTOR", myActor);
+      //Partida
+
+      this.startTurn(myActor[0].position);
+
+
+      this.endTurn();*/
     }
 
     /**
@@ -289,103 +284,104 @@ export class BoardPage implements OnInit {
       this.bg.setPosition(width / 2, height / 2);
     }
 
-    function movePlayer(player, x, y){
-        player.x = x;
-        player.y = y;
-    }
+  }
 
-    function showMovement(arrayPos, thiss, player, id){
-      let possibilities = [];
-      let numberReturn = 0;
-      for(let i= 0; i < arrayPos.length; i++){
-        possibilities[i] = thiss.add.image(thiss.cells[arrayPos[i]].getx(), thiss.cells[arrayPos[i]].gety(), 'stitch').setInteractive();
-        possibilities[i].setDisplaySize(window.innerWidth/20, window.innerHeight/13);
 
-        possibilities[i].on('pointerdown', function() {
-          this.setTint(0xff0000);
-          numberReturn = arrayPos[i];
-          this.actors[i].position = numberReturn;
+  showMovement(arrayPos, thiss, player, id){
+    let possibilities = [];
+    let numberReturn = 0;
+    for(let i= 0; i < arrayPos.length; i++){
+      possibilities[i] = thiss.add.image(thiss.cells[arrayPos[i]].getx(), thiss.cells[arrayPos[i]].gety(), 'stitch').setInteractive();
+      possibilities[i].setDisplaySize(window.innerWidth/20, window.innerHeight/13);
 
-          possibilities[i].on('pointerup', function() {
-            for (const iter of possibilities) {
-              iter.destroy();
-            }
-            movePlayer(player,thiss.cells[numberReturn].getx(), thiss.cells[numberReturn].gety());
+      possibilities[i].on('pointerdown', function() {
+        this.setTint(0xff0000);
+        numberReturn = arrayPos[i];
+        this.actors[i].position = numberReturn;
 
-          });
-          callQuestion(numberReturn);
+        possibilities[i].on('pointerup', function() {
+          for (const iter of possibilities) {
+            iter.destroy();
+          }
+          this.movePlayer(player,thiss.cells[numberReturn].getx(), thiss.cells[numberReturn].gety());
+
         });
 
+      });
+
+    }
+  }
+
+  /*startTurn(position){
+    console.log("ESPERANDO TURNO..");
+    this.webSocket.startTurn(this.rid,this.pub.pub,({ok,msg}) => {
+      console.log("Start Turn");
+      if (ok === false){
+        console.log("error ", msg);
       }
-    }
+      else {
+        this.callQuestion(position);
+        console.log("CORRECTO");
 
-    function startTurn(){
-      console.log("ESPERANDO TURNO..");
-      this.webSocket.startTurn(this.rid,true,({ok,msg}) => {
-        console.log("Start Turn");
-        if (ok === false){
-          console.log("error ", msg);
-        }
-        else {
-          callQuestion(0);
-          console.log("CORRECTO");
+      }
+    });
+  }
 
-        }
+  getUser(nickname, id_){
+    let url= 'http://quizzyappbackend.herokuapp.com/user/reduced';
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'});
+    let params = new HttpParams()
+        .set('nickname', nickname.stats);
+    let options = { headers : headers, params:params};
+
+    return new Promise( (resolve,reject) => {
+      this.http.get(url,options).subscribe(data => {
+        const tokens = this.getTokens(nickname.tokens);
+        this.actors.push({id: id_, name: nickname, skin: '../../assets/cosmetics/cosmetic_' + data[0].actual_cosmetic+'.png',
+                           categoryAchieved: tokens, position: nickname.position});
+        resolve(data);
+      }, error => {
+        reject(error);
+        console.log(error);
       });
-    }
-
-    function callQuestion(numberCell){
-      const cat = this.cells[numberCell].getCategory();
-
-      this.router.navigate['/single-question/'+ cat];
-    }
-    function endTurn() {
-    }
-
-    function correctAnwser(idP, player){
-      let num;
-      let cells;
-      this.webSocket.makeMove(this.rid,true,this.actors[idP].position, ({ok,msg}) =>{
-        console.log("make move");
-      });
-
-      this.webSocket.responseMakeMove(true, (data) => {
-        if ( data.ok === false) {
-          return;
-        }
-        num = data.roll;
-        cells = data.cells;
-      });
+    });
+  }
 
 
-      window.localStorage.setItem('Board', JSON.stringify(num));
-      this.updated = true;
+  callQuestion(numberCell){
+    const cat = this.cells[numberCell].getCategory();
 
-      let timeout = setTimeout( () => {
-        this.showMovement(cells,this,player,idP);
-        clearTimeout(timeout);
-      }, 2000);
-
-    }
-
-    /**
-     * Game loop routine. This function will be called once per frame, any displaying
-     * logic that updates with time ( movements, rotations, etc... ) should go here.
-     *
-     * Don't call network services from here, as it will generate a great amount
-     * of requests. If you need to interact with the backend, this should be done via
-     * events on the create function.
-     */
-    /*function update() {
-      var p = this.input.activePointer;
-      this.text.setText([
-        'x: ' + p.x,
-        'y: ' + p.y,
-        'duration: ' + p.getDuration(),
-      ]);
-    }*/
+    this.router.navigate['/single-question/'+ cat];
 
   }
+  endTurn() {
+
+  }
+
+
+  correctAnwser(idP, player){
+    let num;
+    let cells;
+    this.webSocket.makeMove(true,this.rid,this.actors[idP].position, (data) =>{
+      if ( data.ok === false) {
+        return;
+      }
+      num = data.roll;
+      cells = data.cells;
+    });
+
+    window.localStorage.setItem('Board', JSON.stringify(num));
+    this.updated = true;
+
+    let timeout = setTimeout( () => {
+      this.showMovement(cells,this,player,idP);
+      clearTimeout(timeout);
+    }, 2000);
+
+  }*/
+
 
   showPlayers(){
     this.menu.enable(true, 'first');

@@ -91,35 +91,21 @@ startGamePrivate(rid, func){
 }
 
 /*
-
-  
-
   responseStartGamePrivate(){
       return this.socket.fromEvent('private:start');
-  }
+  }*/
 
-  
 
-  
-
-  makeMove(publico,data){
+  makeMove(publico,rid,pos,func: any){
      if(publico){
-        this.socket.emit('public:makeMove', data);
+        this.socket.emit('public:makeMove', {rid, pos}, func);
      }
      else {
-        this.socket.emit('private:makeMove', data);
+        this.socket.emit('private:makeMove', {rid, pos}, func);
      }
   }
-
-  responseMakeMove(publico){
-     if(publico){
-        return this.socket.fromEvent('public:makeMove');
-     }
-     else {
-        return this.socket.fromEvent('private:makeMove');
-     }
-  }
-
+  
+/*
   questionTimeout(){
       return this.socket.fromEvent('server:timeout');
   }
@@ -127,27 +113,18 @@ startGamePrivate(rid, func){
 
   winner(){
     return this.socket.fromEvent('server:winner');
-  }
+  }*/
 
-  startTurn(rid:any, pub:any) {
+  startTurn(rid, pub, func: any) {
      if(pub){
-        this.socket.emit('public:startTurn', {rid});
+        this.socket.emit('public:startTurn', {rid}, func);
      }
      else {
-        this.socket.emit('private:startTurn', {rid});
+        this.socket.emit('private:startTurn', {rid}, func);
      }
   }
 
-   // PARA USARLO this.socketService.responseStartTurn().subscribe((data: any) => variable = data)
-  responseStartTurn(func:any){
-     if(pub){
-        return this.socket.fromEvent('public:startTurn', func);
-     }
-     else {
-        return this.socket.fromEvent('private:startTurn', func);
-     }
-  }
-
+  /*
   pause(pub,data){
      if(pub){
          this.socket.emit('public:pause', {data});
@@ -183,16 +160,10 @@ startGamePrivate(rid, func){
         return this.socket.fromEvent('private:resume');
      }
 
-  }
+  }*/
 
-  listenNewPlayers(){
-     return this.socket.fromEvent('server:private:player:join');
-  }
 
-  listenLeavePlayers(){
-     return this.socket.fromEvent('server:private:player:leave');
-  }
-
+  /*
   joinChat(rid){
      this.socket.emit('chat:join', {rid});
   }
@@ -206,11 +177,11 @@ startGamePrivate(rid, func){
   }
 
   responseSendMessage(){
-     return this.socket.fromEvent('chat:send');
+     return this.socket.on('chat:send');
   }
 
   subscribeToMessage(){
       return this.socket.fromEvent('chat:message');
-  }
-  */
+  }*/
+  
 }

@@ -18,7 +18,7 @@
         </ion-header>
         <ion-content>
           <ion-list>
-            <ion-card *ngFor="let item of this.actors; let i index" id="friend" color="tertiary" (click)="showTokens(item)">
+            <ion-card *ngFor="let item of this.game.actors; let i index" id="friend" color="tertiary" (click)="showTokens(item)">
               <ion-card-content>
                 <ion-row class="ion-align-items-center">
                   <div id="container">

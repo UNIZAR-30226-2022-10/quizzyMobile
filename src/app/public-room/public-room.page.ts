@@ -37,8 +37,13 @@ export class PublicRoomPage implements OnInit {
       this.players = [];
       this.webSocket.turnSala((data) => {
         Object.keys(data.stats).forEach(e => {
-          this.userInfo(e,id,0);
-          id = id + 1;
+          console.log("E: ",e);
+          this.userInfo(e,id,0).then(elem => {
+            this.actors.push({id: id, name: e, skin: '../../assets/cosmetics/cosmetic_' + elem['actual_cosmetic'] + '.png',
+            categoryAchieved: [], position: data.stats[e].position});
+            id = id + 1;
+          });
+          
           console.log("ADD USER");
         });
       });
@@ -53,9 +58,14 @@ export class PublicRoomPage implements OnInit {
         clearTimeout(this.timeout);
 
         console.log(this.actors);
-        localStorage.setItem('actors_' + rid,  JSON.stringify(this.actors));
+        // localStorage.setItem('actors_' + rid,  JSON.stringify(this.actors));
         //  Rellenar algo si hace falta
-         this.router.navigate(['/board/'+this.players.length + '/' + rid]);
+         this.router.navigate(['/board/'+this.players.length + '/' + rid], {
+          state: {
+            pub: true,
+            actors: this.actors
+          }
+         });
       }, 5000);
 
     });
@@ -70,14 +80,14 @@ export class PublicRoomPage implements OnInit {
       'Accept': 'application/json'});
       let params = new HttpParams()
       .set('nickname', data)
-    let options = { headers : headers, params:params};    
+    let options = { headers : headers, params:params};
     return new Promise((resolve,reject) => {
       this.http.get(url, options ).subscribe(response => {
         this.players.push(response);
-        this.actors.push({id: idPlayer, name: data, skin: '../../assets/cosmetics/cosmetic_' + this.players[idPlayer].actual_cosmetic + '.png',
-                             categoryAchieved: [], position: positionPlayer});
+        
         resolve(response);
       }, (error) => {
+        console.log("ERROR", data);
         reject(error);
       });
     });

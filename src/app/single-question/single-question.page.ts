@@ -51,10 +51,10 @@ export class SingleQuestionPage implements OnInit {
   numPlayers: any;
   rid: any;
   cat: number;
+
+
   constructor(public location: Location, public http:HttpClient, public platform: Platform, public router: Router, private screenOrientation: ScreenOrientation, public popoverController: PopoverController, private activatedRoute: ActivatedRoute,) {
     this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.LANDSCAPE);
-    this.numPlayers = localStorage.getItem('numPlayers');
-    this.rid = localStorage.getItem('rid');
   }
 
   ngOnInit() {
@@ -69,18 +69,26 @@ export class SingleQuestionPage implements OnInit {
     this.buttons.push(document.getElementById('res2'));
     this.buttons.push(document.getElementById('res3'));
 
-    this.cat = parseInt(this.activatedRoute.snapshot.paramMap.get('category'));
     this.questionOptions = this.location.getState();
-    //console.log(this.questionOptions);
+    console.log(this.questionOptions);
 
-    this.questionOptions.categories.forEach(e => {
-
-    });
-
-    this.getQuestion(this.questionOptions);
-
-    this.time = this.questionOptions.time*10;
+    if(this.questionOptions.timeout){
+      this.time = this.questionOptions.timeout;
+    }
+    else{
+      this.time = 15000;
+    }
+    
     this.timeleft = this.time;
+
+    this.position = (Math.random() * 4) | 0;
+
+    this.quest = this.questionOptions.question.question;
+    this.answers[this.position] = {text: this.questionOptions.question.correct_answer, correct: true};
+    this.answers[(this.position + 1) % 4] = {text: this.questionOptions.question.wrong_answer_1, correct: false};
+    this.answers[(this.position + 2) % 4] = {text: this.questionOptions.question.wrong_answer_2, correct: false};
+    this.answers[(this.position + 3) % 4] = {text: this.questionOptions.question.wrong_answer_3, correct: false};
+
 
     console.log(this.time, "TIEMPO BOBO");
     
@@ -104,15 +112,15 @@ export class SingleQuestionPage implements OnInit {
   showProgress()
   {
     this.timer = setInterval(() => this.progressBar(), 100);
-    this.cancel = setInterval(() => clearInterval(this.timer), this.time*100);
+    this.cancel = setInterval(() => clearInterval(this.timer), this.time);
   }
 
   progressBar() {
     this.p_bar_value = (this.timeleft/this.time);
-    this.timeleft = this.timeleft-1;
+    this.timeleft = this.timeleft-100;
     if(this.timeleft==0)
     {
-      this.time = this.questionOptions.time*10;
+      this.time = this.questionOptions.timeout;
       this.timeleft = this.time;
       clearInterval(this.timer);
       clearInterval(this.cancel);
@@ -123,79 +131,29 @@ export class SingleQuestionPage implements OnInit {
 
 
   onClick(id) {
+    this.disable = [true,true,true,true];
+    clearInterval(this.timer);
+    clearInterval(this.cancel);
+
     if(this.answers[id].correct===true)
     {
 
       this.buttons[id].style.cssText = 'background-color: #2dd36f';
-      localStorage.setItem('answer', 'true');
     }
     else
     {
 
       this.buttons[id].style.cssText = 'background-color: #eb445a';
       this.buttons[this.position].style.cssText = 'background-color: #2dd36f';
-      localStorage.setItem('answer', 'false');
 
     }
 
+    
+
     let timeout = setTimeout(() => {
-
-      for(var i = 0; i < this.answers.length; i++){
-        this.buttons[i].style.cssText = 'background-color: #112d4e';
-      }
-
-      this.time = this.questionOptions.time*10;
-      this.timeleft = this.time;
-
-      clearInterval(this.timer);
-      clearInterval(this.cancel);
       clearTimeout(timeout);
-
-      this.router.navigate(['/board/'+this.numPlayers + '/' + this.rid]);
     }, 500);
     
-  }
-
-
-  getQuestion(questionOptions){
-    //pasar la categoria dependiendo de la celda
-    const url = 'http://quizzyappbackend.herokuapp.com/questions';
-    
-    let params = new HttpParams();
-    let num = Math.random() * questionOptions.categories.length;
-
-    params = params.append('difficulty', questionOptions.difficulty);
-    params = params.append('category', this.cat);
-    params = params.append('limit', 1);
-
-    let headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Accept': 'aplication/json'});
-    let options = { headers : headers, params : params};
-    
-    return new Promise(resolve => {
-      this.http.get(url,options).subscribe(data => {
-        resolve(data);
-        let question = data["questions"][0];
-
-        this.quest = question.question;
-        this.categ = questionOptions.categories[num | 0].name;
-
-        this.position = (Math.random() * 4) | 0;
-        console.log(this.position);
-
-        this.answers[this.position] = {text: question.correct_answer, correct: true};
-        this.answers[(this.position + 1) % 4] = {text: question.wrong_answer_1, correct: false};
-        this.answers[(this.position + 2) % 4] = {text: question.wrong_answer_2, correct: false};
-        this.answers[(this.position + 3) % 4] = {text: question.wrong_answer_3, correct: false};
-
-        this.disable = [false, false, false, false];
-      
-        this.wildcardUse = false;
-      }, error => {
-        console.log(error);
-      });
-    });
   }
 
 
@@ -274,5 +232,11 @@ export class SingleQuestionPage implements OnInit {
 
   comodines(array_id){
     return !(this.cant[array_id] > 0 && !this.wildcardUse);
+  }
+
+  back(){
+    clearInterval(this.timer);
+    clearInterval(this.cancel);
+    this.location.back();
   }
 }

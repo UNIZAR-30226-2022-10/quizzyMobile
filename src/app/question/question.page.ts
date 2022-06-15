@@ -158,6 +158,10 @@ export class QuestionPage implements OnInit {
 
     }
 
+    this.disable = [true,true,true,true];
+    clearInterval(this.timer);
+    clearInterval(this.cancel);
+
     let timeout = setTimeout(() => {
 
       for(var i = 0; i < this.answers.length; i++){
@@ -166,8 +170,6 @@ export class QuestionPage implements OnInit {
 
       this.time = this.questionOptions.time*10;
       this.timeleft = this.time;
-      clearInterval(this.timer);
-      clearInterval(this.cancel);
       clearTimeout(timeout);
       this.getQuestion(this.questionOptions);
       this.Showprogress();

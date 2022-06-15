@@ -4,6 +4,21 @@
     justify-content: space-evenly;
     min-height: 21%;
   }
+
+  #exit{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 5%;
+    left: 2.5%;
+    z-index: 2;
+    border-radius: 50%;
+    background-color: #eb445a;
+    color: white;
+    height: 2rem;
+    width: 2rem;
+  }
   
   #posicion{
     position: absolute;

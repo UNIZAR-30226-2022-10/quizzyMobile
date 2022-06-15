@@ -84,12 +84,13 @@ const routes: Routes = [
   {
     path: 'private-room',
     loadChildren: () => import('./private-room/private-room.module').then( m => m.PrivateRoomPageModule)
-  },  {
+  },
+  {
     path: 'invite-friend',
     loadChildren: () => import('./invite-friend/invite-friend.module').then( m => m.InviteFriendPageModule)
   },
   {
-    path: 'single-question/:category',
+    path: 'single-question',
     loadChildren: () => import('./single-question/single-question.module').then( m => m.SingleQuestionPageModule)
   },
 
