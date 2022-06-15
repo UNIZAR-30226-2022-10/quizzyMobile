@@ -38,7 +38,7 @@ const routes: Routes = [
     loadChildren: () => import('./chat/chat.module').then( m => m.ChatPageModule)
   },
   {
-    path: 'board/:numJugadores',
+    path: 'board/:numJugadores/:rid',
     loadChildren: () => import('./board/board.module').then( m => m.BoardPageModule)
   },
   {
@@ -76,7 +76,8 @@ const routes: Routes = [
   {
     path: 'inventory',
     loadChildren: () => import('./inventory/inventory.module').then( m => m.InventoryPageModule)
-  },  {
+  },
+  {
     path: 'public-room',
     loadChildren: () => import('./public-room/public-room.module').then( m => m.PublicRoomPageModule)
   },

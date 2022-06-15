@@ -29,10 +29,12 @@ export class BoardPage implements OnInit {
   player: any;
   cells: any;
   numPlayers: any;
+  rid: any;
   actors: Player[] = [
   ];
   num: number;
   updated: boolean;
+  players: any;
 
   constructor(
     public router: Router,
@@ -69,13 +71,19 @@ export class BoardPage implements OnInit {
     console.log(window.innerWidth / 2, window.innerHeight / 2);
     this.socket.ioSocket.io.opts.query = { Authorization: `${localStorage.getItem('token')}`};
     this.updated = false;
+    this.rid = this.activatedRoute.snapshot.paramMap.get('rid');
+    //this.players = JSON.parse(localStorage.getItem('players'));
+    console.log(this.rid);
     this.numPlayers = this.activatedRoute.snapshot.paramMap.get('numJugadores');
+    localStorage.setItem('numPlayers', this.numPlayers);
+    localStorage.setItem('rid', this.rid);
     for (let i = 0; i < this.numPlayers; i++){
-      //let data = this.boardService.getUser('NICKNAME');
-      //this.actors.push({id:i+1, name:JSON.parse(JSON.stringify(data["nickname"])), skin:'../../assets/cosmetics/cosmetic_'+ JSON.parse(JSON.stringify(data["actual_cosmetic"])) + '.png', categoryAchieved:[]})
-      this.actors.push({id:i+1, name:'juan', skin:'../../assets/cosmetic_10.png', categoryAchieved:['art']});
-      //let data = this.boardService.getUser('NICKNAME');
+      //this.actors.push({id:i, name:this.players[i].name, skin: '../../assets/cosmetics/cosmetic_' + this.players[i].actual_cosmetic,
+                        // categoryAchieved:[]});
+
      }
+
+     localStorage.setItem('actors', JSON.stringify(this.actors));
 
     var config = {
       type: Phaser.AUTO,
@@ -104,10 +112,12 @@ export class BoardPage implements OnInit {
      * Function for preloading assets into the game.
      */
     function preload() {
+      let numPlayers = parseInt(localStorage.getItem('numPlayers'));
+      let actors = JSON.parse(localStorage.getItem('actors'));
+
       this.load.image('background', 'assets/tableroFinalCentroCompleto.png');
-      this.load.image('stitch', 'assets/cosmetic_10.png');
-      for(let i= 0; i < this.numJugadores; i++){
-        this.load.image(this.actors[i].nickname,this.actors[i].skin);
+      for(let i= 0; i < numPlayers; i++){
+        this.load.image(actors[i].name, actors[i].skin);
       }
     }
 
@@ -116,6 +126,16 @@ export class BoardPage implements OnInit {
      * Setup the objects which will be displayed into the scene
      */
     function create() {
+      let numPlayers = parseInt(localStorage.getItem('numPlayers'));
+      let actors = JSON.parse(localStorage.getItem('actors'));
+      let rid = parseInt(localStorage.getItem('rid'));
+      let player0: any;
+      let player1: any;
+      let player2: any;
+      let player3: any;
+      let player4: any;
+      let player5: any;
+
       this.cells =[
         new TrivialCell( 0, window.innerWidth / 2,     window.innerHeight / 2),
         new TrivialCell( 1, window.innerWidth / 2,     window.innerHeight / 3.1),
@@ -183,17 +203,33 @@ export class BoardPage implements OnInit {
       this.bg = this.add.image(width / 2, height / 2, 'background');
       this.bg.setDisplaySize(width,height);
 
-      this.player = this.add
-      .image(width / 2, height / 2, 'stitch')
-      .setInteractive();
-      //this.player.setScale(0.1, 0.1);
-      this.player.setDisplaySize(width/20,height/13);
+      player0 = this.add.image(width / 2, height / 2, actors[0].name).setInteractive();
+      player0.setDisplaySize(width/20,height/13);
 
-      //this.stitch = this.add
-        //.image(width / 2, height / 2, 'stitch')
-        //.setInteractive();
+      player1 = this.add.image(width / 2, height / 2, actors[1].name).setInteractive();
+      player1.setDisplaySize(width/20,height/13);
 
-      //this.stitch.setScale(0.1, 0.1);
+      if(numPlayers > 2){
+        player2 = this.add.image(width / 2, height / 2, actors[2].name).setInteractive();
+        player2.setDisplaySize(width/20,height/13);
+      }
+
+      if(numPlayers > 3){
+        player3 = this.add.image(width / 2, height / 2, actors[3].name).setInteractive();
+        player3.setDisplaySize(width/20,height/13);
+      }
+
+      if(numPlayers > 4){
+        player4 = this.add.image(width / 2, height / 2, actors[4].name).setInteractive();
+        player4.setDisplaySize(width/20,height/13);
+      }
+
+      if(numPlayers > 5){
+        player5 = this.add.image(width / 2, height / 2, actors[5].name).setInteractive();
+        player5.setDisplaySize(width/20,height/13);
+      }
+
+      let players = [player0,player1,player2,player3,player4,player5];
 
       this.scale.on('resize', resize, this);
 
@@ -203,7 +239,11 @@ export class BoardPage implements OnInit {
 
       roll();
       //showMovement([0,1,2,3,19,37,54,20,53,21,52,51,50,49,48,47/*,3,4,5,6,7,8,9*/,10,11,12/*,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54*/], this, this.player);
-      showMovement([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54], this, this.player);
+      //showMovement([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54], this, this.player);
+
+      for( let i = 0; i < numPlayers; i++){
+        showMovement([i],this,players[i]);
+      }
 
       endTurn();
       //movePlayer(this.player,this.cells[23].getx(), this.cells[23].gety());
@@ -257,6 +297,16 @@ export class BoardPage implements OnInit {
     }
 
     function waitTurn(){
+      console.log("ESPERANDO TURNO..");
+      this.socketService.startTurn(this.rid,true,({ok,msg}) => {
+        console.log("Start Turn");
+        if (ok === false){
+          console.log("error ", msg);
+        }
+        else {
+          console.log("CORRECTO");
+        }
+      });
     }
 
     function endTurn() {

@@ -140,8 +140,8 @@ joinPrivateGame(rid, func){
     return this.socket.fromEvent('server:winner');
   }
 
-  startTurn(publico,rid) {
-     if(publico){
+  startTurn(rid:any, pub:any) {
+     if(pub){
         this.socket.emit('public:startTurn', {rid});
      }
      else {
@@ -150,12 +150,12 @@ joinPrivateGame(rid, func){
   }
 
    // PARA USARLO this.socketService.responseStartTurn().subscribe((data: any) => variable = data)
-  responseStartTurn(pub){
+  responseStartTurn(func:any){
      if(pub){
-        return this.socket.fromEvent('public:startTurn');
+        return this.socket.fromEvent('public:startTurn', func);
      }
      else {
-        return this.socket.fromEvent('private:startTurn');
+        return this.socket.fromEvent('private:startTurn', func);
      }
   }
 
