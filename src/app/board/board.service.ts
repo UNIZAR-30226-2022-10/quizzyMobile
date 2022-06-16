@@ -29,6 +29,7 @@ export class BoardService {
 
   setId(e){
     this.id = e;
+    console.log("ID", this.id);
   }
 
   setCells(e){
@@ -56,15 +57,15 @@ export class BoardService {
     for(let i= 0; i < this.cell.length; i++){
       const thisAtras = this;
       const num = this.cell[i];
-      const actor = this.actors[0];
+      const actor = this.actors[this.id];
       const retun = this.cells[num];
-      const player = this.players[0];
+      const player = this.players[this.id];
       const pub = this.pub;
       const rid = this.rid;
       const webSocket = this.webSocket;
 
       console.log("game:", this.thisGame);
-      possibilities[i] = this.thisGame.add.image(this.cells[this.cell[i]].getx(), this.cells[this.cell[i]].gety(), this.actors[0].name).setInteractive();
+      possibilities[i] = this.thisGame.add.image(this.cells[this.cell[i]].getx(), this.cells[this.cell[i]].gety(), this.actors[this.id].name).setInteractive();
       possibilities[i].setDisplaySize(window.innerWidth/20, window.innerHeight/13);
 
       possibilities[i].on('pointerdown', function() {

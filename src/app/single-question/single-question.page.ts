@@ -128,6 +128,13 @@ export class SingleQuestionPage implements OnInit {
       clearInterval(this.cancel);
       this.showProgress();
       console.log("Respuesta incorrecta");
+
+      let timeout = setTimeout(() => {
+        clearTimeout(timeout);
+        clearInterval(this.timer);
+        clearInterval(this.cancel);
+        this.location.back();
+      }, 500);
     }
   }
 

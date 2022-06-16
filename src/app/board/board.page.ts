@@ -62,10 +62,12 @@ export class BoardPage implements OnInit {
   }
 
   async showTokens(nickname) {
-    this.getTokens(nickname.categoryAchieved);
-    localStorage.setItem('id', JSON.stringify(nickname));
+    this.getTokens(nickname.tokens);
+    console.log(nickname.tokens);
+    // localStorage.setItem('id', JSON.stringify(nickname));
     const popover = await this.popoverCtrl.create({
       component: TokensCardComponent,
+      componentProps: {tokens: nickname.tokens}
     });
 
     await popover.present();
@@ -145,6 +147,7 @@ export class BoardPage implements OnInit {
      * Function for preloading assets into the game.
      */
     function preload() {
+      // const myName = localStorage.getItem('nickname');
       /*let numPlayers = parseInt(localStorage.getItem('numPlayers'));
       let rid = localStorage.getItem('rid');
       let actors = JSON.parse(localStorage.getItem('actors_'+rid));*/
@@ -153,7 +156,12 @@ export class BoardPage implements OnInit {
 
       this.load.image('background', 'assets/tableroFinalCentroCompleto.png');
       for(let i= 0; i < config.game.actors.length; i++){
+        // console.log("ENTRO AL BUCLE", this.myName,config.game.actors[i].name );
         this.load.image(config.game.actors[i].name, config.game.actors[i].skin);
+        if(localStorage.getItem('nickname') === config.game.actors[i].name){
+          console.log("HE ENTRADO A MY NAME");
+          config.boardService.setId(i);
+        }
       }
 
       config.boardService.setThisGame(this);
@@ -336,13 +344,15 @@ export class BoardPage implements OnInit {
       }
 
       console.log(this.game.actors);
-      console.log(data.stats);
+      console.log("DATA STATS", data.stats);
       Object.keys(data.stats).forEach((player) =>{
 
         this.userInfo(player).then(elem => {
-
-          this.actors.map((e) => {
-            if(e.name == player){
+          
+          this.game.actors.map((e) => {
+            console.log("Accedo al usuario", player, e.name);
+            if(e.name === player){
+              
               e.skin = '../../assets/cosmetics/cosmetic_' + elem['actual_cosmetic'] + '.png';
               e.position = data.stats[player].position;
               e.tokens = data.stats[player].tokens;
@@ -506,7 +516,7 @@ export class BoardPage implements OnInit {
       }
     }
 
-    localStorage.setItem('tokens', JSON.stringify(listToken));
+    //localStorage.setItem('tokens', JSON.stringify(listToken));
   }
 
 

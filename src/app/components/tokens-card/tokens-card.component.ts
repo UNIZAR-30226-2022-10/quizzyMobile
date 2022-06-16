@@ -15,12 +15,12 @@ export class TokensCardComponent implements OnInit {
   @Input("tokens") tokens;
 
   tokenList : Array<String> = [
-    'historia',
-    'arte',
     'geografia',
+    'arte',
+    'historia',
     'ciencia',
-    'entretenimiento',
-    'deportes'
+    'deportes',
+    'entretenimiento'
   ]
 
   constructor() { }
@@ -30,7 +30,7 @@ export class TokensCardComponent implements OnInit {
   }
 
   getToken(id) {
-    if(this.tokens.includes(this.tokenList[id]))
+    if(this.tokens[id])
     {
       return "../../assets/categorias/" + this.tokenList[id] + ".png";
     }
