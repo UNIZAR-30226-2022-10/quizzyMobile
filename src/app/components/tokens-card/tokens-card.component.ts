@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-tokens-card',
@@ -7,26 +7,26 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TokensCardComponent implements OnInit {
 
-  player: any;
+  player={
+    name:'Juan',
+    skin: '10'
+  }
 
-  tokens: Array<string>;
+  @Input("tokens") tokens;
 
-  tokenList: Array<string> = [
+  tokenList : Array<String> = [
     'historia',
     'arte',
     'geografia',
     'ciencia',
     'entretenimiento',
     'deportes'
-  ];
+  ]
 
   constructor() { }
 
   ngOnInit() {
-    console.log("PERO");
-    this.player = JSON.parse(localStorage.getItem('id'));
-    console.log("LO QUE RECIBO: ", this.player);
-    this.tokens = JSON.parse(localStorage.getItem('tokens'));
+
   }
 
   getToken(id) {

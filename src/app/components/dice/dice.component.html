@@ -1,6 +1,13 @@
 <div id="center">
-  <ion-button size="large" color="tertiary" (click)="rollDice()" [disabled]="click === true">Roll the dice! </ion-button>
+  <div id="cargador" *ngIf="!click">
+    <ion-spinner color="primary" id="spin"></ion-spinner>
+    <ion-title color="primary" id="menu">Rolling the dice...</ion-title>
+  </div>
 
-  <img [src]="img">
+  <div id="cargador" *ngIf="click">
+    <img [src]="img">
+  </div>
+
+  
 
 </div>

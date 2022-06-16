@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { BoardService } from 'src/app/board/board.service';
+import { PopoverController } from '@ionic/angular';
 
 @Component({
   selector: 'app-dice',
@@ -12,7 +13,8 @@ export class DiceComponent implements OnInit {
   click: boolean;
   num: any;
   timeout: any;
-  constructor(public boardService: BoardService) {
+
+  constructor(public boardService: BoardService, public popoverController: PopoverController) {
     this.num  = localStorage.getItem('Board');
    }
 
@@ -28,8 +30,12 @@ export class DiceComponent implements OnInit {
 
     this.img = '../../../assets/dice/dice'+ this.num +'.png';
 
-    this.boardService.showMovement();
+    this.click = true;
 
+    this.timeout = setTimeout( () => {
+      this.popoverController.dismiss();
+      this.boardService.showMovement();
+    },1000);
   }
 
 }
