@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { PopoverController } from '@ionic/angular';
 
 @Component({
   selector: 'app-dice',
@@ -9,12 +10,11 @@ export class DiceComponent implements OnInit {
 
   img: string;
   click: boolean;
-  num: number;
+
   timeout: any;
-  constructor() {
-    const receiveNum = window.localStorage.getItem('Board');
-    this.num  = JSON.parse(receiveNum);
-   }
+ @Input("num") num;
+
+  constructor(public popoverController: PopoverController) {}
 
   ngOnInit() {
     this.click = false;
@@ -27,6 +27,11 @@ export class DiceComponent implements OnInit {
     clearTimeout(this.timeout);
 
     this.img = '../../../assets/dice/dice'+ this.num +'.png';
+    this.click = true;
+
+    this.timeout = setTimeout( () => {
+      this.popoverController.dismiss();
+    },1000);
   }
 
 }

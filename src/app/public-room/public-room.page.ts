@@ -4,10 +4,11 @@ import { Router } from '@angular/router';
 import { WebSocketProvider } from '../web-socket.service';
 
 export interface Player {
-  id: number;
   name: string;
   skin: string;
-  categoryAchieved: Array<string>;
+  correctAnswers: Array<number>;
+  totalAnswers: Array<number>;
+  tokens: Array<string>;
   position: number;
 }
 
@@ -36,12 +37,15 @@ export class PublicRoomPage implements OnInit {
 
       this.players = [];
       this.webSocket.turnSala((data) => {
+
+        console.log(data.stats);
+
         Object.keys(data.stats).forEach(e => {
           console.log("E: ",e);
           this.userInfo(e,id,0).then(elem => {
-            this.actors.push({id: id, name: e, skin: '../../assets/cosmetics/cosmetic_' + elem['actual_cosmetic'] + '.png',
-            categoryAchieved: [], position: data.stats[e].position});
-            id = id + 1;
+            this.actors.push({name: e, skin: '../../assets/cosmetics/cosmetic_' + elem['actual_cosmetic'] + '.png',
+            tokens: data.stats[e].tokens, position: data.stats[e].position,
+            correctAnswers: data.stats[e].correctAnswers, totalAnswers: data.stats[e].totalAnswers});
           });
           
           console.log("ADD USER");
