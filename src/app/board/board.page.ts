@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
-import { fromEvent, tap, Observable, Subscription, of, windowWhen, ObjectUnsubscribedError } from 'rxjs';
+import { fromEvent, tap, Observable, Subscription, of, windowWhen, ObjectUnsubscribedError, elementAt } from 'rxjs';
 import { TrivialCell } from './trivial-cell';
 import { ScreenOrientation } from '@awesome-cordova-plugins/screen-orientation/ngx';
-import { MenuController, PopoverController, RouterLinkDelegate } from '@ionic/angular';
+import { Config, MenuController, PopoverController, RouterLinkDelegate } from '@ionic/angular';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DiceComponent } from '../components/dice/dice.component';
 import { BoardService } from './board.service';
@@ -14,12 +14,14 @@ import { ShowOnDirtyErrorStateMatcher } from '@angular/material/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
 export interface Player {
-  id: number;
   name: string;
   skin: string;
-  categoryAchieved: any;
+  correctAnswers: Array<number>;
+  totalAnswers: Array<number>;
+  tokens: Array<string>;
   position: number;
 }
+
 declare let Phaser;
 @Component({
   selector: 'app-board',
@@ -70,6 +72,7 @@ export class BoardPage implements OnInit {
   }
 
   returnMenu() {
+    this.webSocket.cleanup('server:turn');
     this.screenOrientation.unlock();
     this.router.navigate(['initial-menu']);
   }
@@ -87,8 +90,11 @@ export class BoardPage implements OnInit {
     console.log(window.innerWidth / 2, window.innerHeight / 2);
     this.updated = false;
     this.rid = this.activatedRoute.snapshot.paramMap.get('rid');
+    this.boardService.rid = this.rid;
     this.numPlayers = this.activatedRoute.snapshot.paramMap.get('numJugadores');
 
+    this.boardService.setActors(this.game.actors);
+    this.boardService.pub = this.game.pub;
     /*localStorage.setItem('numPlayers', this.numPlayers);
     localStorage.setItem('rid', this.rid);
 
@@ -128,6 +134,7 @@ export class BoardPage implements OnInit {
       },
       game: this.game,
       webSocket: this.webSocket,
+      boardService: this.boardService,
       router: this.router,
       rid: this.rid,
     };
@@ -148,6 +155,8 @@ export class BoardPage implements OnInit {
       for(let i= 0; i < config.game.actors.length; i++){
         this.load.image(config.game.actors[i].name, config.game.actors[i].skin);
       }
+
+      config.boardService.setThisGame(this);
     }
 
     /**
@@ -218,6 +227,7 @@ export class BoardPage implements OnInit {
         new TrivialCell(53, window.innerWidth / 2.95,  window.innerHeight / 11,2),
         new TrivialCell(54, window.innerWidth / 2.45,   window.innerHeight / 12.5,0),
       ];
+      config.boardService.setCells(this.cells);
       var width = window.innerWidth;
       var height = window.innerHeight;
       this.text = this.add.text(10, 10, '', {
@@ -227,6 +237,8 @@ export class BoardPage implements OnInit {
 
       this.bg = this.add.image(width / 2, height / 2, 'background');
       this.bg.setDisplaySize(width,height);
+      this.cameras.resize(width, height);
+      this.bg.setPosition(width / 2, height / 2);
 
       this.players = [];
 
@@ -236,7 +248,10 @@ export class BoardPage implements OnInit {
         this.players.at(i).setDisplaySize(width/20,height/13);
       }
 
+      config.boardService.setPlayer(this.players);
+      //this.screenOrientation.unlock();
       this.scale.on('resize', resize, this);
+
 
       config.webSocket.startTurn(config.rid, config.game.pub, (res) => {
         console.log("START TURN : ", res);
@@ -246,15 +261,16 @@ export class BoardPage implements OnInit {
 
           config.router.navigate(['/single-question'], {
             state: {
+              pub: config.game.pub,
               question: res.currentQuestion,
               timeout : res.timeout
             }
           });
-          
+
         }
         else {
           console.log("No soy yo");
-  
+
         }
       });
 
@@ -284,6 +300,80 @@ export class BoardPage implements OnInit {
       this.bg.setPosition(width / 2, height / 2);
     }
 
+    this.webSocket.turn((data) => {
+      if(data.turns === localStorage.getItem('nickname')){
+        this.webSocket.startTurn(config.rid, config.game.pub, (res) => {
+          console.log("START TURN : ", res);
+          if(res.currentQuestion){
+  
+            console.log("SOY YO");
+
+            // config.event = document.createEvent('question');
+            config.router.navigate(['/single-question'], {
+              state: {
+                pub: config.game.pub,
+                question: res.currentQuestion,
+                timeout : res.timeout
+              }
+            });
+
+
+            /*this.router.navigate(['/single-question'], {
+              state: {
+                question: res.currentQuestion,
+                timeout : res.timeout,
+                pub: config.game.pub,
+                event: config.event
+              }
+            });*/
+            
+          }
+          else {
+            console.log("No soy yo");
+    
+          }
+        });
+      }
+
+      console.log(this.game.actors);
+      console.log(data.stats);
+      Object.keys(data.stats).forEach((player) =>{
+
+        this.userInfo(player).then(elem => {
+
+          this.actors.map((e) => {
+            if(e.name == player){
+              e.skin = '../../assets/cosmetics/cosmetic_' + elem['actual_cosmetic'] + '.png';
+              e.position = data.stats[player].position;
+              e.tokens = data.stats[player].tokens;
+              e.correctAnswers = data.stats[player].correctAnswers;
+              e.totalAnswers = data.stats[player].totalAnswers;
+            }
+          });
+        });
+      });
+
+      console.log(this.game.actors);
+    });
+
+  }
+
+  userInfo(data){
+    let url= 'http://quizzyappbackend.herokuapp.com/user/reduced';
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'});
+      let params = new HttpParams()
+      .set('nickname', data);
+    let options = { headers : headers, params:params};
+    return new Promise((resolve,reject) => {
+      this.http.get(url, options ).subscribe(response => {
+        resolve(response);
+      }, (error) => {
+        console.log("ERROR", data);
+        reject(error);
+      });
+    });
   }
 
 
@@ -419,14 +509,7 @@ export class BoardPage implements OnInit {
     localStorage.setItem('tokens', JSON.stringify(listToken));
   }
 
-  async showDice(){
-    const popover = await this.popoverCtrl.create({
-      component: DiceComponent,
-    });
 
-
-    await popover.present();
-  }
 
 }
 

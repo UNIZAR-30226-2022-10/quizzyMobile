@@ -104,6 +104,10 @@ startGamePrivate(rid, func){
         this.socket.emit('private:makeMove', {rid, pos}, func);
      }
   }
+
+  answerQuestion(answer, pub, cb){
+   this.socket.emit(`${pub ? "public" : "private"}:answer`, answer, cb);
+   }
   
 /*
   questionTimeout(){

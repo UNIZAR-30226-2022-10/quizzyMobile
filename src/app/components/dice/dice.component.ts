@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { BoardService } from 'src/app/board/board.service';
 
 @Component({
   selector: 'app-dice',
@@ -9,11 +10,10 @@ export class DiceComponent implements OnInit {
 
   img: string;
   click: boolean;
-  num: number;
+  num: any;
   timeout: any;
-  constructor() {
-    const receiveNum = window.localStorage.getItem('Board');
-    this.num  = JSON.parse(receiveNum);
+  constructor(public boardService: BoardService) {
+    this.num  = localStorage.getItem('Board');
    }
 
   ngOnInit() {
@@ -27,6 +27,9 @@ export class DiceComponent implements OnInit {
     clearTimeout(this.timeout);
 
     this.img = '../../../assets/dice/dice'+ this.num +'.png';
+
+    this.boardService.showMovement();
+
   }
 
 }

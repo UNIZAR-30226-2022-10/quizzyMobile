@@ -5,6 +5,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { TrainResumeComponent } from '../components/train-resume/train-resume.component';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Platform, PopoverController } from '@ionic/angular';
+import { WebSocketProvider } from '../web-socket.service';
+import { BoardService } from '../board/board.service';
 
 @Component({
   selector: 'app-single-question',
@@ -53,7 +55,7 @@ export class SingleQuestionPage implements OnInit {
   cat: number;
 
 
-  constructor(public location: Location, public http:HttpClient, public platform: Platform, public router: Router, private screenOrientation: ScreenOrientation, public popoverController: PopoverController, private activatedRoute: ActivatedRoute,) {
+  constructor(public webSocket: WebSocketProvider,public location: Location, public http:HttpClient, public platform: Platform, public router: Router, private screenOrientation: ScreenOrientation, public popoverController: PopoverController, private activatedRoute: ActivatedRoute, private boardService: BoardService) {
     this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.LANDSCAPE);
   }
 
@@ -139,6 +141,15 @@ export class SingleQuestionPage implements OnInit {
     {
 
       this.buttons[id].style.cssText = 'background-color: #2dd36f';
+    
+      //  Socket ok
+      // console.log(this.webSocket);
+       this.webSocket.answerQuestion(this.answers[id].text, this.questionOptions.pub, (data) => {
+         console.log("CALLBACK CLICK: ", data);
+         this.boardService.setRoll(data.roll);
+         this.boardService.showDice();
+       });
+
     }
     else
     {
@@ -146,12 +157,19 @@ export class SingleQuestionPage implements OnInit {
       this.buttons[id].style.cssText = 'background-color: #eb445a';
       this.buttons[this.position].style.cssText = 'background-color: #2dd36f';
 
+       this.webSocket.answerQuestion(this.answers[id].text,this.questionOptions.pub, (data) => {
+         console.log("CALLBACK CLICK",data);
+       });
+
     }
 
     
 
     let timeout = setTimeout(() => {
       clearTimeout(timeout);
+      clearInterval(this.timer);
+      clearInterval(this.cancel);
+      this.location.back();
     }, 500);
     
   }
@@ -235,8 +253,5 @@ export class SingleQuestionPage implements OnInit {
   }
 
   back(){
-    clearInterval(this.timer);
-    clearInterval(this.cancel);
-    this.location.back();
   }
 }
