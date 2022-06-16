@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { WebSocketProvider } from '../web-socket.service';
 
 export interface Player {
+  id: number;
   name: string;
   skin: string;
   correctAnswers: Array<number>;
@@ -30,7 +31,7 @@ export class PublicRoomPage implements OnInit {
   constructor(public http: HttpClient, public router : Router, public webSocket: WebSocketProvider) { }
 
   ngOnInit() {
-    let id = 0;
+    let id = -1;
     this.webSocket.responseJoinPublicGame(({rid}) => {
       console.log("TE HAS UNIDO A LA PARTIDA", rid);
       this.cargando = false;
@@ -43,7 +44,8 @@ export class PublicRoomPage implements OnInit {
         Object.keys(data.stats).forEach(e => {
           console.log("E: ",e);
           this.userInfo(e,id,0).then(elem => {
-            this.actors.push({name: e, skin: '../../assets/cosmetics/cosmetic_' + elem['actual_cosmetic'] + '.png',
+            id++;
+            this.actors.push({id: id, name: e, skin: '../../assets/cosmetics/cosmetic_' + elem['actual_cosmetic'] + '.png',
             tokens: data.stats[e].tokens, position: data.stats[e].position,
             correctAnswers: data.stats[e].correctAnswers, totalAnswers: data.stats[e].totalAnswers});
           });

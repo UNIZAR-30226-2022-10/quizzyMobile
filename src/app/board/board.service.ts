@@ -51,6 +51,11 @@ export class BoardService {
     console.log(this.actors);
   }
 
+  movePlayer(id, pos){
+    this.players[id].x = this.cells[pos].getx();
+    this.players[id].y = this.cells[pos].gety();
+  }
+
   showMovement(){
     let possibilities = [];
     let numberReturn = 0;

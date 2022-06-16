@@ -92,7 +92,11 @@ const routes: Routes = [
   {
     path: 'single-question',
     loadChildren: () => import('./single-question/single-question.module').then( m => m.SingleQuestionPageModule)
+  },  {
+    path: 'blank',
+    loadChildren: () => import('./blank/blank.module').then( m => m.BlankPageModule)
   },
+
 
 
 

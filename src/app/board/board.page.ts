@@ -14,6 +14,7 @@ import { ShowOnDirtyErrorStateMatcher } from '@angular/material/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
 export interface Player {
+  id: number;
   name: string;
   skin: string;
   correctAnswers: Array<number>;
@@ -257,6 +258,8 @@ export class BoardPage implements OnInit {
       }
 
       config.boardService.setPlayer(this.players);
+
+      config.router.navigate(['/blank']);
       //this.screenOrientation.unlock();
       this.scale.on('resize', resize, this);
 
@@ -350,7 +353,7 @@ export class BoardPage implements OnInit {
         this.userInfo(player).then(elem => {
           
           this.game.actors.map((e) => {
-            console.log("Accedo al usuario", player, e.name);
+
             if(e.name === player){
               
               e.skin = '../../assets/cosmetics/cosmetic_' + elem['actual_cosmetic'] + '.png';
@@ -358,6 +361,9 @@ export class BoardPage implements OnInit {
               e.tokens = data.stats[player].tokens;
               e.correctAnswers = data.stats[player].correctAnswers;
               e.totalAnswers = data.stats[player].totalAnswers;
+
+              console.log("LLAMO A MOVE PLAYER DE", e.name, player, e.position, e.skin);
+              this.boardService.movePlayer(e.id, e.position);
             }
           });
         });
