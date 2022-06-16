@@ -108,16 +108,20 @@ startGamePrivate(rid, func){
   answerQuestion(answer, pub, cb){
    this.socket.emit(`${pub ? "public" : "private"}:answer`, answer, cb);
    }
+
+   wildcardTime(){
+      this.socket.emit('moreTime');
+   }
   
 /*
   questionTimeout(){
       return this.socket.fromEvent('server:timeout');
   }
-  
+  */
 
-  winner(){
-    return this.socket.fromEvent('server:winner');
-  }*/
+  winner(func){
+    return this.socket.on('server:winner', func);
+  }
 
   startTurn(rid, pub, func: any) {
      if(pub){

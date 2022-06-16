@@ -154,7 +154,10 @@ export class SingleQuestionPage implements OnInit {
        this.webSocket.answerQuestion(this.answers[id].text, this.questionOptions.pub, (data) => {
          console.log("CALLBACK CLICK: ", data);
          this.boardService.setRoll(data.roll);
-         this.boardService.showDice();
+         if(data.ok){
+          this.boardService.showDice();
+         }
+         
        });
 
     }
@@ -247,10 +250,11 @@ export class SingleQuestionPage implements OnInit {
 
       this.wildcardUseApi(wildcard_id);
 
-      this.timeleft = this.timeleft + 150;
-      this.time = this.time + 150;
-
-      this.cancel = setInterval(() => clearInterval(this.timer), this.timeleft*100);
+      this.webSocket.wildcardTime();
+      this.timeleft = this.timeleft + 15000;
+      this.time = this.time + 15000;
+  
+      this.cancel = setInterval(() => clearInterval(this.timer), this.timeleft);
     }
     this.wildcardUse = true;
   }

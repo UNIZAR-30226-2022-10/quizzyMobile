@@ -4,6 +4,15 @@ import { WebSocketProvider } from '../web-socket.service';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Router } from '@angular/router';
 
+export interface Player {
+  id: number;
+  name: string;
+  skin: string;
+  correctAnswers: Array<number>;
+  totalAnswers: Array<number>;
+  tokens: Array<string>;
+  position: number;
+}
 @Component({
   selector: 'app-private-room',
   templateUrl: './private-room.page.html',
@@ -11,6 +20,9 @@ import { Router } from '@angular/router';
 })
 export class PrivateRoomPage implements OnInit {
 
+  actors: Player[] = [
+  ];
+  timeout: any;
   create : any;
   game :any;
 
@@ -66,11 +78,40 @@ export class PrivateRoomPage implements OnInit {
         this.router.navigate(['initial-menu']);
       })
 
-      this.webSocket.turnSala(() => {
-        //  La partida comienza
+      this.webSocket.turnSala((data) => {
+        let id = -1;
+        console.log(data.stats);
 
-        this.router.navigate(['initial-menu']);
-      })
+        this.webSocket.cleanup('server:turn');
+        this.webSocket.cleanup('server:private:player:join');
+        this.webSocket.cleanup('server:private:player:leave');
+
+        Object.keys(data.stats).forEach(e => {
+          console.log("E: ",e);
+          this.userInfo(e).then(elem => {
+            id++;
+            this.actors.push({id: id, name: e, skin: '../../assets/cosmetics/cosmetic_' + elem['actual_cosmetic'] + '.png',
+            tokens: data.stats[e].tokens, position: data.stats[e].position,
+            correctAnswers: data.stats[e].correctAnswers, totalAnswers: data.stats[e].totalAnswers});
+          });
+          
+          console.log("ADD USER");
+        });
+
+        this.timeout = setTimeout(() => {
+          clearTimeout(this.timeout);
+  
+          console.log(this.actors);
+          // localStorage.setItem('actors_' + rid,  JSON.stringify(this.actors));
+          //  Rellenar algo si hace falta
+           this.router.navigate(['/board/'+this.game.players.length + '/' + this.game.rid], {
+            state: {
+              pub: false,
+              actors: this.actors
+            }
+           });
+        }, 500);
+      });
     }
     
   }
@@ -95,10 +136,10 @@ export class PrivateRoomPage implements OnInit {
 
   goOut(){
     if(this.game.create){
-      this.webSocket.cancelGamePrivate(this.game.rid, () => {})
+      this.webSocket.cancelGamePrivate(this.game.rid, () => {});
     }
     else{
-      this.webSocket.leavePrivateGame(this.game.rid, () => {})
+      this.webSocket.leavePrivateGame(this.game.rid, () => {});
     }
 
     this.webSocket.cleanup('server:turn');
@@ -125,6 +166,36 @@ export class PrivateRoomPage implements OnInit {
     this.webSocket.cleanup('server:private:player:join');
     this.webSocket.cleanup('server:private:player:leave');
 
-    this.router.navigate(['initial-menu']);
+  
+    this.webSocket.turnSala((data) => {
+      let id = -1;
+      console.log(data.stats);
+
+      Object.keys(data.stats).forEach(e => {
+        console.log("E: ",e);
+        this.userInfo(e).then(elem => {
+          id++;
+          this.actors.push({id: id, name: e, skin: '../../assets/cosmetics/cosmetic_' + elem['actual_cosmetic'] + '.png',
+          tokens: data.stats[e].tokens, position: data.stats[e].position,
+          correctAnswers: data.stats[e].correctAnswers, totalAnswers: data.stats[e].totalAnswers});
+        });
+        
+        console.log("ADD USER");
+      });
+
+      this.timeout = setTimeout(() => {
+        clearTimeout(this.timeout);
+
+        console.log(this.actors);
+        // localStorage.setItem('actors_' + rid,  JSON.stringify(this.actors));
+        //  Rellenar algo si hace falta
+         this.router.navigate(['/board/'+this.game.players.length + '/' + this.game.rid], {
+          state: {
+            pub: false,
+            actors: this.actors
+          }
+         });
+      }, 500);
+    });
   }
 }

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
+import { Platform, ToastController } from '@ionic/angular';
 import { fromEvent, tap, Observable, Subscription, of, windowWhen, ObjectUnsubscribedError, elementAt } from 'rxjs';
 import { TrivialCell } from './trivial-cell';
 import { ScreenOrientation } from '@awesome-cordova-plugins/screen-orientation/ngx';
@@ -30,6 +31,7 @@ declare let Phaser;
   styleUrls: ['./board.page.scss'],
 })
 export class BoardPage implements OnInit {
+  winner: any;
   phaserGame: any;
   config: any;
   player: any;
@@ -52,7 +54,8 @@ export class BoardPage implements OnInit {
     private boardService: BoardService,
     private menu: MenuController,
     public webSocket: WebSocketProvider,
-    public http: HttpClient
+    public http: HttpClient,
+    public toastController: ToastController
   ) {
     this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.LANDSCAPE);
   }
@@ -311,6 +314,11 @@ export class BoardPage implements OnInit {
       this.bg.setPosition(width / 2, height / 2);
     }
 
+    this.webSocket.winner((data) => {
+      this.winner = data;
+      this.FailJoinToast();
+    });
+
     this.webSocket.turn((data) => {
       if(data.turns === localStorage.getItem('nickname')){
         this.webSocket.startTurn(config.rid, config.game.pub, (res) => {
@@ -373,6 +381,26 @@ export class BoardPage implements OnInit {
     });
 
   }
+
+   /**
+     * @summary function that shows a toast when the user or the password aren't on the base data
+     */
+    async FailJoinToast() {
+      const toast = await this.toastController.create({
+        header: `The winner was ${this.winner}`,
+        position: 'top',
+        buttons:[
+          {
+            text: 'Aceptar',
+            role: 'cancel'
+          }
+        ]
+      });
+      await toast.present();
+      await toast.onDidDismiss().then(() => {
+        this.router.navigate(['initial-menu']);
+      });
+    } 
 
   userInfo(data){
     let url= 'http://quizzyappbackend.herokuapp.com/user/reduced';
