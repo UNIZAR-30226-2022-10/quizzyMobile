@@ -85,6 +85,13 @@ export class BoardService {
 
           webSocket.makeMove(pub, rid, num, (data) =>{
             console.log("MAKE MOVE: ", data);
+            if(data.ok){
+              if(data.rollAgain){
+                thisAtras.num = data.roll;
+                thisAtras.cell = data.cells;
+                thisAtras.showDice();
+              }
+            }
           });
         });
 
