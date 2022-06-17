@@ -278,20 +278,33 @@ export class InitialMenuPage implements OnInit {
         this.actors = [];
         let id = -1;
         Object.keys(e.info.stats).forEach(elem => {
-          this.userInfo(elem, id,  e.info.stats).then(el => {
+          this.userInfo(elem).then(el => {
             id++;
-            
-            console.log(this.actors)
+            this.actors.push({id: id, name: elem, skin: '../../assets/cosmetics/cosmetic_' + el['actual_cosmetic'] + '.png',
+            tokens: e.info.stats[elem].tokens, position: e.info.stats[elem].position,
+            correctAnswers: e.info.stats[elem].correctAnswers, totalAnswers: e.info.stats[elem].totalAnswers});
+
           });
 
           
         });
 
+        let timeout = setTimeout(() => {
+          clearTimeout(timeout);
+  
+          this.router.navigate(['/board/'+this.actors.length + '/' + rid], {
+            state: {
+              pub: true,
+              actors: this.actors
+            }
+           });
+        }, 500);
+
         
     });
   }
 
-    userInfo(elem, id, stats){
+    userInfo(elem){
       let url= 'http://quizzyappbackend.herokuapp.com/user/reduced';
       let headers = new HttpHeaders({
         'Content-Type': 'application/json',
@@ -301,9 +314,6 @@ export class InitialMenuPage implements OnInit {
       let options = { headers : headers, params:params};    
       return new Promise((resolve,reject) => {
         this.http.get(url, options ).subscribe(response => {
-          this.actors.push({id: id, name: elem, skin: '../../assets/cosmetics/cosmetic_' + response['actual_cosmetic'] + '.png',
-            tokens: stats[elem].tokens, position: stats[elem].position,
-            correctAnswers: stats[elem].correctAnswers, totalAnswers: stats[elem].totalAnswers});
           resolve(response);
         }, (error) => {
           reject(error);
@@ -311,7 +321,7 @@ export class InitialMenuPage implements OnInit {
       });
     }
 
-    /*enterPrivate(rid){
+    enterPrivate(rid){
       this.webSocket.resume(false,rid, (e)  => {
         console.log("VOLVIENDO PRIVATE",e);
 
@@ -325,8 +335,10 @@ export class InitialMenuPage implements OnInit {
             correctAnswers: e.info.stats[elem].correctAnswers, totalAnswers: e.info.stats[elem].totalAnswers});
           });
 
-          if(this.actors.length == e.info.stats.length){
-            console.log("FIN", this.actors);
+
+          let timeout = setTimeout(() => {
+            clearTimeout(timeout);
+    
             this.router.navigate(['/board/'+e.info.stats.length + '/' + rid], {
               state: {
                 pub: false,
@@ -335,7 +347,7 @@ export class InitialMenuPage implements OnInit {
                 wildcardsUse: true
               }
             });
-          }
+          }, 500);
         });
       });
     }
