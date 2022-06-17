@@ -1,6 +1,6 @@
-<ion-content>
+<ion-content id="tablero">
   <div id="phaser-game" class="absolute">
-      <button class="chat" (click)="showChat()">
+    <button class="chat" (click)="showChat()">
         <ion-icon size="large" name="chatbubbles"></ion-icon>
       </button>
       <button class="players" id="players" (click)="showPlayers()">
@@ -18,7 +18,7 @@
         </ion-header>
         <ion-content>
           <ion-list>
-            <ion-card *ngFor="let item of actors; let i index" id="friend" color="tertiary" (click)="showTokens(i)">
+            <ion-card *ngFor="let item of this.game.actors; let i index" id="friend" color="tertiary" (click)="showTokens(item)">
               <ion-card-content>
                 <ion-row class="ion-align-items-center">
                   <div id="container">
@@ -38,7 +38,7 @@
       <button class="quit" (click)="returnMenu()">
         <ion-icon size="large" name="close"></ion-icon>
       </button>
-      <button class="dice" (click)="showDice()">
+      <button class="dice" (click)="showDice()" [disabled]="!this.updated">
         <ion-icon size="large" name="dice"></ion-icon>
       </button>
       <ion-router-outlet id="main"></ion-router-outlet>

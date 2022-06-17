@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { ListaPartidasNtComponent } from './lista-partidas-nt.component';
+import { PrivateRoomPage } from './private-room.page';
 
-describe('ListaPartidasNtComponent', () => {
-  let component: ListaPartidasNtComponent;
-  let fixture: ComponentFixture<ListaPartidasNtComponent>;
+describe('PrivateRoomPage', () => {
+  let component: PrivateRoomPage;
+  let fixture: ComponentFixture<PrivateRoomPage>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ ListaPartidasNtComponent ],
+      declarations: [ PrivateRoomPage ],
       imports: [IonicModule.forRoot()]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(ListaPartidasNtComponent);
+    fixture = TestBed.createComponent(PrivateRoomPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));

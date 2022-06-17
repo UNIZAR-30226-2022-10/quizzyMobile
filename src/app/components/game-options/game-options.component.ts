@@ -12,8 +12,9 @@ export class GameOptionsComponent implements OnInit {
   constructor(public router: Router, public viewCtrl: PopoverController) { }
   birthday;
   difficulty=1;
+  time = 15;
 
-  questionOptions : {categories: Array<{name: string}>, difficulty: string} = {categories : [], difficulty : ''};
+  questionOptions : {categories: Array<{name: string}>, difficulty: string, time: number} = {categories : [], difficulty : '', time: 15};
   myGroupItems1: Array<{ checked: boolean, text: string, value: string, img: string, api: string }> = [
     { checked: false, text: 'History', value: '0', img: 'assets/categorias/historia.png', api: 'History' }, 
     { checked: false, text: 'Art', value: '1', img: 'assets/categorias/arte.png', api: 'Art' }] 
@@ -31,6 +32,12 @@ export class GameOptionsComponent implements OnInit {
   {
     console.log(event.detail.value);
     this.difficulty=event.detail.value;
+  }
+
+  rangeChanged(event)
+  {
+    console.log(event.detail.value);
+    this.time=event.detail.value;
   }
 
   categoryChanged1(value)
@@ -74,6 +81,8 @@ export class GameOptionsComponent implements OnInit {
     else{
       this.questionOptions.difficulty = 'hard';
     }
+
+    this.questionOptions.time = this.time;
 
     this.questionOptions.categories = [];
     this.myGroupItems1.forEach(e => {

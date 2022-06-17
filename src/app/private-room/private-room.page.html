@@ -1,0 +1,49 @@
+<!--
+ -- Author: Jaime Martín
+ -- Filename: private-room.page.html
+ -- Module: FrontEnd Mobile
+ -- Description: This is the html of the private room page
+-->
+<ion-header>
+  <div>
+    <ion-toolbar color="light">
+      <ion-buttons slot="start">
+        <ion-back-button (click)="goOut()"></ion-back-button>
+      </ion-buttons>
+      <ion-title id="menu">Private Game {{game.rid}}</ion-title>
+    </ion-toolbar>
+  </div>
+</ion-header>
+
+<ion-content>
+  <ion-title id="menu" color="primary">Players</ion-title>
+
+  <div id="jugadores"> 
+    <ion-list id="lista">
+      <ion-card *ngFor="let item of game.players"  id="friend" color="tertiary">
+        <ion-card-content>
+          <ion-row class="ion-align-items-center">
+            <div id="container">
+              <img src="../../assets/cosmetics/cosmetic_{{item.cosmetic}}.png" id="cosmetico"/>
+            <div id="container-inner">
+              <ion-label>
+                <b>{{item.nickname}}</b>
+              </ion-label>
+            </div>
+          </div>
+          </ion-row>
+        </ion-card-content>
+      </ion-card>
+    </ion-list>
+  </div>
+
+  
+</ion-content>
+
+<ion-footer color="light" *ngIf="game.create">
+  <ion-button  id="but" expand="full" fill="clear" (click)="inviteFriends()">
+    <ion-icon slot="start" name="add-outline"></ion-icon>
+    Invite friends
+  </ion-button>
+  <ion-button id="but" expand="block" color="primary" (click)="startGame()">start game</ion-button>
+</ion-footer>

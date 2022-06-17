@@ -1,4 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { BoardService } from 'src/app/board/board.service';
+import { PopoverController } from '@ionic/angular';
 
 @Component({
   selector: 'app-dice',
@@ -9,22 +11,31 @@ export class DiceComponent implements OnInit {
 
   img: string;
   click: boolean;
-  num: number;
-  constructor() {
-    const receiveNum = window.localStorage.getItem('Board');
-    this.num  = JSON.parse(receiveNum);
+  num: any;
+  timeout: any;
+
+  constructor(public boardService: BoardService, public popoverController: PopoverController) {
+    this.num  = localStorage.getItem('Board');
    }
 
   ngOnInit() {
     this.click = false;
+    this.timeout = setTimeout( () => {
+      this.rollDice();
+    },2000);
   }
 
   rollDice(){
-    this.click = true;
+    clearTimeout(this.timeout);
+
     this.img = '../../../assets/dice/dice'+ this.num +'.png';
 
-    window.localStorage.setItem('Dice', JSON.stringify(this.click));
-    console.log("ENVIADO");
+    this.click = true;
+
+    this.timeout = setTimeout( () => {
+      this.popoverController.dismiss();
+      this.boardService.showMovement();
+    },1000);
   }
 
 }

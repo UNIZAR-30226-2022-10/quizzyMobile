@@ -38,7 +38,7 @@ const routes: Routes = [
     loadChildren: () => import('./chat/chat.module').then( m => m.ChatPageModule)
   },
   {
-    path: 'board/:numJugadores',
+    path: 'board/:numJugadores/:rid',
     loadChildren: () => import('./board/board.module').then( m => m.BoardPageModule)
   },
   {
@@ -77,6 +77,26 @@ const routes: Routes = [
     path: 'inventory',
     loadChildren: () => import('./inventory/inventory.module').then( m => m.InventoryPageModule)
   },
+  {
+    path: 'public-room',
+    loadChildren: () => import('./public-room/public-room.module').then( m => m.PublicRoomPageModule)
+  },
+  {
+    path: 'private-room',
+    loadChildren: () => import('./private-room/private-room.module').then( m => m.PrivateRoomPageModule)
+  },
+  {
+    path: 'invite-friend',
+    loadChildren: () => import('./invite-friend/invite-friend.module').then( m => m.InviteFriendPageModule)
+  },
+  {
+    path: 'single-question',
+    loadChildren: () => import('./single-question/single-question.module').then( m => m.SingleQuestionPageModule)
+  },
+
+
+
+
 
 
 

@@ -1,17 +1,32 @@
 import { Injectable } from '@angular/core';
-import { Socket } from 'ngx-socket-io';
-
+import { Observable } from 'rxjs';
+import { io, Socket } from 'socket.io-client';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
-  providedIn: 'root'
-})
+   providedIn: 'root'
+ })
 export class WebSocketProvider{
 
-  constructor(public socket: Socket) {}
+   
+   socket:Socket
+         
+
+   
+
+  constructor() {
+   this.socket = io(environment.backendUrl, {
+      auth: {
+        token: localStorage.getItem('token')
+      }
+      
+    });
+  }
 
   connectSocket(){
      console.log("INTENTO CONEXION");
      this.socket.connect();
+     
      console.log("CONECTADO, QUIZAS");
   }
 
@@ -19,119 +34,123 @@ export class WebSocketProvider{
       this.socket.disconnect();
   }
 
-  joinPublicGame(){
-     this.socket.emit('public:join');
+   joinPublicGame(func:Function){
+     this.socket.emit('public:join', func);     
+   }
+
+   responseJoinPublicGame(func:any){
+      return this.socket.once('server:public:joined',func);
+   }
+
+   leavePublicGame(func:Function){
+      this.socket.emit('public:leave', func);
+   }
+
+   turn(func:any){
+      return this.socket.on('server:turn', func);
+    }
+
+    turnSala(func:any){
+      return this.socket.once('server:turn', func);
+    }
+
+  createPrivateGame(data, func){
+     this.socket.emit('private:create', data, func);
   }
 
-  responseJoinPublicGame(){
-      return this.socket.fromEvent('public:join');
+  listenNewPlayers(func){
+   return this.socket.on('server:private:player:join', func);
   }
 
-  createPrivateGame(data){
-     this.socket.emit('private:create', data);
-  }
+listenLeavePlayers(func){
+   return this.socket.on('server:private:player:leave', func);
+}
 
-  responseCreatePrivateGame(){
-     return this.socket.fromEvent('private:create');
-  }
+listenCancelGamePrivate(func){
+   return this.socket.on('server:private:cancelled', func);
+}
 
-  joinPrivateGame(rid){
-     this.socket.emit('private:join',{rid});
-  }
+cleanup(event){
+   return this.socket.off(event);
+}
 
-  responseJoinPrivateGame(){
-     return this.socket.fromEvent('private:join');
-  }
+leavePrivateGame(rid, func){
+   this.socket.emit('private:leave',{rid}, func);
+}
 
-  leavePublicGame(){
-     this.socket.emit('public:leave');
-  }
+cancelGamePrivate(rid, func){
+   this.socket.emit('private:cancel',{rid}, func);
+}
 
-  responseLeavePublicGame(){
-     return this.socket.fromEvent('public:leave');
-  }
+joinPrivateGame(rid, func){
+   this.socket.emit('private:join',{rid}, func);
+}
 
-  leavePrivateGame(rid){
-     this.socket.emit('private:leave',{rid});
-  }
+startGamePrivate(rid, func){
+   this.socket.emit('private:start', {rid}, func);
+}
 
-  responseLeavePrivateGame(){
-     return this.socket.fromEvent('private:leave');
-  }
-
-  startGamePrivate(rid){
-     this.socket.emit('private:start', {rid});
-  }
-
+/*
   responseStartGamePrivate(){
       return this.socket.fromEvent('private:start');
-  }
+  }*/
 
-  cancelGamePrivate(rid){
-     this.socket.emit('private:cancel',{rid});
-  }
 
-  responseCancelGamePrivate(){
-     return this.socket.fromEvent('private:cancel');
-  }
-
-  makeMove(publico,data){
+  makeMove(publico,rid,pos,func: any){
      if(publico){
-        this.socket.emit('public:makeMove', data);
+        this.socket.emit('public:makeMove', {rid, pos}, func);
      }
      else {
-        this.socket.emit('private:makeMove', data);
+        this.socket.emit('private:makeMove', {rid, pos}, func);
      }
   }
 
-  responseMakeMove(publico){
-     if(publico){
-        return this.socket.fromEvent('public:makeMove');
-     }
-     else {
-        return this.socket.fromEvent('private:makeMove');
-     }
-  }
+  answerQuestion(answer, pub, cb){
+   this.socket.emit(`${pub ? "public" : "private"}:answer`, answer, cb);
+   }
 
+   wildcardTime(){
+      this.socket.emit('moreTime');
+   }
+  
+/*
   questionTimeout(){
       return this.socket.fromEvent('server:timeout');
   }
-  turn(){
-    return this.socket.fromEvent('server:turn');
+  */
+
+  winner(func){
+    return this.socket.on('server:winner', func);
   }
 
-  winner(){
-    return this.socket.fromEvent('server:winner');
-  }
-
-  startTurn(publico,rid) {
-     if(publico){
-        this.socket.emit('public:startTurn', {rid});
-     }
-     else {
-        this.socket.emit('private:startTurn', {rid});
-     }
-  }
-
-   // PARA USARLO this.socketService.responseStartTurn().subscribe((data: any) => variable = data)
-  responseStartTurn(pub){
+  startTurn(rid, pub, func: any) {
      if(pub){
-        return this.socket.fromEvent('public:startTurn');
+        this.socket.emit('public:startTurn', {rid}, func);
      }
      else {
-        return this.socket.fromEvent('private:startTurn');
+        this.socket.emit('private:startTurn', {rid}, func);
      }
   }
 
-  pause(pub,data){
+  
+  pause(pub,rid,cb){
      if(pub){
-         this.socket.emit('public:pause', {data});
+         this.socket.emit('public:pause', {rid}, cb);
      }
      else {
-         this.socket.emit('private:pause', {data});
+         this.socket.emit('private:pause', {rid}, cb);
      }
   }
 
+  resume(pub,rid, cb){
+   if(pub){
+      this.socket.emit('public:resume',{rid}, cb);
+   }
+   else {
+      this.socket.emit('private:resume',{rid}, cb);
+   }
+}
+/*
   responsePause(pub){
      if(pub){
         return this.socket.fromEvent('public:pause');
@@ -141,14 +160,7 @@ export class WebSocketProvider{
      }
   }
 
-  resume(pub,data){
-      if(pub){
-         this.socket.emit('public:resume',{data});
-      }
-      else {
-         this.socket.emit('private:resume',{data});
-      }
-  }
+  
 
   responseResume(pub){
      if(pub){
@@ -158,16 +170,10 @@ export class WebSocketProvider{
         return this.socket.fromEvent('private:resume');
      }
 
-  }
+  }*/
 
-  listenNewPlayers(){
-     return this.socket.fromEvent('server:private:player:join');
-  }
 
-  listenLeavePlayers(){
-     return this.socket.fromEvent('server:private:player:leave');
-  }
-
+  /*
   joinChat(rid){
      this.socket.emit('chat:join', {rid});
   }
@@ -181,10 +187,11 @@ export class WebSocketProvider{
   }
 
   responseSendMessage(){
-     return this.socket.fromEvent('chat:send');
+     return this.socket.on('chat:send');
   }
 
   subscribeToMessage(){
       return this.socket.fromEvent('chat:message');
-  }
+  }*/
+  
 }

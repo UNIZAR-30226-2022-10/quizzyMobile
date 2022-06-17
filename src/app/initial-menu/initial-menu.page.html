@@ -1,4 +1,4 @@
-<ion-header>
+<ion-header color="ligth">
   <div id="arriba">
     <div>
       <ion-item id="perfil" color="primary" style="--background: transparent;" lines="none">
@@ -22,10 +22,56 @@
   </div>
 </ion-header>
 
-<ion-content>
+<ion-content color="light">
+
+  <ion-refresher  slot="fixed" (ionRefresh)="doRefresh($event)"  pullFactor="0.5" pullMin="100" pullMax="200">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
     
-  <div id="partidas"><app-lista-partidas id="games"></app-lista-partidas></div>
-  <div id="partidasNt"><app-lista-partidas-nt id="games"></app-lista-partidas-nt></div>
+
+  <div id="partidas">
+    <p id="title">Public Games</p>
+    
+    <ion-list class="lista" color="light" *ngIf="data?.length > 0">
+      <ion-item *ngFor="let item of data; let i = index" color="light" (click)="enterPublic(item.rid)">
+        <ion-label> Game {{ item.rid }} </ion-label>
+      </ion-item>
+    </ion-list>
+    <p id="subtitle" *ngIf="data?.length == 0">No hay partidas públicas</p>
+  </div>
+
+  <div id="partidas">
+    <p id="title">Private Games</p>
+    
+    <ion-list class="lista" color="light" *ngIf="dataNt?.length > 0">
+      <ion-item *ngFor="let item of dataNt" color="light" (click)="enterPrivate(item.rid)">
+        <ion-label> Game {{ item.rid }}</ion-label>
+      </ion-item>
+    </ion-list>
+
+    <p id="subtitle" *ngIf="dataNt?.length == 0">No hay partidas privadas</p>
+  </div>
+
+  <div id="partidas">
+    <p id="title">Invitaciones</p>
+    
+    <ion-list class="lista" color="light" *ngIf="dataIn?.length > 0">
+      <ion-item *ngFor="let item of dataIn" color="light">
+        <ion-label> {{item.leader_nickname}} </ion-label>
+        <ion-button color="danger" (click)="decline(item)">
+          <ion-icon name="close" ></ion-icon>
+        </ion-button>
+        
+        <ion-button color="success" (click)="accept(item)">
+          <ion-icon name="checkmark" ></ion-icon>
+        </ion-button>
+        
+      </ion-item>
+    </ion-list>
+
+    <p id="subtitle" *ngIf="dataIn?.length == 0">No hay invitaciones</p>
+  </div>
+
  </ion-content>
  
 

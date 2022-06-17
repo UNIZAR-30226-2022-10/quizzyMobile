@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-tokens-card',
@@ -12,26 +12,25 @@ export class TokensCardComponent implements OnInit {
     skin: '10'
   }
 
-  tokens : Array<String> = [
-    'historia',
-    'arte'
-  ]
+  @Input("tokens") tokens;
 
   tokenList : Array<String> = [
-    'historia',
-    'arte',
     'geografia',
+    'arte',
+    'historia',
     'ciencia',
-    'entretenimiento',
-    'deportes'
+    'deportes',
+    'entretenimiento'
   ]
 
   constructor() { }
 
-  ngOnInit() {}
+  ngOnInit() {
+
+  }
 
   getToken(id) {
-    if(this.tokens.includes(this.tokenList[id]))
+    if(this.tokens[id])
     {
       return "../../assets/categorias/" + this.tokenList[id] + ".png";
     }
