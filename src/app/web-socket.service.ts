@@ -132,16 +132,25 @@ startGamePrivate(rid, func){
      }
   }
 
-  /*
-  pause(pub,data){
+  
+  pause(pub,rid,cb){
      if(pub){
-         this.socket.emit('public:pause', {data});
+         this.socket.emit('public:pause', {rid}, cb);
      }
      else {
-         this.socket.emit('private:pause', {data});
+         this.socket.emit('private:pause', {rid}, cb);
      }
   }
 
+  resume(pub,rid, cb){
+   if(pub){
+      this.socket.emit('public:resume',{rid}, cb);
+   }
+   else {
+      this.socket.emit('private:resume',{rid}, cb);
+   }
+}
+/*
   responsePause(pub){
      if(pub){
         return this.socket.fromEvent('public:pause');
@@ -151,14 +160,7 @@ startGamePrivate(rid, func){
      }
   }
 
-  resume(pub,data){
-      if(pub){
-         this.socket.emit('public:resume',{data});
-      }
-      else {
-         this.socket.emit('private:resume',{data});
-      }
-  }
+  
 
   responseResume(pub){
      if(pub){

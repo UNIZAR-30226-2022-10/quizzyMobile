@@ -10,7 +10,15 @@ import { WebSocketProvider } from '../web-socket.service';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
 
-
+export interface Player {
+  id: number;
+  name: string;
+  skin: string;
+  correctAnswers: Array<number>;
+  totalAnswers: Array<number>;
+  tokens: Array<string>;
+  position: number;
+}
 @Component({
   selector: 'app-initial-menu',
   templateUrl: './initial-menu.page.html',
@@ -24,7 +32,8 @@ export class InitialMenuPage implements OnInit {
     cosmetic : any;
     cosmetic_src :any; 
     admin : boolean;
-    
+    actors: Player[] = [
+    ];
 
     data: any[];
     dataNt: any[];
@@ -134,7 +143,7 @@ export class InitialMenuPage implements OnInit {
         this.cosmetic = JSON.parse(JSON.stringify(e["actual_cosmetic"]));
         localStorage.setItem('cosmetic', this.cosmetic);
         this.cosmetic_src = "../../assets/cosmetics/cosmetic_" + this.cosmetic + ".png";
-      
+
       });
 
       this.getPublicGames();
@@ -142,7 +151,7 @@ export class InitialMenuPage implements OnInit {
       this.getInvitaciones();
     
       setTimeout(() => {
-        event.target.complete()
+        event.target.complete();
       }, 2000);
     }
     
@@ -173,13 +182,13 @@ export class InitialMenuPage implements OnInit {
     }
 
     async settings() {
-      
+
       if(this.admin){
         const popover = await this.popoverCtrl.create({
           component: OptionsAdminComponent,
         });
 
-        await popover.present(); 
+        await popover.present();
       }
       else
       {
@@ -214,31 +223,33 @@ export class InitialMenuPage implements OnInit {
 
     accept(data){
 
-      console.log("ENTRO", data.rid)
+      console.log("ENTRO", data.rid);
       this.webSocket.joinPrivateGame(
         data.rid
        , (e) => {
          if(e.ok){
            console.log(e);
+           console.log("TIEMPO", e.config.turnTimeout);
 
-           this.decline(data)
+           this.decline(data);
 
            this.router.navigate(['/private-room'], {
              state: {
                rid: data.rid,
                players:e.players,
-               create: false
+               create: false,
+               difficulty: e.config.difficulty,
+               wildcardsUse: e.config.wildcardsEnable,
+               timeout: e.config.turnTimeout
              }
            });
          }
          else{
-          this.decline(data)
+          this.decline(data);
            this.FailJoinToast();
            this.router.navigate(['/initial-menu']);
          }
-   
-         
-       })
+       });
     }
 
     decline(data){
@@ -250,12 +261,81 @@ export class InitialMenuPage implements OnInit {
       let options = { headers : headers, body: {nickname: data.leader_nickname, rid: data.rid}};
       return new Promise(resolve => {
         this.http.delete(url, options).subscribe(response => {
-          console.log(this.dataIn)
-          this.dataIn = this.dataIn.filter((u) => u.leader_nickname != data.leader_nickname || u.rid != data.rid )
-          console.log(this.dataIn)
+          console.log(this.dataIn);
+          this.dataIn = this.dataIn.filter((u) => u.leader_nickname != data.leader_nickname || u.rid != data.rid );
+          console.log(this.dataIn);
           resolve(response);
         }, (error) => {
           console.log(error);
+        });
+      });
+    }
+
+    enterPublic(rid){
+      this.webSocket.resume(true, rid, (e) => {
+        console.log("RESUME PUBLIC", "Volviendo a publica", e);
+
+        this.actors = [];
+        let id = -1;
+        Object.keys(e.info.stats).forEach(elem => {
+          this.userInfo(elem, id,  e.info.stats).then(el => {
+            id++;
+            
+            console.log(this.actors)
+          });
+
+          
+        });
+
+        
+    });
+  }
+
+    userInfo(elem, id, stats){
+      let url= 'http://quizzyappbackend.herokuapp.com/user/reduced';
+      let headers = new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'});
+        let params = new HttpParams()
+        .set('nickname', elem)
+      let options = { headers : headers, params:params};    
+      return new Promise((resolve,reject) => {
+        this.http.get(url, options ).subscribe(response => {
+          this.actors.push({id: id, name: elem, skin: '../../assets/cosmetics/cosmetic_' + response['actual_cosmetic'] + '.png',
+            tokens: stats[elem].tokens, position: stats[elem].position,
+            correctAnswers: stats[elem].correctAnswers, totalAnswers: stats[elem].totalAnswers});
+          resolve(response);
+        }, (error) => {
+          reject(error);
+        });
+      });
+    }
+
+    /*enterPrivate(rid){
+      this.webSocket.resume(false,rid, (e)  => {
+        console.log("VOLVIENDO PRIVATE",e);
+
+        let id = -1;
+        this.actors = [];
+        Object.keys(e.info.stats).map(elem => {
+          this.userInfo(elem).then(el => {
+            id++;
+            this.actors.push({id: id, name: elem, skin: '../../assets/cosmetics/cosmetic_' + el['actual_cosmetic'] + '.png',
+            tokens: e.info.stats[elem].tokens, position: e.info.stats[elem].position,
+            correctAnswers: e.info.stats[elem].correctAnswers, totalAnswers: e.info.stats[elem].totalAnswers});
+          });
+
+          if(this.actors.length == e.info.stats.length){
+            console.log("FIN", this.actors);
+            this.router.navigate(['/board/'+e.info.stats.length + '/' + rid], {
+              state: {
+                pub: false,
+                actors: this.actors,
+                timeout: 15000,
+                wildcardsUse: true
+              }
+            });
+          }
         });
       });
     }

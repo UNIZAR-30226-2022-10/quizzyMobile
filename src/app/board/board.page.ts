@@ -78,9 +78,13 @@ export class BoardPage implements OnInit {
   }
 
   returnMenu() {
-    this.webSocket.cleanup('server:turn');
-    this.screenOrientation.unlock();
-    this.router.navigate(['initial-menu']);
+    this.webSocket.pause(this.game.pub, this.rid, (e) => {
+      console.log("PAUSE", e);
+      this.webSocket.cleanup('server:turn');
+      this.screenOrientation.unlock();
+      this.router.navigate(['initial-menu']);
+    });
+
   }
 
   movePlayer(player, x, y){
@@ -262,7 +266,6 @@ export class BoardPage implements OnInit {
 
       config.boardService.setPlayer(this.players);
 
-      config.router.navigate(['/blank']);
       //this.screenOrientation.unlock();
       this.scale.on('resize', resize, this);
 

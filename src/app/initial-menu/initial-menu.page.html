@@ -33,9 +33,8 @@
     <p id="title">Public Games</p>
     
     <ion-list class="lista" color="light" *ngIf="data?.length > 0">
-      <ion-item *ngFor="let item of data; let i = index" color="light">
+      <ion-item *ngFor="let item of data; let i = index" color="light" (click)="enterPublic(item.rid)">
         <ion-label> Game {{ item.rid }} </ion-label>
-        <ion-icon name="ellipsis-vertical"></ion-icon>
       </ion-item>
     </ion-list>
     <p id="subtitle" *ngIf="data?.length == 0">No hay partidas públicas</p>
@@ -45,9 +44,8 @@
     <p id="title">Private Games</p>
     
     <ion-list class="lista" color="light" *ngIf="dataNt?.length > 0">
-      <ion-item *ngFor="let item of dataNt" color="light">
+      <ion-item *ngFor="let item of dataNt" color="light" (click)="enterPrivate(item.rid)">
         <ion-label> Game {{ item.rid }}</ion-label>
-        <ion-icon name="ellipsis-vertical"></ion-icon>
       </ion-item>
     </ion-list>
 
