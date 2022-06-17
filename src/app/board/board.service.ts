@@ -69,7 +69,6 @@ export class BoardService {
       const rid = this.rid;
       const webSocket = this.webSocket;
 
-      console.log("game:", this.thisGame);
       possibilities[i] = this.thisGame.add.image(this.cells[this.cell[i]].getx(), this.cells[this.cell[i]].gety(), this.actors[this.id].name).setInteractive();
       possibilities[i].setDisplaySize(window.innerWidth/20, window.innerHeight/13);
 
@@ -91,11 +90,21 @@ export class BoardService {
           webSocket.makeMove(pub, rid, num, (data) =>{
             console.log("MAKE MOVE: ", data);
             if(data.ok){
-              if(data.rollAgain){
-                thisAtras.num = data.roll;
-                thisAtras.cell = data.cells;
-                thisAtras.showDice();
+              if(pub){
+                if(data.rollAgain){
+                  thisAtras.num = data.roll;
+                  thisAtras.cell = data.cells;
+                  thisAtras.showDice();
+                }
               }
+              else{
+                if(data.rollAgain.rollAgain){
+                  thisAtras.num = data.rollAgain.roll;
+                  thisAtras.cell = data.rollAgain.cells;
+                  thisAtras.showDice();
+                }
+              }
+              
             }
           });
         });

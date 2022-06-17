@@ -51,13 +51,17 @@ export class CreateJoinComponent implements OnInit {
             , (e) => {
               if(e.ok){
                 console.log(e);
+                console.log("TIEMPO", e.config.turnTimeout);
 
                 this.viewCtrl.dismiss();
                 this.router.navigate(['/private-room'], {
                   state: {
                     rid: data.code,
                     players:e.players,
-                    create: false
+                    create: false,
+                    difficulty: e.config.difficulty,
+                    wildcardsUse: e.config.wildcardsEnable,
+                    timeout: e.config.turnTimeout
                   }
                 });
               }

@@ -30,7 +30,7 @@ export class PrivateRoomPage implements OnInit {
 
   ngOnInit() {
     this.game = this.location.getState();
-    console.log(this.game);
+    console.log("Private", this.game);
 
 
     if(!this.game.create){
@@ -107,7 +107,10 @@ export class PrivateRoomPage implements OnInit {
            this.router.navigate(['/board/'+this.game.players.length + '/' + this.game.rid], {
             state: {
               pub: false,
-              actors: this.actors
+              actors: this.actors,
+              timeout: this.game.timeout,
+              wildcardsUse: JSON.parse(this.game.wildcardsUse),
+              difficulty: this.game.difficulty
             }
            });
         }, 500);
@@ -192,7 +195,10 @@ export class PrivateRoomPage implements OnInit {
          this.router.navigate(['/board/'+this.game.players.length + '/' + this.game.rid], {
           state: {
             pub: false,
-            actors: this.actors
+            actors: this.actors,
+            timeout: this.game.timeout,
+            wildcardsUse: JSON.parse(this.game.wildcardsUse),
+            difficulty: this.game.difficulty
           }
          });
       }, 500);

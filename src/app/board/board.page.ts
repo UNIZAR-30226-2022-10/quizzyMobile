@@ -277,7 +277,9 @@ export class BoardPage implements OnInit {
             state: {
               pub: config.game.pub,
               question: res.currentQuestion,
-              timeout : res.timeout
+              timeout : config.game.timeout,
+              wildcardsUse : config.game.wildcardsUse,
+              difficulty: config.game.difficulty
             }
           });
 
@@ -332,7 +334,9 @@ export class BoardPage implements OnInit {
               state: {
                 pub: config.game.pub,
                 question: res.currentQuestion,
-                timeout : res.timeout
+                timeout : config.game.timeout,
+                wildcardsUse : config.game.wildcardsUse,
+                difficulty: config.game.difficulty
               }
             });
 

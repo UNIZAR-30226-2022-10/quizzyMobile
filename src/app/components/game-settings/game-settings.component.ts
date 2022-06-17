@@ -73,7 +73,10 @@ export class GameSettingsComponent implements OnInit {
                 cosmetic: localStorage.getItem('cosmetic')
               }
             ],
-            create: true
+            create: true,
+            difficulty: this.gameOptions.difficulty,
+            wildcardsUse: this.gameOptions.wildcards,
+            timeout: this.gameOptions.time * 1000
           }
         });
       }

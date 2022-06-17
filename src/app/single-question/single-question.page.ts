@@ -80,6 +80,13 @@ export class SingleQuestionPage implements OnInit {
     else{
       this.time = 15000;
     }
+
+    if(this.questionOptions.wildcardsUse == false){
+      this.wildcardUse = true;
+    }
+    else{
+      this.wildcardUse = false;
+    }
     
     this.timeleft = this.time;
 
